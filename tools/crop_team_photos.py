@@ -23,7 +23,7 @@ CROPS = {
     "pranav-krishnaa.jpeg": None,
     "nithish-kumar.jpeg": None,
     "prasanna-ayyappan.jpeg": (167, 300, 500),
-    "raghul-b.jpeg": (217, 600, 560),
+    "raghul-b.jpeg": (30, 0, 900),
     "mahamanimaran-v.jpeg": (107, 40, 560),
 }
 
