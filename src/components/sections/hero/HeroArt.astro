@@ -113,6 +113,31 @@ const rings = [200, 160, 120];
     }
   }
 
+  /* Small laptops: nudge the fox right so it clears the end of the paragraph. */
+  @media (min-width: 861px) and (max-width: 1180px) {
+    .hero-art--image :global(img) {
+      object-position: 55% center;
+    }
+  }
+
+  /* Phones and tablets: the artwork is its own banner above the headline, never behind text. */
+  @media (max-width: 860px) {
+    .hero-art--image {
+      position: relative;
+      inset: auto;
+      height: min(100vw, 460px);
+      margin-bottom: calc(-1 * var(--space-8));
+    }
+
+    .hero-art--image :global(img) {
+      object-position: 95% 40%;
+    }
+
+    .hero-art--image::after {
+      background: linear-gradient(0deg, var(--color-bg) 0%, var(--color-bg) 8%, rgb(14 11 26 / 0.55) 35%, transparent 65%);
+    }
+  }
+
   @media (max-width: 960px) {
     .hero-art--mark {
       position: relative;
