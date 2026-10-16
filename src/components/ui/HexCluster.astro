@@ -1,0 +1,52 @@
+---
+/**
+ * Decorative honeycomb: one centre hexagon (the company) and six around it (the founders).
+ * Used as the stand-in artwork wherever a generated image hasn't been added yet.
+ */
+import { hexPoints, honeycomb } from '@lib/hex';
+
+interface Props {
+  /** Indexes 1-6 of the outer hexagons to fill solid; the rest are outlines. */
+  highlight?: number[];
+  class?: string;
+}
+
+const { highlight = [2, 5], class: className } = Astro.props;
+const cells = honeycomb(150, 150, 46).map((c, i) => ({
+  points: hexPoints(c.x, c.y, 42),
+  role: i === 0 ? 'core' : highlight.includes(i) ? 'solid' : 'outline',
+}));
+---
+
+<svg class:list={['hex-cluster', className]} viewBox="0 0 300 300" aria-hidden="true">
+  <defs>
+    <linearGradient id="hex-core" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c4b5fd"></stop>
+      <stop offset="100%" stop-color="#7347e6"></stop>
+    </linearGradient>
+  </defs>
+  {cells.map((cell) => <polygon points={cell.points} class={`cell cell--${cell.role}`} />)}
+</svg>
+
+<style>
+  .hex-cluster {
+    width: 100%;
+    overflow: visible;
+  }
+
+  .cell--core {
+    fill: url(#hex-core);
+  }
+
+  .cell--solid {
+    fill: rgb(139 92 246 / 0.35);
+    stroke: rgb(196 181 253 / 0.5);
+    stroke-width: 1;
+  }
+
+  .cell--outline {
+    fill: rgb(23 19 42 / 0.6);
+    stroke: rgb(196 181 253 / 0.35);
+    stroke-width: 1;
+  }
+</style>

@@ -1,0 +1,36 @@
+---
+/** Small hexagon badge, optionally showing a label such as a step number. */
+interface Props {
+  label?: string;
+  size?: 'sm' | 'md';
+}
+
+const { label, size = 'md' } = Astro.props;
+---
+
+<span class:list={['hex-marker', `hex-marker--${size}`]} aria-hidden="true">{label}</span>
+
+<style>
+  .hex-marker {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    clip-path: var(--hex);
+    background: linear-gradient(150deg, var(--color-violet), var(--color-violet-strong));
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+
+  .hex-marker--sm {
+    width: 18px;
+    height: 20px;
+    font-size: 0.6rem;
+  }
+
+  .hex-marker--md {
+    width: 44px;
+    height: 50px;
+    font-size: var(--text-sm);
+  }
+</style>

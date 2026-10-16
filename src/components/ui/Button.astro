@@ -1,0 +1,83 @@
+---
+/** Link-styled button (pass `href`) or a real <button> (omit `href`). */
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'ghost';
+  size?: 'sm' | 'md';
+  type?: 'button' | 'submit';
+  class?: string;
+}
+
+const { href, variant = 'primary', size = 'md', type = 'button', class: className } = Astro.props;
+const classes = ['btn', `btn--${variant}`, `btn--${size}`, className];
+---
+
+{
+  href ? (
+    <a class:list={classes} href={href}>
+      <slot />
+    </a>
+  ) : (
+    <button class:list={classes} type={type}>
+      <slot />
+    </button>
+  )
+}
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    border-radius: var(--radius-pill);
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition:
+      background-color var(--dur-fast) ease,
+      border-color var(--dur-fast) ease,
+      transform var(--dur-fast) ease;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn--md {
+    padding: 0.8rem 1.4rem;
+    font-size: var(--text-sm);
+  }
+
+  .btn--sm {
+    padding: 0.5rem 1rem;
+    font-size: var(--text-xs);
+  }
+
+  .btn--primary {
+    background: var(--color-violet-strong);
+    color: #fff;
+    box-shadow: 0 10px 30px -12px rgb(139 92 246 / 0.7);
+  }
+
+  .btn--primary:hover {
+    background: var(--color-violet);
+  }
+
+  .btn--ghost {
+    border-color: var(--color-line-strong);
+    color: var(--color-text);
+  }
+
+  .btn--ghost:hover {
+    border-color: var(--color-violet-soft);
+    background: rgb(139 92 246 / 0.08);
+  }
+
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: progress;
+  }
+</style>

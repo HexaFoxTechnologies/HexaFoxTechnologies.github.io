@@ -1,0 +1,22 @@
+---
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import ServiceGroup from './ServiceGroup.astro';
+import { serviceGroups, servicesIntro } from '@data/services';
+---
+
+<section id="services" class="section" aria-labelledby="services-title">
+  <div class="container">
+    <SectionHeader id="services-title" eyebrow="What we do" title="Two ways we help" intro={servicesIntro} />
+    <div class="services">
+      {serviceGroups.map((group, i) => <ServiceGroup group={group} index={i} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: var(--space-5);
+  }
+</style>

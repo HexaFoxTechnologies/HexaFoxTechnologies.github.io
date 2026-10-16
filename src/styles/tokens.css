@@ -1,0 +1,63 @@
+/* Design tokens: palette A "Midnight violet". Change brand values here only. */
+:root {
+  color-scheme: dark;
+
+  /* colour */
+  --color-bg: #0e0b1a;
+  --color-bg-deep: #090713;
+  --color-surface: #17132a;
+  --color-surface-raised: #1e1936;
+  --color-line: #2a2340;
+  --color-line-strong: #3a3254;
+  --color-violet: #8b5cf6;
+  --color-violet-strong: #7347e6;
+  --color-violet-soft: #a78bfa;
+  --color-lavender: #c4b5fd;
+  --color-amber: #f5b76b;
+  --color-text: #eeeaf8;
+  --color-text-muted: #a39dba;
+  --color-text-faint: #7d7796;
+  --color-success: #6ee7b7;
+  --color-danger: #fca5a5;
+
+  /* type */
+  --font-display: 'Sora Variable', 'Sora', system-ui, sans-serif;
+  --font-body: 'Inter Variable', 'Inter', system-ui, sans-serif;
+  --font-tamil: 'Noto Sans Tamil', var(--font-body);
+
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-md: 1.0625rem;
+  --text-lg: clamp(1.125rem, 1.05rem + 0.35vw, 1.3rem);
+  --text-xl: clamp(1.35rem, 1.2rem + 0.8vw, 1.8rem);
+  --text-2xl: clamp(2rem, 1.45rem + 2.2vw, 3.1rem);
+  --text-hero: clamp(2.75rem, 1.6rem + 5.2vw, 5.5rem);
+
+  /* space */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --section-space: clamp(4.5rem, 3rem + 6vw, 8rem);
+
+  /* shape */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+  --hex: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+
+  /* layout */
+  --container: 1180px;
+  --gutter: clamp(16px, 4vw, 32px);
+  --header-h: 68px;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-fast: 180ms;
+  --dur-slow: 700ms;
+}

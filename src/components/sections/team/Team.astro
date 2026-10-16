@@ -1,0 +1,35 @@
+---
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import TeamCard from './TeamCard.astro';
+import { team, teamIntro } from '@data/team';
+---
+
+<section id="team" class="section" aria-labelledby="team-title">
+  <div class="container">
+    <SectionHeader id="team-title" eyebrow="The pack" title="Six co-founders. One team." intro={teamIntro} align="center" />
+    <ul class="team">
+      {team.map((member, i) => <TeamCard member={member} index={i} />)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .team {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-7) var(--space-5);
+  }
+
+  @media (max-width: 900px) {
+    .team {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .team {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+  }
+</style>

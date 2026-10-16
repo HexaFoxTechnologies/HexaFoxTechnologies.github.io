@@ -1,0 +1,41 @@
+---
+import HexMarker from '@components/ui/HexMarker.astro';
+import type { ServiceItem } from '@data/services';
+
+interface Props {
+  item: ServiceItem;
+}
+
+const { item } = Astro.props;
+---
+
+<li class="service-item">
+  <HexMarker size="sm" />
+  <div>
+    <h4>{item.title}</h4>
+    <p>{item.text}</p>
+  </div>
+</li>
+
+<style>
+  .service-item {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: var(--space-3);
+    align-items: start;
+  }
+
+  .service-item > :global(.hex-marker) {
+    margin-top: 3px;
+  }
+
+  h4 {
+    font-size: 1rem;
+    margin-bottom: var(--space-1);
+  }
+
+  p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+</style>

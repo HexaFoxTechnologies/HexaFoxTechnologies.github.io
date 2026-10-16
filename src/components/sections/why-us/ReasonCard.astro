@@ -1,0 +1,43 @@
+---
+import HexMarker from '@components/ui/HexMarker.astro';
+import type { Reason } from '@data/reasons';
+
+interface Props {
+  reason: Reason;
+  index: number;
+}
+
+const { reason, index } = Astro.props;
+---
+
+<li class="reason" data-reveal style={`--reveal-delay: ${index * 80}ms`}>
+  <HexMarker size="sm" />
+  <h3>{reason.title}</h3>
+  <p>{reason.text}</p>
+</li>
+
+<style>
+  .reason {
+    display: grid;
+    align-content: start;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    transition: border-color var(--dur-fast) ease;
+  }
+
+  .reason:hover {
+    border-color: var(--color-line-strong);
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+</style>

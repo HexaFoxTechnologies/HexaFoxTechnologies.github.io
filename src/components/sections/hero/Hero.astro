@@ -1,0 +1,71 @@
+---
+import Button from '@components/ui/Button.astro';
+import HexGridBackground from '@components/ui/HexGridBackground.astro';
+import HeroArt from './HeroArt.astro';
+import FounderStrip from './FounderStrip.astro';
+import { withBase } from '@lib/url';
+import { getGeneratedImage } from '@lib/images';
+
+const heroImage = getGeneratedImage('hero-fox');
+---
+
+<section class:list={['hero', { 'hero--image': heroImage }]} aria-labelledby="hero-title">
+  <HexGridBackground />
+  <HeroArt image={heroImage} />
+
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <p class="eyebrow" data-reveal>HexaFox Technologies · Coimbatore</p>
+      <h1 id="hero-title" data-reveal style="--reveal-delay: 80ms">
+        Six minds.<br /><span class="text-gradient">One vision.</span>
+      </h1>
+      <p class="hero__lead" data-reveal style="--reveal-delay: 160ms">
+        We’re six friends who design, build and run software, from everyday tech solutions to AI
+        that actually works in the real world.
+      </p>
+      <div class="hero__actions" data-reveal style="--reveal-delay: 240ms">
+        <Button href={withBase('#contact')}>Start a project</Button>
+        <Button href={withBase('#team')} variant="ghost">Meet the pack</Button>
+      </div>
+      <div data-reveal style="--reveal-delay: 320ms">
+        <FounderStrip />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(1.5rem, -1rem + 9vw, 8.5rem) clamp(4rem, 2rem + 6vw, 7rem);
+  }
+
+  .hero__inner {
+    position: relative;
+  }
+
+  .hero__copy {
+    display: grid;
+    gap: var(--space-5);
+    max-width: 38rem;
+  }
+
+  h1 {
+    font-size: var(--text-hero);
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+  }
+
+  .hero__lead {
+    max-width: 32rem;
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+</style>

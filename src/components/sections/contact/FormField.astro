@@ -1,0 +1,82 @@
+---
+/** Labelled input, select or textarea for the contact form. */
+interface Props {
+  name: string;
+  label: string;
+  type?: 'text' | 'email' | 'select' | 'textarea';
+  required?: boolean;
+  placeholder?: string;
+  autocomplete?: string;
+  options?: string[];
+}
+
+const { name, label, type = 'text', required = false, placeholder, autocomplete, options = [] } = Astro.props;
+const id = `field-${name}`;
+---
+
+<div class="field">
+  <label for={id}>
+    {label}
+    {!required && <span class="field__optional">(optional)</span>}
+  </label>
+  {
+    type === 'textarea' ? (
+      <textarea id={id} name={name} rows="5" required={required} placeholder={placeholder} />
+    ) : type === 'select' ? (
+      <select id={id} name={name} required={required}>
+        {options.map((option) => (
+          <option value={option}>{option}</option>
+        ))}
+      </select>
+    ) : (
+      <input id={id} name={name} type={type} required={required} placeholder={placeholder} autocomplete={autocomplete} />
+    )
+  }
+</div>
+
+<style>
+  .field {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  label {
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+
+  .field__optional {
+    margin-left: var(--space-1);
+    font-weight: 400;
+    color: var(--color-text-faint);
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    transition: border-color var(--dur-fast) ease;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 8rem;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-text-faint);
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--color-violet-soft);
+    box-shadow: 0 0 0 3px rgb(139 92 246 / 0.25);
+  }
+</style>

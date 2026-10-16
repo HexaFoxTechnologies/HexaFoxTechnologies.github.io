@@ -1,0 +1,118 @@
+---
+/** Small-screen menu. Built on <details>, so it works without JavaScript. */
+import { navLinks } from '@data/navigation';
+import { withBase } from '@lib/url';
+---
+
+<details class="mobile-menu" data-mobile-menu>
+  <summary aria-label="Menu">
+    <span class="mobile-menu__bars" aria-hidden="true"></span>
+  </summary>
+  <nav aria-label="Mobile">
+    <ul>
+      {
+        navLinks.map((link) => (
+          <li>
+            <a href={withBase(link.href)}>{link.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</details>
+
+<script>
+  import '../../scripts/mobile-menu';
+</script>
+
+<style>
+  .mobile-menu {
+    position: relative;
+    display: none;
+  }
+
+  summary {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .mobile-menu__bars,
+  .mobile-menu__bars::before,
+  .mobile-menu__bars::after {
+    display: block;
+    width: 16px;
+    height: 1.5px;
+    background: var(--color-text);
+    transition: transform var(--dur-fast) ease;
+  }
+
+  .mobile-menu__bars {
+    position: relative;
+  }
+
+  .mobile-menu__bars::before,
+  .mobile-menu__bars::after {
+    content: '';
+    position: absolute;
+    left: 0;
+  }
+
+  .mobile-menu__bars::before {
+    top: -5px;
+  }
+
+  .mobile-menu__bars::after {
+    top: 5px;
+  }
+
+  [open] .mobile-menu__bars {
+    background: transparent;
+  }
+
+  [open] .mobile-menu__bars::before {
+    transform: translateY(5px) rotate(45deg);
+  }
+
+  [open] .mobile-menu__bars::after {
+    transform: translateY(-5px) rotate(-45deg);
+  }
+
+  nav {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 10px);
+    min-width: 200px;
+    padding: var(--space-2);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: 0 20px 40px -20px rgb(0 0 0 / 0.7);
+  }
+
+  nav a {
+    display: block;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    background: var(--color-surface-raised);
+  }
+
+  @media (max-width: 760px) {
+    .mobile-menu {
+      display: block;
+    }
+  }
+</style>

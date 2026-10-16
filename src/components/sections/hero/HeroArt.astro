@@ -1,0 +1,126 @@
+---
+/**
+ * Right-hand hero visual. With hero-fox.png present it becomes a full-bleed backdrop;
+ * otherwise the logo mark floats inside a hexagon halo.
+ */
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import mark from '@assets/brand/logo-mark.png';
+import { hexPoints } from '@lib/hex';
+
+interface Props {
+  image?: ImageMetadata;
+}
+
+const { image } = Astro.props;
+const rings = [200, 160, 120];
+---
+
+{
+  image ? (
+    <div class="hero-art hero-art--image" aria-hidden="true">
+      <Image src={image} alt="" widths={[960, 1600, 2400]} sizes="100vw" loading="eager" fetchpriority="high" />
+    </div>
+  ) : (
+    <div class="hero-art hero-art--mark" aria-hidden="true">
+      <svg class="hero-art__rings" viewBox="0 0 440 440">
+        {rings.map((r) => <polygon points={hexPoints(220, 220, r)} />)}
+      </svg>
+      <Image src={mark} alt="" width={340} densities={[1, 2]} loading="eager" class="hero-art__mark" />
+    </div>
+  )
+}
+
+<style>
+  .hero-art--image {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-art--image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 75% center;
+  }
+
+  .hero-art--image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, var(--color-bg) 0%, rgb(14 11 26 / 0.85) 35%, transparent 70%),
+      linear-gradient(0deg, var(--color-bg) 0%, transparent 25%);
+  }
+
+  .hero-art--mark {
+    position: absolute;
+    top: 50%;
+    right: max(var(--gutter), calc((100vw - var(--container)) / 2));
+    width: min(42vw, 460px);
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    transform: translateY(-50%);
+  }
+
+  .hero-art--mark::before {
+    content: '';
+    position: absolute;
+    inset: 10%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(139 92 246 / 0.35), transparent 65%);
+    filter: blur(20px);
+  }
+
+  .hero-art__rings {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    animation: spin 90s linear infinite;
+  }
+
+  .hero-art__rings polygon {
+    fill: none;
+    stroke: rgb(196 181 253 / 0.16);
+    stroke-width: 1;
+  }
+
+  .hero-art__mark {
+    position: relative;
+    width: 66%;
+    height: auto;
+    animation: float 7s ease-in-out infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes float {
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-art__rings,
+    .hero-art__mark {
+      animation: none;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .hero-art--mark {
+      position: relative;
+      top: auto;
+      right: auto;
+      width: min(58vw, 240px);
+      margin: 0 auto var(--space-4);
+      transform: none;
+    }
+  }
+</style>

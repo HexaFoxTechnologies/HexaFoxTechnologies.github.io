@@ -1,0 +1,14 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import MessagePage from '@components/ui/MessagePage.astro';
+import { getGeneratedImage } from '@lib/images';
+---
+
+<BaseLayout title="Page not found">
+  <MessagePage
+    eyebrow="404"
+    title="This page wandered off"
+    text="Even foxes take a wrong turn sometimes. The page you’re looking for doesn’t exist."
+    image={getGeneratedImage('not-found-fox')}
+  />
+</BaseLayout>

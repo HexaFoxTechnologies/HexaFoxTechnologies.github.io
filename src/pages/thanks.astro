@@ -1,0 +1,14 @@
+---
+/** Landing page after a no-JavaScript form submission (Web3Forms redirects here). */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import MessagePage from '@components/ui/MessagePage.astro';
+import { site } from '@data/site';
+---
+
+<BaseLayout title="Message sent">
+  <MessagePage
+    eyebrow="Message sent"
+    title="Thanks, the pack has your message"
+    text={`We’ll get back to you within ${site.responseTime}.`}
+  />
+</BaseLayout>

@@ -1,0 +1,98 @@
+---
+import Logo from '@components/ui/Logo.astro';
+import { site } from '@data/site';
+import { navLinks, contactLink } from '@data/navigation';
+import { withBase } from '@lib/url';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <Logo size={30} />
+      <p>{site.tagline}</p>
+      <p class="site-footer__note">Founded in Coimbatore by the {site.groupName}.</p>
+    </div>
+
+    <nav aria-label="Footer">
+      <ul>
+        {
+          [...navLinks, contactLink].map((link) => (
+            <li>
+              <a href={withBase(link.href)}>{link.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <address>
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+      <span>{site.location}</span>
+    </address>
+  </div>
+
+  <div class="container site-footer__bottom">
+    <p>© {year} {site.legalName}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-line);
+    background: var(--color-bg-deep);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: var(--space-6);
+    padding-block: var(--space-7);
+  }
+
+  .site-footer__brand {
+    display: grid;
+    gap: var(--space-3);
+    justify-items: start;
+  }
+
+  .site-footer__note {
+    color: var(--color-text-faint);
+  }
+
+  nav ul {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--color-text);
+  }
+
+  address {
+    display: grid;
+    gap: var(--space-2);
+    align-content: start;
+    font-style: normal;
+  }
+
+  .site-footer__bottom {
+    padding-block: var(--space-5);
+    border-top: 1px solid var(--color-line);
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+  }
+
+  @media (max-width: 760px) {
+    .site-footer__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

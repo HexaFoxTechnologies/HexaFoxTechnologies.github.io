@@ -1,0 +1,42 @@
+---
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import ContactDetails from './ContactDetails.astro';
+import ContactForm from './ContactForm.astro';
+import { site } from '@data/site';
+---
+
+<section id="contact" class="section" aria-labelledby="contact-title">
+  <div class="container contact">
+    <div class="contact__intro">
+      <SectionHeader
+        id="contact-title"
+        eyebrow="Contact"
+        title="Got a problem worth solving?"
+        intro={`Tell us what you’re building, or what’s slowing you down. We’ll get back to you within ${site.responseTime}.`}
+      />
+      <ContactDetails />
+    </div>
+    <div data-reveal style="--reveal-delay: 120ms">
+      <ContactForm />
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: clamp(2rem, 1rem + 4vw, 5rem);
+    align-items: start;
+  }
+
+  .contact__intro :global(.section-header) {
+    margin-bottom: var(--space-6);
+  }
+
+  @media (max-width: 900px) {
+    .contact {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

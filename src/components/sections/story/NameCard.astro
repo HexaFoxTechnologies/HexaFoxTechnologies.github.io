@@ -1,0 +1,125 @@
+---
+/** Explains the name: ஆ (six) + fox = HexaFox. */
+import { Image } from 'astro:assets';
+import mark from '@assets/brand/logo-mark.png';
+import { site } from '@data/site';
+
+const parts = [
+  { term: 'Hexa', meaning: 'six of us, like the six sides of one shape' },
+  { term: 'Fox', meaning: `from ${site.groupName}, “we’re a pack of foxes”` },
+];
+---
+
+<div class="name-card">
+  <div class="name-card__equation" aria-hidden="true">
+    <span class="name-card__glyph tamil" lang="ta">ஆ</span>
+    <span class="name-card__op">+</span>
+    <span class="name-card__glyph">
+      <svg class="name-card__fox" viewBox="0 0 48 48">
+        <path d="M6 5 L18 16 H30 L42 5 L40 25 L24 43 L8 25 Z"></path>
+        <path d="M17 26 L21 28 M31 26 L27 28 M22 36 H26"></path>
+      </svg>
+    </span>
+    <span class="name-card__op">=</span>
+    <Image src={mark} alt="" width={96} densities={[1, 2]} />
+  </div>
+  <p class="name-card__caption">
+    The Tamil letter <span class="tamil" lang="ta">ஆ</span>, from <span class="tamil" lang="ta">ஆறு</span> (aaru, “six”),
+    blended with a fox.
+  </p>
+  <dl>
+    {
+      parts.map((part) => (
+        <div>
+          <dt>{part.term}</dt>
+          <dd>{part.meaning}</dd>
+        </div>
+      ))
+    }
+  </dl>
+</div>
+
+<style>
+  .name-card {
+    display: grid;
+    gap: var(--space-5);
+    padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(circle at 80% 0%, rgb(139 92 246 / 0.2), transparent 55%),
+      var(--color-surface);
+  }
+
+  .name-card__equation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.5rem, 0.2rem + 1.5vw, 1.25rem);
+  }
+
+  .name-card__glyph {
+    display: grid;
+    place-items: center;
+    width: 84px;
+    height: 96px;
+    clip-path: var(--hex);
+    background: var(--color-surface-raised);
+    font-size: 2.6rem;
+    line-height: 1;
+    color: var(--color-lavender);
+  }
+
+  .name-card__fox {
+    width: 46%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.4;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  .name-card__op {
+    font-size: 1.5rem;
+    color: var(--color-text-faint);
+  }
+
+  .name-card__caption {
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  dl {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-line);
+  }
+
+  dl div {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr;
+    gap: var(--space-3);
+  }
+
+  dt {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-violet-soft);
+  }
+
+  dd {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 420px) {
+    .name-card__glyph {
+      width: 62px;
+      height: 72px;
+      font-size: 2rem;
+    }
+  }
+</style>

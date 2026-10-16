@@ -1,0 +1,43 @@
+---
+import '@fontsource-variable/sora';
+import '@fontsource-variable/inter';
+import '@fontsource/noto-sans-tamil/tamil-500.css';
+import '@styles/tokens.css';
+import '@styles/base.css';
+import '@styles/layout.css';
+import '@styles/utilities.css';
+import '@styles/motion.css';
+
+import SeoHead from '@components/layout/SeoHead.astro';
+import SkipLink from '@components/layout/SkipLink.astro';
+import SiteHeader from '@components/layout/SiteHeader.astro';
+import SiteFooter from '@components/layout/SiteFooter.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <SeoHead title={title} description={description} />
+    <script is:inline>
+      document.documentElement.classList.replace('no-js', 'js');
+    </script>
+  </head>
+  <body>
+    <SkipLink />
+    <SiteHeader />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+    <script>
+      import '../scripts/reveal';
+    </script>
+  </body>
+</html>

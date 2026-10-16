@@ -1,0 +1,44 @@
+---
+import { site } from '@data/site';
+
+const details = [
+  { label: 'Email', value: site.email, href: `mailto:${site.email}` },
+  { label: 'Based in', value: site.location },
+  { label: 'Reply time', value: `Within ${site.responseTime}` },
+];
+---
+
+<dl class="contact-details" data-reveal>
+  {
+    details.map((item) => (
+      <div>
+        <dt>{item.label}</dt>
+        <dd>{item.href ? <a href={item.href}>{item.value}</a> : item.value}</dd>
+      </div>
+    ))
+  }
+</dl>
+
+<style>
+  .contact-details {
+    display: grid;
+    gap: var(--space-4);
+    margin: 0;
+  }
+
+  dt {
+    font-size: var(--text-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-faint);
+  }
+
+  dd {
+    margin: var(--space-1) 0 0;
+    overflow-wrap: anywhere;
+  }
+
+  a {
+    color: var(--color-lavender);
+  }
+</style>

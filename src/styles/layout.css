@@ -1,0 +1,20 @@
+/* Page-level layout primitives shared by every section. */
+.container {
+  width: min(100% - 2 * var(--gutter), var(--container));
+  margin-inline: auto;
+}
+
+.section {
+  position: relative;
+  padding-block: var(--section-space);
+}
+
+.section--tinted {
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgb(23 19 42 / 0.6) 18%,
+    rgb(23 19 42 / 0.6) 82%,
+    transparent
+  );
+}

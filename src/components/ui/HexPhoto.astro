@@ -1,0 +1,38 @@
+---
+/** A photo clipped to a hexagon with a thin violet rim. */
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  /** Rendered width in px (height follows the hexagon ratio). */
+  width: number;
+  class?: string;
+}
+
+const { src, alt, width, class: className } = Astro.props;
+---
+
+<span class:list={['hex-photo', className]} style={`--w: ${width}px`}>
+  <Image src={src} alt={alt} width={width} densities={[1, 2]} class="hex-photo__img" />
+</span>
+
+<style>
+  .hex-photo {
+    display: inline-block;
+    flex: none;
+    width: var(--hex-photo-size, var(--w));
+    aspect-ratio: 0.866;
+    padding: max(2px, calc(var(--hex-photo-size, var(--w)) * 0.018));
+    clip-path: var(--hex);
+    background: linear-gradient(160deg, var(--color-lavender), var(--color-violet-strong));
+  }
+
+  .hex-photo__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    clip-path: var(--hex);
+  }
+</style>

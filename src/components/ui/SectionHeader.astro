@@ -1,0 +1,42 @@
+---
+/** Eyebrow, title and optional intro shown at the top of each section. */
+interface Props {
+  id: string;
+  eyebrow: string;
+  title: string;
+  intro?: string;
+  align?: 'start' | 'center';
+}
+
+const { id, eyebrow, title, intro, align = 'start' } = Astro.props;
+---
+
+<header class:list={['section-header', `section-header--${align}`]} data-reveal>
+  <p class="eyebrow">{eyebrow}</p>
+  <h2 id={id}>{title}</h2>
+  {intro && <p class="section-header__intro">{intro}</p>}
+</header>
+
+<style>
+  .section-header {
+    display: grid;
+    gap: var(--space-4);
+    max-width: 44rem;
+    margin-bottom: var(--space-7);
+  }
+
+  .section-header--center {
+    margin-inline: auto;
+    text-align: center;
+    justify-items: center;
+  }
+
+  h2 {
+    font-size: var(--text-2xl);
+  }
+
+  .section-header__intro {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+  }
+</style>

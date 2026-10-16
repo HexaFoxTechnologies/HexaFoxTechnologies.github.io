@@ -1,0 +1,20 @@
+---
+/** Picks the right visual for a story chapter: generated art, a real photo or the name card. */
+import ArtFrame from '@components/ui/ArtFrame.astro';
+import NameCard from './NameCard.astro';
+import type { ChapterMedia } from '@data/story';
+import { getGeneratedImage } from '@lib/images';
+
+interface Props {
+  media: ChapterMedia;
+  index: number;
+}
+
+const { media, index } = Astro.props;
+---
+
+{media.kind === 'generated' && (
+  <ArtFrame image={getGeneratedImage(media.name)} alt={media.alt} highlight={[index + 1, index + 4]} />
+)}
+{media.kind === 'photo' && <ArtFrame image={media.src} alt={media.alt} ratio="1 / 1" focus="center 30%" />}
+{media.kind === 'name-card' && <NameCard />}

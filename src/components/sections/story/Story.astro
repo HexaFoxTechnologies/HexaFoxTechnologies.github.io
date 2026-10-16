@@ -1,0 +1,43 @@
+---
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import StoryChapter from './StoryChapter.astro';
+import { chapters, storyIntro } from '@data/story';
+---
+
+<section id="story" class="section section--tinted" aria-labelledby="story-title">
+  <div class="container">
+    <SectionHeader
+      id="story-title"
+      eyebrow="Our story"
+      title="From one hostel room to one company"
+      intro={storyIntro}
+    />
+    <ol class="timeline">
+      {chapters.map((chapter, i) => <StoryChapter chapter={chapter} index={i} />)}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .timeline {
+    position: relative;
+    display: grid;
+    gap: clamp(3.5rem, 2rem + 5vw, 6rem);
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 21px;
+    width: 1px;
+    background: linear-gradient(var(--color-violet), var(--color-line) 70%, transparent);
+  }
+
+  @media (max-width: 520px) {
+    .timeline::before {
+      display: none;
+    }
+  }
+</style>

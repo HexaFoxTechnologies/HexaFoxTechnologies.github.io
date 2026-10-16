@@ -1,0 +1,38 @@
+---
+/** Row of six small hexagon portraits linking down to the team section. */
+import HexPhoto from '@components/ui/HexPhoto.astro';
+import { team } from '@data/team';
+import { withBase } from '@lib/url';
+---
+
+<a class="founder-strip" href={withBase('#team')}>
+  <span class="founder-strip__faces">
+    {team.map((member) => <HexPhoto src={member.photo} alt="" width={40} />)}
+  </span>
+  <span class="founder-strip__text">Founded by six friends from Coimbatore</span>
+</a>
+
+<style>
+  .founder-strip {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .founder-strip:hover {
+    color: var(--color-text);
+  }
+
+  .founder-strip__faces {
+    display: flex;
+  }
+
+  .founder-strip__faces > :global(* + *) {
+    margin-left: -8px;
+  }
+</style>
