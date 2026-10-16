@@ -24,3 +24,6 @@ design/team-originals/
 
 # local Claude Code preview config
 .claude/
+
+# AI-generated image masters (web copies live in src/assets/images)
+design/generated-originals/

@@ -14,7 +14,12 @@ const { media, index } = Astro.props;
 ---
 
 {media.kind === 'generated' && (
-  <ArtFrame image={getGeneratedImage(media.name)} alt={media.alt} highlight={[index + 1, index + 4]} />
+  <ArtFrame
+    image={getGeneratedImage(media.name)}
+    alt={media.alt}
+    ratio="16 / 9"
+    highlight={[index + 1, index + 4]}
+  />
 )}
 {media.kind === 'photo' && <ArtFrame image={media.src} alt={media.alt} ratio="1 / 1" focus="center 30%" />}
 {media.kind === 'name-card' && <NameCard />}
