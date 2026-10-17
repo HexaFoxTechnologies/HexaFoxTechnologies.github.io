@@ -4,6 +4,8 @@ Company website for HexaFox Technologies, *Six minds. One vision.*
 A static site built with [Astro](https://astro.build), hosted free on GitHub Pages, with the
 contact form handled by [Web3Forms](https://web3forms.com).
 
+**Live site:** https://hexafoxtechnologies.github.io
+
 ## Quick start
 
 Needs Node 22.22 or newer (see `.nvmrc`).
