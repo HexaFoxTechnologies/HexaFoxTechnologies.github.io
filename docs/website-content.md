@@ -163,7 +163,7 @@ Tell us a little about your project and we'll get back to you within 2 working d
 - Tell us about it
 
 **Other ways to reach us**
-- Email: nanganarikootam6@gmail.com
+- Email: hexafoxtech@gmail.com
 - Location: Coimbatore, Tamil Nadu, India
 - LinkedIn: `[company page, when created]`
 
@@ -179,7 +179,7 @@ Home · Our Story · Services · Team · Contact
 ## Decisions so far
 - Group name spelling: **Nanga Nari Kootam**
 - Base location: **Coimbatore**
-- Contact email: **nanganarikootam6@gmail.com**
+- Contact email: **hexafoxtech@gmail.com**
 - Current employers: **not shown** on the site
 - Group photo: **src/assets/photos/group-photo.jpg** (Our Story section)
 - Team photos: **src/assets/team/** (all six done)

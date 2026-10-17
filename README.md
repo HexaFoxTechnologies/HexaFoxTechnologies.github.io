@@ -66,7 +66,7 @@ The two scripts in `tools/` need Pillow: `pip install pillow`.
 
 ## Contact form (Web3Forms)
 
-1. Create a free access key at web3forms.com using **nanganarikootam6@gmail.com**.
+1. Create a free access key at web3forms.com using **hexafoxtech@gmail.com**.
 2. **Local:** copy `.env.example` to `.env` and paste the key into `PUBLIC_WEB3FORMS_KEY`.
 3. **Live site:** in the GitHub repo, go to *Settings → Secrets and variables → Actions →
    Variables* and add `WEB3FORMS_KEY`.

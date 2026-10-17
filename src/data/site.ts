@@ -5,7 +5,7 @@ export const site = {
   tagline: 'Six minds. One vision.',
   description:
     'HexaFox Technologies is a tech studio from Coimbatore, founded by six friends. We design, build and run software, from web products and data systems to practical AI solutions.',
-  email: 'nanganarikootam6@gmail.com',
+  email: 'hexafoxtech@gmail.com',
   location: 'Coimbatore, Tamil Nadu, India',
   responseTime: '2 working days',
   groupName: 'Nanga Nari Kootam',
