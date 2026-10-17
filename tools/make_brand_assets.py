@@ -7,6 +7,7 @@ Writes  src/assets/brand/logo-mark.png   transparent mark for the site
         public/favicon.png               64x64
         public/apple-touch-icon.png      180x180 on the brand background
         public/og-cover.png              1200x630 link-preview card
+        design/brand/github-avatar.png   500x500 profile picture for the GitHub organization
 """
 from pathlib import Path
 
@@ -83,6 +84,7 @@ def main() -> None:
     on_background(mark, 64, 0.08).save(ROOT / "public/favicon.png", optimize=True)
     on_background(mark, 180, 0.12).save(ROOT / "public/apple-touch-icon.png", optimize=True)
     og_cover(mark).save(ROOT / "public/og-cover.png", optimize=True)
+    on_background(mark, 500, 0.12).save(ROOT / "design/brand/github-avatar.png", optimize=True)
     print("brand assets written")
 
 
