@@ -21,7 +21,9 @@ npm run preview   # serve the built site
 
 ```
 .
-├── .github/workflows/deploy.yml   Build + publish to GitHub Pages on every push to main
+├── .github/workflows/
+│   ├── ci.yml                     Type-check + build every pull request
+│   └── deploy.yml                 Build + publish to GitHub Pages on every push to main
 ├── design/                        Source/master files (not shipped to the site)
 │   ├── brand/logo-sheet.png       Original logo presentation sheet
 │   └── team-originals/            Uncropped founder photos (local only, git-ignored: ~8 MB)
@@ -85,3 +87,8 @@ The key is public by design: it can only deliver messages to that inbox.
    - any other name → `https://<account>.github.io/<repo>/`
 
 On a free GitHub plan, Pages requires the repository to be **public**.
+
+## Contributing
+
+`main` is protected: it can't be force-pushed or deleted. Make changes on a branch and open a pull
+request. The **CI** check type-checks and builds it, and the site deploys once it's merged.
