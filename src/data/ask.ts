@@ -11,7 +11,7 @@ export const ask = {
   greeting: 'Hi! I’m the HexaFox assistant. Ask me about what we do, who we are or how we work.',
   starters: ['What AI services do you offer?', 'Who are the founders?', 'Why the name HexaFox?', 'Where are you based?'],
   placeholder: 'Ask about HexaFox…',
-  privacy: 'Don’t share personal information. AI answers can be wrong.',
+  privacy: 'Don’t share personal information. AI answers might not always be accurate.',
   botCheckFailed: 'I couldn’t confirm you’re not a bot. Please refresh the page and try again.',
   /** Shown when the Worker can't be reached or gives no usable answer. */
   fallback: `Sorry, I couldn’t answer just now. Please try again, or email us at ${site.email}.`,
