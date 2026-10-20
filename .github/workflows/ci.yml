@@ -1,7 +1,7 @@
 name: CI
 
 # Type-checks and builds every pull request, so a broken change is caught before it reaches main.
-# Deploying is handled separately by deploy.yml on pushes to main.
+# Deploying is handled separately on pushes to main: deploy.yml (site) and deploy-ask.yml (Worker).
 on:
   pull_request:
     branches: [main]
@@ -33,7 +33,7 @@ jobs:
       - run: npm run build
 
   worker:
-    name: Type-check the Ask HexaFox Worker
+    name: Type-check and bundle the Ask HexaFox Worker
     runs-on: ubuntu-latest
     timeout-minutes: 10
     defaults:
@@ -50,3 +50,29 @@ jobs:
 
       - run: npm ci
       - run: npm run check
+      # Bundles exactly as a deploy would, without credentials.
+      - run: npm run bundle
+
+  knowledge:
+    name: Ask HexaFox knowledge is up to date
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            workers/ask-hexafox/package-lock.json
+
+      # The check reads src/data through the site's own Vite, so it needs both installs.
+      - run: npm ci
+      - run: npm ci
+        working-directory: workers/ask-hexafox
+
+      # Fails when src/data changed but corpus.json wasn't rebuilt. No Cloudflare access needed.
+      - run: npm run knowledge:check
+        working-directory: workers/ask-hexafox

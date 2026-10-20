@@ -11,6 +11,8 @@ export interface CorpusChunk {
 
 export interface Corpus {
   model: string;
+  /** Fingerprint of the chunks' text and the model; `npm run knowledge:check` compares it. */
+  contentHash: string;
   generatedAt: string;
   chunks: CorpusChunk[];
 }

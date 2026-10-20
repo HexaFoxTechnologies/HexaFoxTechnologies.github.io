@@ -23,8 +23,9 @@ npm run preview   # serve the built site
 ```
 .
 ├── .github/workflows/
-│   ├── ci.yml                     Type-check + build every pull request (site and Worker)
-│   └── deploy.yml                 Build + publish to GitHub Pages on every push to main
+│   ├── ci.yml                     Every pull request: site build, Worker bundle, knowledge freshness
+│   ├── deploy.yml                 Build + publish to GitHub Pages on every push to main
+│   └── deploy-ask.yml             Deploy the Ask HexaFox Worker when it or src/data changes on main
 ├── design/                        Source/master files (not shipped to the site)
 │   ├── brand/logo-sheet.png       Original logo presentation sheet
 │   └── team-originals/            Uncropped founder photos (local only, git-ignored: ~8 MB)
@@ -37,7 +38,7 @@ npm run preview   # serve the built site
 │   └── make_brand_assets.py       logo sheet → logo mark, favicon, og-cover
 ├── workers/ask-hexafox/           Ask HexaFox chat API (Cloudflare Worker, own package.json)
 │   ├── wrangler.jsonc             Bindings, model chain, allowed origins, daily caps
-│   ├── scripts/knowledge/         npm run knowledge: site copy → chunks → embeddings
+│   ├── scripts/knowledge/         npm run knowledge (site copy → chunks → embeddings) and knowledge:check
 │   └── src/
 │       ├── index.ts               Routes: POST /chat, GET /health
 │       ├── chat/                  Request checks, the /chat flow, streamed events
@@ -108,12 +109,24 @@ visitor gets a friendly "busy, email us" message.
 runs before each question, each visitor gets 6 questions a minute and 40 a day, and the whole
 site 1,500 a day. Only request metadata is logged, never questions or answers.
 
+**What's automatic:**
+
+- Every pull request checks that `corpus.json` matches `src/data` (`npm run knowledge:check`).
+  If you changed site text without refreshing the chat's knowledge, CI fails and tells you how
+  to fix it.
+- Every merge to `main` that touches the Worker or `src/data` deploys the Worker
+  (`.github/workflows/deploy-ask.yml`). It ships the committed `corpus.json`; it doesn't rebuild it.
+
+**What still needs a person:** running `npm run knowledge` after editing `src/data` (it calls
+Workers AI, so it uses your `wrangler login`), and setting or rotating the API keys.
+
 All commands below run in `workers/ask-hexafox/` (`npm install` there first).
 
 | I want to… | Do this |
 |---|---|
-| Refresh its knowledge after editing site text | `npm run knowledge`, commit `src/knowledge/corpus.json`, then `npm run deploy` |
-| Deploy the Worker | `npx wrangler login` once, then `npm run deploy` |
+| Refresh its knowledge after editing site text | `npm run knowledge`, commit `src/knowledge/corpus.json`; it deploys when merged |
+| Check the knowledge is current | `npm run knowledge:check` (no Cloudflare login needed) |
+| Deploy the Worker by hand | `npx wrangler login` once, then `npm run deploy` (or run *Deploy Ask HexaFox* in the Actions tab) |
 | Set or rotate API keys | Copy `.dev.vars.example` to `.dev.vars` (git-ignored), fill it in, run `npm run secrets` |
 | Run it locally | `npm run dev` (uses `.dev.vars`), and set `PUBLIC_ASK_API_URL=http://localhost:8787` in the site's `.env` |
 | Change models, origins or daily caps | Edit `vars` in `wrangler.jsonc`, then deploy |
@@ -122,6 +135,20 @@ All commands below run in `workers/ask-hexafox/` (`npm install` there first).
 Keys: Groq from console.groq.com/keys, Gemini from aistudio.google.com/apikey, and the Turnstile
 secret from the "Ask HexaFox" widget under Turnstile in the Cloudflare dashboard. Use the
 hexafoxtech@gmail.com accounts, and never commit a key.
+
+**Auto-deploy setup (once):** the deploy workflow needs a Cloudflare API token as a GitHub secret.
+
+1. Signed in to Cloudflare as hexafoxtech@gmail.com, open
+   https://dash.cloudflare.com/profile/api-tokens and click **Create Token**.
+2. Next to **Edit Cloudflare Workers**, click **Use template**.
+3. Under **Account Resources** choose *Include* → the HexaFox account. Under **Zone Resources**
+   choose *Include* → *All zones from an account* → the HexaFox account.
+4. **Continue to summary** → **Create Token**, and copy the token. It's shown only once.
+5. In the GitHub repo: *Settings → Secrets and variables → Actions → Secrets* →
+   **New repository secret**. Name it `CLOUDFLARE_API_TOKEN`, paste the token, and click **Add secret**.
+
+The account ID is already in `wrangler.jsonc`, so no other secret is needed. To rotate the token,
+create a new one, replace the secret, and delete the old token in Cloudflare.
 
 **Live site:** the build reads two repo variables (*Settings → Secrets and variables → Actions →
 Variables*): `ASK_API_URL` (the Worker URL, e.g. `https://ask-hexafox.hexafox.workers.dev`) and
