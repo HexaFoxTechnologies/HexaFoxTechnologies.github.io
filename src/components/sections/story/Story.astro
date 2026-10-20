@@ -2,6 +2,13 @@
 import SectionHeader from '@components/ui/SectionHeader.astro';
 import StoryChapter from './StoryChapter.astro';
 import { chapters, storyIntro } from '@data/story';
+
+interface Props {
+  /** True on the standalone story page, where this is the main heading. */
+  asPage?: boolean;
+}
+
+const { asPage = false } = Astro.props;
 ---
 
 <section id="story" class="section section--tinted" aria-labelledby="story-title">
@@ -11,6 +18,7 @@ import { chapters, storyIntro } from '@data/story';
       eyebrow="Our story"
       title="From one hostel room to one company"
       intro={storyIntro}
+      level={asPage ? 1 : 2}
     />
     <ol class="timeline">
       {chapters.map((chapter, i) => <StoryChapter chapter={chapter} index={i} />)}

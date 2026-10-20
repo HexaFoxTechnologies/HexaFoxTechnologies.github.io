@@ -15,6 +15,14 @@ export interface StoryChapter {
   media: ChapterMedia;
 }
 
+/** Closing call to action on the story page. */
+export const storyCta = {
+  title: 'Now we build for you',
+  text: 'Six friends, one team, the whole job: design, code, data, cloud and AI.',
+  primary: { label: 'Start a project', href: '#contact' },
+  secondary: { label: 'See what we do', href: '#services' },
+};
+
 export const storyIntro =
   'Six friends from Coimbatore, one shared room, and a group chat that never went quiet.';
 
