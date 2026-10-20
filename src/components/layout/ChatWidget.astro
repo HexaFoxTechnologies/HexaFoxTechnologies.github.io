@@ -1,0 +1,9 @@
+---
+/**
+ * The "Ask HexaFox" chat: one script from FoxDesk, which draws its own launcher and panel in a
+ * Shadow DOM and loads the chat code only when a visitor opens it.
+ */
+import { chat } from '@data/chat';
+---
+
+{chat.widgetUrl && <script is:inline src={chat.widgetUrl} data-bot={chat.bot} defer></script>}
