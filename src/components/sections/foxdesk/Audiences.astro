@@ -1,0 +1,23 @@
+---
+/** Who FoxDesk is for: three kinds of organisation and the questions it takes off their hands. */
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import InfoCard from './InfoCard.astro';
+import { audiences } from '@data/foxdesk';
+---
+
+<section id="for-who" class="section" aria-labelledby="audiences-title">
+  <div class="container">
+    <SectionHeader id="audiences-title" eyebrow={audiences.eyebrow} title={audiences.title} />
+    <ul class="audiences">
+      {audiences.items.map((audience, i) => <InfoCard item={audience} index={i} />)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .audiences {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: var(--space-4);
+  }
+</style>

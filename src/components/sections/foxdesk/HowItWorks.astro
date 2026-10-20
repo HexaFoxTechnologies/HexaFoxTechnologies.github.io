@@ -1,0 +1,26 @@
+---
+/** Three steps from "we read your site" to answers, then the script tag a client adds. */
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import HowStep from './HowStep.astro';
+import EmbedSnippet from './EmbedSnippet.astro';
+import { steps } from '@data/foxdesk';
+---
+
+<section id="how" class="section" aria-labelledby="how-title">
+  <div class="container">
+    <SectionHeader id="how-title" eyebrow={steps.eyebrow} title={steps.title} />
+    <ol class="how__steps">
+      {steps.items.map((step, i) => <HowStep step={step} index={i} />)}
+    </ol>
+    <EmbedSnippet label={steps.snippetLabel} code={steps.snippet} />
+  </div>
+</section>
+
+<style>
+  .how__steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: var(--space-5);
+    margin-bottom: var(--space-7);
+  }
+</style>

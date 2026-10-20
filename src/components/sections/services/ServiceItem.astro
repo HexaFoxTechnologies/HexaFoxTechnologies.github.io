@@ -1,6 +1,7 @@
 ---
 import HexMarker from '@components/ui/HexMarker.astro';
 import type { ServiceItem } from '@data/services';
+import { withBase } from '@lib/url';
 
 interface Props {
   item: ServiceItem;
@@ -14,6 +15,7 @@ const { item } = Astro.props;
   <div>
     <h4>{item.title}</h4>
     <p>{item.text}</p>
+    {item.link && <a class="service-item__link" href={withBase(item.link.href)}>{item.link.label} →</a>}
   </div>
 </li>
 
@@ -37,5 +39,17 @@ const { item } = Astro.props;
   p {
     font-size: var(--text-sm);
     color: var(--color-text-muted);
+  }
+
+  .service-item__link {
+    display: inline-block;
+    margin-top: var(--space-1);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-violet-soft);
+  }
+
+  .service-item__link:hover {
+    color: var(--color-lavender);
   }
 </style>

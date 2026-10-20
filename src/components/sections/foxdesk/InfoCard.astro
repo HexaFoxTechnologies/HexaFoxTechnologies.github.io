@@ -1,0 +1,44 @@
+---
+/** A small card: hexagon marker, title and a line of text (features, audiences). */
+import HexMarker from '@components/ui/HexMarker.astro';
+import type { TitledText } from '@data/foxdesk';
+
+interface Props {
+  item: TitledText;
+  index: number;
+}
+
+const { item, index } = Astro.props;
+---
+
+<li class="info-card" data-reveal style={`--reveal-delay: ${(index % 3) * 80}ms`}>
+  <HexMarker size="sm" />
+  <h3>{item.title}</h3>
+  <p>{item.text}</p>
+</li>
+
+<style>
+  .info-card {
+    display: grid;
+    align-content: start;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    transition: border-color var(--dur-fast) ease;
+  }
+
+  .info-card:hover {
+    border-color: var(--color-line-strong);
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+</style>
