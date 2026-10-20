@@ -6,6 +6,7 @@
   "description": "Ask HexaFox: grounded RAG chat about HexaFox Technologies, as a Cloudflare Worker",
   "scripts": {
     "knowledge": "node scripts/knowledge/build.ts",
+    "knowledge:check": "node scripts/knowledge/check.ts",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "secrets": "wrangler secret bulk .dev.vars",
