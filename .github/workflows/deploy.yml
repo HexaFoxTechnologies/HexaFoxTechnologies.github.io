@@ -76,4 +76,7 @@ jobs:
             echo "::notice::FOXDESK_DISPATCH_TOKEN isn't set, so the chat refreshes on FoxDesk's daily schedule (README → Chat)."
             exit 0
           fi
-          gh workflow run refresh.yml -R HexaFoxTechnologies/foxdesk -f client=hexafox
+          # Call the dispatch API directly: `gh workflow run` first looks up the default branch,
+          # which needs Contents access that this Actions-only token deliberately doesn't have.
+          gh api -X POST repos/HexaFoxTechnologies/foxdesk/actions/workflows/refresh.yml/dispatches \
+            -f ref=main -f 'inputs[client]=hexafox'
