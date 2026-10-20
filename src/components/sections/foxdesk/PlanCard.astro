@@ -1,0 +1,91 @@
+---
+import Button from '@components/ui/Button.astro';
+import HexMarker from '@components/ui/HexMarker.astro';
+import { plans, type Plan } from '@data/foxdesk';
+import { withBase } from '@lib/url';
+
+interface Props {
+  plan: Plan;
+  index: number;
+}
+
+const { plan, index } = Astro.props;
+---
+
+<li class:list={['plan', { 'plan--featured': plan.featured }]} data-reveal style={`--reveal-delay: ${index * 120}ms`}>
+  <header>
+    {plan.featured && <p class="plan__badge">{plans.featuredLabel}</p>}
+    <h3>{plan.name}</h3>
+    <p class="plan__tagline">{plan.tagline}</p>
+  </header>
+  <ul>
+    {
+      plan.points.map((point) => (
+        <li>
+          <HexMarker size="sm" />
+          {point}
+        </li>
+      ))
+    }
+  </ul>
+  <Button href={withBase(plans.cta.href)} variant={plan.featured ? 'primary' : 'ghost'}>{plans.cta.label}</Button>
+</li>
+
+<style>
+  .plan {
+    display: grid;
+    gap: var(--space-5);
+    justify-items: start;
+    padding: clamp(1.5rem, 1rem + 2vw, 2.25rem);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+
+  .plan--featured {
+    border-color: rgb(139 92 246 / 0.55);
+    background:
+      radial-gradient(circle at 100% 0%, rgb(139 92 246 / 0.16), transparent 55%),
+      var(--color-surface);
+  }
+
+  header {
+    display: grid;
+    gap: var(--space-2);
+    justify-items: start;
+  }
+
+  .plan__badge {
+    padding: 0.15rem 0.7rem;
+    border-radius: var(--radius-pill);
+    background: rgb(139 92 246 / 0.18);
+    color: var(--color-lavender);
+    font-size: var(--text-xs);
+    font-weight: 500;
+  }
+
+  h3 {
+    font-size: var(--text-xl);
+  }
+
+  .plan__tagline {
+    color: var(--color-text-muted);
+  }
+
+  ul {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  ul li {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: var(--space-3);
+    align-items: start;
+    font-size: var(--text-sm);
+  }
+
+  ul li > :global(.hex-marker) {
+    margin-top: 2px;
+  }
+</style>

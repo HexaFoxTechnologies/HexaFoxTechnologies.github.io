@@ -1,0 +1,214 @@
+---
+/**
+ * Illustration of the FoxDesk chat window, built in HTML/CSS: one question, one answer with a
+ * citation and its source. Decorative copy of the real widget, so screen readers get one label.
+ */
+import { Image } from 'astro:assets';
+import mark from '@assets/brand/logo-mark.png';
+import { chatMock } from '@data/foxdesk';
+
+interface Props {
+  /** 'compact' drops the input row and launcher, for small previews. */
+  size?: 'full' | 'compact';
+}
+
+const { size = 'full' } = Astro.props;
+---
+
+<figure class:list={['chat-mock', `chat-mock--${size}`]} role="img" aria-label={chatMock.alt}>
+  <div class="chat-mock__window" aria-hidden="true">
+    <div class="chat-mock__bar">
+      <span class="chat-mock__logo">
+        <Image src={mark} alt="" width={22} densities={[1, 2]} />
+      </span>
+      <span class="chat-mock__titles">
+        <strong>{chatMock.title}</strong>
+        <small>{chatMock.subtitle}</small>
+      </span>
+      <svg class="chat-mock__close" viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"></path></svg>
+    </div>
+
+    <div class="chat-mock__body">
+      <p class="chat-mock__msg chat-mock__msg--visitor">{chatMock.question}</p>
+      <div class="chat-mock__msg chat-mock__msg--bot">
+        <p>{chatMock.answer} <span class="chat-mock__cite">1</span></p>
+        <span class="chat-mock__source">
+          <span class="chat-mock__cite">1</span>
+          {chatMock.source}
+        </span>
+      </div>
+    </div>
+
+    {
+      size === 'full' && (
+        <div class="chat-mock__input">
+          <span>{chatMock.placeholder}</span>
+          <svg class="chat-mock__send" viewBox="0 0 16 16">
+            <path d="M8 13V3M3.5 7.5L8 3l4.5 4.5" />
+          </svg>
+        </div>
+      )
+    }
+  </div>
+  {size === 'full' && <span class="chat-mock__launcher" aria-hidden="true"></span>}
+</figure>
+
+<style>
+  .chat-mock {
+    position: relative;
+    margin: 0;
+    padding-bottom: var(--space-6);
+  }
+
+  .chat-mock--compact {
+    padding-bottom: 0;
+  }
+
+  .chat-mock__window {
+    display: grid;
+    overflow: hidden;
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow:
+      0 30px 60px -30px rgb(9 7 19 / 0.9),
+      0 0 0 6px rgb(139 92 246 / 0.06);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  .chat-mock__bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-line);
+    background: var(--color-surface-raised);
+  }
+
+  .chat-mock__logo {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 36px;
+    flex: none;
+    clip-path: var(--hex);
+    background: var(--color-bg-deep);
+  }
+
+  .chat-mock__titles {
+    display: grid;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .chat-mock__titles strong {
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+
+  .chat-mock__titles small {
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+  }
+
+  .chat-mock__close,
+  .chat-mock__send {
+    width: 16px;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .chat-mock__close {
+    color: var(--color-text-faint);
+  }
+
+  .chat-mock__body {
+    display: grid;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .chat-mock__msg {
+    max-width: 88%;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+  }
+
+  .chat-mock__msg--visitor {
+    justify-self: end;
+    border-bottom-right-radius: 4px;
+    background: var(--color-violet-strong);
+    color: #fff;
+  }
+
+  .chat-mock__msg--bot {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-3);
+    border: 1px solid var(--color-line);
+    border-bottom-left-radius: 4px;
+    background: var(--color-surface-raised);
+  }
+
+  .chat-mock__cite {
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.15rem;
+    height: 1.15rem;
+    padding-inline: 0.2rem;
+    border-radius: 5px;
+    background: rgb(139 92 246 / 0.22);
+    color: var(--color-lavender);
+    font-size: 0.7rem;
+    font-weight: 600;
+    vertical-align: 0.1em;
+  }
+
+  .chat-mock__source {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.2rem 0.65rem 0.2rem 0.3rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .chat-mock__input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin: 0 var(--space-4) var(--space-4);
+    padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-pill);
+    color: var(--color-text-faint);
+  }
+
+  .chat-mock__send {
+    box-sizing: content-box;
+    padding: 0.45rem;
+    border-radius: 50%;
+    background: var(--color-violet-strong);
+    color: #fff;
+  }
+
+  /* The corner button the real widget draws, peeking out under the window. */
+  .chat-mock__launcher {
+    position: absolute;
+    right: var(--space-5);
+    bottom: 0;
+    width: 52px;
+    height: 58px;
+    clip-path: var(--hex);
+    background: linear-gradient(150deg, var(--color-violet), var(--color-violet-strong));
+    box-shadow: 0 10px 30px -12px rgb(139 92 246 / 0.7);
+  }
+</style>

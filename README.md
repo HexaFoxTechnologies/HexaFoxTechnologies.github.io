@@ -51,7 +51,7 @@ npm run preview   # serve the built site
     ├── data/                      All site text and lists (edit copy here)
     ├── layouts/BaseLayout.astro   <html> shell: fonts, global styles, header, footer
     ├── lib/                       Small helpers: base-path URLs, optional images, hex maths
-    ├── pages/                     index, story, 404, thanks (sitemap-index.xml is generated at build)
+    ├── pages/                     index, story, foxdesk, 404, thanks (sitemap-index.xml is generated at build)
     ├── scripts/                   Tiny client scripts: reveal, mobile menu, contact form
     └── styles/                    tokens · base · layout · utilities · motion
 ```

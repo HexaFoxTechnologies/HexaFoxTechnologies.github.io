@@ -1,0 +1,23 @@
+---
+/** What makes FoxDesk different: a grid of short claims, each one true today. */
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import InfoCard from './InfoCard.astro';
+import { features } from '@data/foxdesk';
+---
+
+<section id="features" class="section section--tinted" aria-labelledby="features-title">
+  <div class="container">
+    <SectionHeader id="features-title" eyebrow={features.eyebrow} title={features.title} />
+    <ul class="features">
+      {features.items.map((feature, i) => <InfoCard item={feature} index={i} />)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: var(--space-4);
+  }
+</style>

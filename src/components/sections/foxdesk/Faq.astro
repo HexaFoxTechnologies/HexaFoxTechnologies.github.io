@@ -1,0 +1,21 @@
+---
+/** Common questions as <details>, so they open and close without JavaScript. */
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import FaqItem from './FaqItem.astro';
+import { faq } from '@data/foxdesk';
+---
+
+<section id="faq" class="section" aria-labelledby="faq-title">
+  <div class="container faq">
+    <SectionHeader id="faq-title" eyebrow={faq.eyebrow} title={faq.title} />
+    <div class="faq__list" data-reveal>
+      {faq.items.map((item) => <FaqItem item={item} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    max-width: 52rem;
+  }
+</style>

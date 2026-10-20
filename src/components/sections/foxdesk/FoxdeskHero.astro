@@ -1,0 +1,90 @@
+---
+/** Top of the FoxDesk page: the promise, two buttons and the chat illustration. */
+import Button from '@components/ui/Button.astro';
+import HexGridBackground from '@components/ui/HexGridBackground.astro';
+import ChatMock from './ChatMock.astro';
+import { hero } from '@data/foxdesk';
+import { withBase } from '@lib/url';
+---
+
+<section class="fd-hero" aria-labelledby="foxdesk-title">
+  <HexGridBackground />
+  <div class="container fd-hero__inner">
+    <div class="fd-hero__copy">
+      <p class="eyebrow" data-reveal>{hero.eyebrow}</p>
+      <h1 id="foxdesk-title" data-reveal style="--reveal-delay: 80ms">
+        {hero.title} <span class="text-gradient">{hero.emphasis}</span>
+      </h1>
+      <p class="fd-hero__lead" data-reveal style="--reveal-delay: 160ms">{hero.lead}</p>
+      <div class="fd-hero__actions" data-reveal style="--reveal-delay: 240ms">
+        <Button href={withBase(hero.primary.href)}>{hero.primary.label}</Button>
+        <Button href={withBase(hero.secondary.href)} variant="ghost">{hero.secondary.label}</Button>
+      </div>
+    </div>
+    <div class="fd-hero__art" data-reveal style="--reveal-delay: 200ms">
+      <ChatMock />
+    </div>
+  </div>
+</section>
+
+<style>
+  .fd-hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(2.5rem, 1rem + 6vw, 6.5rem) var(--section-space);
+  }
+
+  .fd-hero__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(2rem, 1rem + 4vw, 5rem);
+    align-items: center;
+  }
+
+  .fd-hero__copy {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  h1 {
+    font-size: clamp(2.4rem, 1.5rem + 3.6vw, 4.2rem);
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  .fd-hero__lead {
+    max-width: 34rem;
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+  }
+
+  .fd-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .fd-hero__art {
+    position: relative;
+  }
+
+  .fd-hero__art::before {
+    content: '';
+    position: absolute;
+    inset: -10%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(139 92 246 / 0.28), transparent 65%);
+    filter: blur(20px);
+  }
+
+  @media (max-width: 900px) {
+    .fd-hero__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .fd-hero__art {
+      width: min(100%, 460px);
+    }
+  }
+</style>
