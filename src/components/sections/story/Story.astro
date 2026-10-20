@@ -21,7 +21,7 @@ const { asPage = false } = Astro.props;
       level={asPage ? 1 : 2}
     />
     <ol class="timeline">
-      {chapters.map((chapter, i) => <StoryChapter chapter={chapter} index={i} />)}
+      {chapters.map((chapter, i) => <StoryChapter chapter={chapter} index={i} level={asPage ? 2 : 3} />)}
     </ol>
   </div>
 </section>

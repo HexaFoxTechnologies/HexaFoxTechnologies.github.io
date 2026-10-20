@@ -1,15 +1,20 @@
 ---
-/** <head> metadata: title, description, icons and link-preview (Open Graph) tags. */
+/** <head> metadata: title, description, icons, link-preview (Open Graph) tags and structured data. */
+import StructuredData from './StructuredData.astro';
 import { site } from '@data/site';
 import { withBase } from '@lib/url';
 
 interface Props {
   title?: string;
   description?: string;
+  /** For pages search engines shouldn't list, like 404 and the form's thank-you page. */
+  noindex?: boolean;
+  /** schema.org objects for this page, rendered as JSON-LD. */
+  schema?: Record<string, unknown>[];
 }
 
-const { title, description = site.description } = Astro.props;
-const fullTitle = title ? `${title} · ${site.legalName}` : `${site.legalName} · ${site.tagline}`;
+const { title, description = site.description, noindex = false, schema = [] } = Astro.props;
+const fullTitle = title ? `${title} · ${site.legalName}` : `${site.legalName} · ${site.homeTitle}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(withBase('og-cover.png'), Astro.site);
 ---
@@ -18,12 +23,14 @@ const ogImage = new URL(withBase('og-cover.png'), Astro.site);
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
-<link rel="canonical" href={canonical} />
+{noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
 <meta name="theme-color" content="#0e0b1a" />
 <link rel="icon" type="image/png" href={withBase('favicon.png')} />
 <link rel="apple-touch-icon" href={withBase('apple-touch-icon.png')} />
+<link rel="sitemap" href={withBase('sitemap-index.xml')} />
 
 <meta property="og:type" content="website" />
+<meta property="og:locale" content="en_IN" />
 <meta property="og:site_name" content={site.legalName} />
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
@@ -31,5 +38,7 @@ const ogImage = new URL(withBase('og-cover.png'), Astro.site);
 <meta property="og:image" content={ogImage} />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={`${site.legalName}: ${site.tagline}`} />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="generator" content={Astro.generator} />
+{schema.length > 0 && <StructuredData data={schema} />}

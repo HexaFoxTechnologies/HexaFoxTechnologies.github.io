@@ -9,11 +9,17 @@ import Audiences from '@components/sections/foxdesk/Audiences.astro';
 import Plans from '@components/sections/foxdesk/Plans.astro';
 import Faq from '@components/sections/foxdesk/Faq.astro';
 import FoxdeskCta from '@components/sections/foxdesk/FoxdeskCta.astro';
+import { foxdeskApp } from '@lib/schema';
+import { homeUrl } from '@lib/url';
+
+const description =
+  "FoxDesk is an AI assistant for your website that answers visitors' questions from your own pages, with sources. Built and run by HexaFox Technologies.";
 ---
 
 <BaseLayout
-  title="FoxDesk"
-  description="FoxDesk is an AI assistant for your website that answers visitors' questions from your own pages, with sources. Built and run by HexaFox Technologies."
+  title="FoxDesk: AI chatbot for your website"
+  {description}
+  schema={[foxdeskApp(homeUrl(Astro.site), description)]}
 >
   <FoxdeskHero />
   <LiveDemo />

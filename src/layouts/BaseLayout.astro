@@ -17,15 +17,17 @@ import ChatWidget from '@components/layout/ChatWidget.astro';
 interface Props {
   title?: string;
   description?: string;
+  noindex?: boolean;
+  schema?: Record<string, unknown>[];
 }
 
-const { title, description } = Astro.props;
+const { title, description, noindex, schema } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
-    <SeoHead title={title} description={description} />
+    <SeoHead title={title} description={description} noindex={noindex} schema={schema} />
     <script is:inline>
       document.documentElement.classList.replace('no-js', 'js');
     </script>

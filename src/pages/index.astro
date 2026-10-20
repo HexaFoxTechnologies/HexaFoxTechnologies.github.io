@@ -7,9 +7,13 @@ import Product from '@components/sections/product/Product.astro';
 import Process from '@components/sections/process/Process.astro';
 import Team from '@components/sections/team/Team.astro';
 import Contact from '@components/sections/contact/Contact.astro';
+import { organization, website } from '@lib/schema';
+import { homeUrl } from '@lib/url';
+
+const home = homeUrl(Astro.site);
 ---
 
-<BaseLayout>
+<BaseLayout schema={[organization(home), website(home)]}>
   <Hero />
   <WhyUs />
   <Services />

@@ -6,3 +6,8 @@ export function withBase(path = ''): string {
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   return `${base}/${path.replace(/^\//, '')}`;
 }
+
+/** The site's full home URL, e.g. 'https://hexafoxtechnologies.github.io/'. Pass Astro.site. */
+export function homeUrl(site: URL | undefined): string {
+  return new URL(withBase(), site).href;
+}
