@@ -3,7 +3,10 @@
  * HexaFoxTechnologies/foxdesk, client "hexafox"). Its copy, look, models and knowledge live there.
  */
 export const chat = {
-  /** The widget script. PUBLIC_FOXDESK_WIDGET_URL overrides it (e.g. a local `fd dev`); set it empty to hide the chat. */
-  widgetUrl: import.meta.env.PUBLIC_FOXDESK_WIDGET_URL ?? 'https://foxdesk-hexafox.hexafox.workers.dev/widget.js',
+  /**
+   * The widget script. The live Worker only answers on the live site, so `npm run dev` leaves the
+   * chat out unless PUBLIC_FOXDESK_WIDGET_URL points at a local `fd dev` build.
+   */
+  widgetUrl: import.meta.env.PUBLIC_FOXDESK_WIDGET_URL ?? (import.meta.env.DEV ? '' : 'https://foxdesk-hexafox.hexafox.workers.dev/widget.js'),
   bot: 'hexafox',
 } as const;

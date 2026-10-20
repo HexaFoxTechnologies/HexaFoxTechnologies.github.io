@@ -39,14 +39,6 @@ npm run preview   # serve the built site
 │   ├── crop_team_photos.py        design/team-originals → src/assets/team
 │   └── make_brand_assets.py       logo sheet → logo mark, favicon, og-cover, GitHub avatar
 └── src/
-│       ├── index.ts               Routes: POST /chat, GET /health
-│       ├── chat/                  Request checks, the /chat flow, streamed events
-│       ├── rag/                   Corpus, query embedding, retrieval, system prompt
-│       ├── providers/             Groq, Gemini and the fallback chain
-│       ├── guard/                 Rate limits, daily quota (Durable Object), Turnstile
-│       ├── http/                  CORS and JSON errors
-│       └── knowledge/corpus.json  Generated knowledge base (committed)
-└── src/
     ├── assets/                    Images optimised at build time
     │   ├── brand/                 logo-mark.png
     │   ├── images/                AI-generated artwork (optional, see its README)
@@ -111,19 +103,21 @@ caps are the same as before: 6 questions a minute and 40 a day per visitor, 1,50
 `src/data`. So after you change any text:
 
 1. Merge as usual. The Pages deploy publishes the site.
-2. The deploy's last job, *Refresh the chat's knowledge*, sends FoxDesk a `repository_dispatch`.
+2. The deploy's last job, *Refresh the chat's knowledge*, starts FoxDesk's *Refresh knowledge*
+   workflow (`workflow_dispatch`).
    FoxDesk re-crawls the site. If the text changed, it re-embeds it and redeploys the chat within
    a few minutes. If nothing changed, it stops there.
 3. As a backstop, FoxDesk also re-crawls every day at 08:00 IST.
 
 Step 2 needs the repository secret **`FOXDESK_DISPATCH_TOKEN`**: a fine-grained GitHub token
-(resource owner *HexaFoxTechnologies*, repository *foxdesk* only, permission
-*Contents: Read and write*). Without it, the deploy skips that step with a notice, and the
-daily re-crawl updates the chat within a day.
+(resource owner *HexaFoxTechnologies*, repository *foxdesk* only, the single permission
+*Actions: Read and write*). It can start FoxDesk's workflows but can't read or change its code.
+Without it, the deploy skips that step with a notice, and the daily re-crawl updates the chat
+within a day.
 
-**Local development:** the chat works on `localhost` too, against the live FoxDesk Worker. To try
-a local FoxDesk build, set `PUBLIC_FOXDESK_WIDGET_URL` in `.env` (see `.env.example`). Setting
-it empty hides the chat.
+**Local development:** the live chat only answers on the live site, so `npm run dev` leaves it
+out. To try it locally, run `npm run fd -- dev hexafox` in the foxdesk repo and set
+`PUBLIC_FOXDESK_WIDGET_URL=http://localhost:8787/widget.js` in `.env` (see `.env.example`).
 
 ### How many questions it can answer
 
