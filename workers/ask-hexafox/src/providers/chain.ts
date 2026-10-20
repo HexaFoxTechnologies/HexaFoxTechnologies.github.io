@@ -2,7 +2,7 @@ import { config } from '../config.ts';
 import type { Env } from '../env.ts';
 import { streamGemini } from './gemini.ts';
 import { streamGroq } from './groq.ts';
-import type { ChatMessage, StreamText } from './types.ts';
+import type { ChatMessage, StreamText, Usage } from './types.ts';
 
 const PROVIDERS: Record<string, { stream: StreamText; key: (env: Env) => string | undefined }> = {
   groq: { stream: streamGroq, key: (env) => env.GROQ_API_KEY },
@@ -14,6 +14,8 @@ export interface Answer {
   model: string;
   /** The answer's text pieces, starting with the first one already received. */
   text: AsyncGenerator<string>;
+  /** Tokens used, as reported by the provider once the answer has finished streaming. */
+  usage: () => Usage | null;
 }
 
 /**
@@ -30,12 +32,13 @@ export async function startAnswer(env: Env, messages: ChatMessage[]): Promise<An
 
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort('first token timeout'), config.firstTokenTimeoutMs);
-    const text = provider.stream(apiKey, { model, messages, signal: controller.signal });
+    let usage: Usage | null = null;
+    const text = provider.stream(apiKey, { model, messages, signal: controller.signal, onUsage: (reported) => (usage = reported) });
 
     try {
       const first = await text.next();
       if (first.done) throw new Error('empty answer');
-      return { provider: name, model, text: prepend(first.value, text) };
+      return { provider: name, model, text: prepend(first.value, text), usage: () => usage };
     } catch (error) {
       console.warn(JSON.stringify({ event: 'provider_failed', provider: name, model, error: String(error).slice(0, 300) }));
     } finally {

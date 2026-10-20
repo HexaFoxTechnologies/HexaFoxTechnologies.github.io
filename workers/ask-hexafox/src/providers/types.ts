@@ -3,10 +3,17 @@ export interface ChatMessage {
   content: string;
 }
 
+/** Tokens a provider reports for one answer (reasoning/thinking tokens count as output). */
+export interface Usage {
+  input: number;
+  output: number;
+}
+
 export interface GenerateOptions {
   model: string;
   messages: ChatMessage[];
   signal: AbortSignal;
+  onUsage: (usage: Usage) => void;
 }
 
 /** A model provider streams the answer as text pieces. */

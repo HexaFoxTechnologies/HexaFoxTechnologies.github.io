@@ -4,6 +4,7 @@ import { ProviderError, type StreamText } from './types.ts';
 
 interface GroqChunk {
   choices?: { delta?: { content?: string | null } }[];
+  x_groq?: { usage?: { prompt_tokens?: number; completion_tokens?: number } };
   error?: { message?: string };
 }
 
@@ -15,7 +16,7 @@ function reasoningOptions(model: string): Record<string, unknown> {
 }
 
 /** Groq's OpenAI-compatible chat completions, streamed. */
-export const streamGroq: StreamText = async function* (apiKey, { model, messages, signal }) {
+export const streamGroq: StreamText = async function* (apiKey, { model, messages, signal, onUsage }) {
   const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
@@ -35,6 +36,8 @@ export const streamGroq: StreamText = async function* (apiKey, { model, messages
     if (data === '[DONE]') return;
     const chunk = JSON.parse(data) as GroqChunk;
     if (chunk.error) throw new ProviderError('groq', 500, chunk.error.message ?? 'stream error');
+    const usage = chunk.x_groq?.usage;
+    if (usage) onUsage({ input: usage.prompt_tokens ?? 0, output: usage.completion_tokens ?? 0 });
     const text = chunk.choices?.[0]?.delta?.content;
     if (text) yield text;
   }

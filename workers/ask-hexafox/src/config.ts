@@ -18,7 +18,7 @@ export const config = {
 
   /** Generation. */
   temperature: 0.2,
-  maxAnswerTokens: 600,
+  maxAnswerTokens: 400,
   /** Give up on a provider that hasn't started answering by then and try the next one. */
   firstTokenTimeoutMs: 9_000,
 } as const;

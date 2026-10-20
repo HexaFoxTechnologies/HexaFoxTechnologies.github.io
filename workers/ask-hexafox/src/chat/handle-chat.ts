@@ -64,6 +64,7 @@ export async function handleChat(request: Request, env: Env, ctx: ExecutionConte
           provider: answer.provider,
           model: answer.model,
           sources: matches.map(({ chunk, score }) => `${chunk.id}:${score.toFixed(2)}`),
+          tokens: answer.usage(),
           ms: Date.now() - started,
         }),
       );
