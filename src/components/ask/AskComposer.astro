@@ -1,0 +1,107 @@
+---
+/** Question box, send button and the privacy note. */
+import { ask } from '@data/ask';
+---
+
+<form class="ask-composer" data-ask-form>
+  <div class="ask-composer__row">
+    <label for="ask-input" class="sr-only">Your question</label>
+    <textarea id="ask-input" name="question" rows="1" maxlength={ask.maxQuestionChars} placeholder={ask.placeholder} required
+    ></textarea>
+    <button class="ask-composer__send" type="submit" aria-label="Send question">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+        <path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"
+        ></path>
+      </svg>
+    </button>
+  </div>
+  <p class="ask-composer__note">
+    <span>{ask.privacy}</span>
+    <span class="ask-composer__counter" data-ask-counter aria-live="polite"></span>
+  </p>
+  <div class="ask-composer__turnstile" data-ask-turnstile></div>
+</form>
+
+<style>
+  .ask-composer {
+    display: grid;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4) var(--space-3);
+    border-top: 1px solid var(--color-line);
+    background: var(--color-surface-raised);
+  }
+
+  .ask-composer__row {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-2);
+    padding: 0.35rem 0.35rem 0.35rem 0.9rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    transition: border-color var(--dur-fast) ease;
+  }
+
+  .ask-composer__row:focus-within {
+    border-color: var(--color-violet-soft);
+  }
+
+  .ask-composer textarea {
+    flex: 1;
+    min-height: 2.5rem;
+    max-height: 140px;
+    padding: 0.5rem 0;
+    border: 0;
+    background: none;
+    font-size: var(--text-md);
+    line-height: 1.45;
+    resize: none;
+  }
+
+  .ask-composer textarea:focus {
+    outline: none;
+  }
+
+  .ask-composer textarea::placeholder {
+    color: var(--color-text-faint);
+  }
+
+  .ask-composer__send {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: var(--color-violet-strong);
+    color: #fff;
+    cursor: pointer;
+    transition: background-color var(--dur-fast) ease;
+  }
+
+  .ask-composer__send:hover {
+    background: var(--color-violet);
+  }
+
+  .ask-composer__send:disabled {
+    opacity: 0.55;
+    cursor: progress;
+  }
+
+  .ask-composer__note {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    font-size: 0.75rem;
+    color: var(--color-text-faint);
+  }
+
+  .ask-composer__counter {
+    flex: none;
+  }
+
+  .ask-composer__turnstile:empty {
+    display: none;
+  }
+</style>

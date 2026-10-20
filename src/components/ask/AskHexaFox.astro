@@ -1,0 +1,33 @@
+---
+/**
+ * "Ask HexaFox" chat: a launcher button and a panel that answers questions about the company
+ * from the site's own copy (see workers/ask-hexafox). Without PUBLIC_ASK_API_URL nothing renders.
+ */
+import AskLauncher from './AskLauncher.astro';
+import AskPanel from './AskPanel.astro';
+import { ask } from '@data/ask';
+import { withBase } from '@lib/url';
+
+const enabled = ask.apiUrl.length > 0;
+---
+
+{
+  enabled && (
+    <div
+      class="ask"
+      data-ask
+      data-ask-api={ask.apiUrl}
+      data-ask-base={withBase()}
+      data-ask-turnstile={ask.turnstileSiteKey}
+      data-ask-fallback={ask.fallback}
+      data-ask-botcheck={ask.botCheckFailed}
+    >
+      <AskLauncher />
+      <AskPanel />
+    </div>
+  )
+}
+
+<script>
+  import '../../scripts/ask/launcher';
+</script>

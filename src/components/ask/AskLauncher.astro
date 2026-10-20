@@ -1,0 +1,99 @@
+---
+/** Floating button (bottom-right) that opens the chat panel. */
+import AskMark from './AskMark.astro';
+import { ask } from '@data/ask';
+---
+
+<button class="ask-launcher" type="button" aria-expanded="false" aria-controls="ask-panel" data-ask-launcher>
+  <span class="ask-launcher__label">{ask.title}</span>
+  <AskMark />
+</button>
+
+<style>
+  .ask-launcher {
+    position: fixed;
+    right: max(var(--space-4), env(safe-area-inset-right));
+    bottom: max(var(--space-4), env(safe-area-inset-bottom));
+    z-index: 60;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    filter: drop-shadow(0 12px 24px rgb(9 7 19 / 0.6));
+  }
+
+  .ask-launcher__label {
+    padding: 0.55rem 1rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface-raised);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    transition:
+      border-color var(--dur-fast) ease,
+      background-color var(--dur-fast) ease;
+  }
+
+  .ask-launcher :global(.ask-mark) {
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+
+  :global(.no-js) .ask-launcher {
+    display: none;
+  }
+
+  .ask-launcher:hover .ask-launcher__label {
+    border-color: var(--color-violet-soft);
+  }
+
+  .ask-launcher:hover :global(.ask-mark) {
+    transform: translateY(-2px);
+  }
+
+  .ask-launcher:focus-visible {
+    outline: none;
+  }
+
+  .ask-launcher:focus-visible .ask-launcher__label {
+    outline: 2px solid var(--color-lavender);
+    outline-offset: 3px;
+  }
+
+  :global([data-ask][data-open]) .ask-launcher__label {
+    border-color: var(--color-violet);
+    background: rgb(139 92 246 / 0.18);
+  }
+
+  @media (max-width: 560px) {
+    .ask-launcher__label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      padding: 0;
+      border: 0;
+    }
+
+    .ask-launcher:focus-visible {
+      outline: 2px solid var(--color-lavender);
+      outline-offset: 4px;
+      border-radius: var(--radius-sm);
+    }
+
+    :global([data-ask][data-open]) .ask-launcher {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ask-launcher:hover :global(.ask-mark) {
+      transform: none;
+    }
+  }
+</style>

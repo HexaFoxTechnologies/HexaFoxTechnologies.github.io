@@ -1,0 +1,30 @@
+// Ask HexaFox Worker. Free plan only: Workers, Workers AI, rate limiting and SQLite Durable Objects.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ask-hexafox",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "preview_urls": false,
+
+  // Query embeddings (@cf/baai/bge-base-en-v1.5). No API key needed.
+  "ai": { "binding": "AI" },
+
+  // Burst limit per visitor IP. The daily cap lives in the DailyQuota Durable Object.
+  "ratelimits": [{ "name": "BURST_LIMITER", "namespace_id": "4521", "simple": { "limit": 6, "period": 60 } }],
+
+  "durable_objects": { "bindings": [{ "name": "DAILY_QUOTA", "class_name": "DailyQuota" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["DailyQuota"] }],
+
+  "vars": {
+    // Comma-separated. Any http://localhost:<port> or 127.0.0.1:<port> is also allowed for dev.
+    "ALLOWED_ORIGINS": "https://hexafoxtechnologies.github.io",
+    // Tried in order until one answers: <provider>:<model>. Each Groq model has its own free quota.
+    "MODEL_CHAIN": "groq:openai/gpt-oss-120b,gemini:gemini-3.5-flash-lite,groq:qwen/qwen3.8-27b,groq:openai/gpt-oss-20b",
+    "DAILY_LIMIT_PER_IP": "40",
+    "DAILY_LIMIT_TOTAL": "1500"
+  },
+
+  // Request metadata only: questions and answers are never logged.
+  "observability": { "enabled": true }
+}

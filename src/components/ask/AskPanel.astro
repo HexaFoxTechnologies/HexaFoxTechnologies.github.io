@@ -1,0 +1,119 @@
+---
+/** The chat window: header, conversation log, starter questions and the question box. */
+import AskMark from './AskMark.astro';
+import AskLog from './AskLog.astro';
+import AskStarters from './AskStarters.astro';
+import AskComposer from './AskComposer.astro';
+import { ask } from '@data/ask';
+---
+
+<section id="ask-panel" class="ask-panel" role="dialog" aria-labelledby="ask-title" hidden data-ask-panel>
+  <header class="ask-panel__header">
+    <AskMark size="sm" />
+    <div class="ask-panel__heading">
+      <h2 id="ask-title">{ask.title}</h2>
+      <p>{ask.subtitle}</p>
+    </div>
+    <button class="ask-panel__close" type="button" aria-label="Close chat" data-ask-close>
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"></path>
+      </svg>
+    </button>
+  </header>
+
+  <AskLog>
+    <AskStarters />
+  </AskLog>
+
+  <AskComposer />
+</section>
+
+<style>
+  .ask-panel {
+    position: fixed;
+    right: max(var(--space-4), env(safe-area-inset-right));
+    /* Sit above the launcher: its hexagon is 58px tall, plus a gap. */
+    bottom: calc(max(var(--space-4), env(safe-area-inset-bottom)) + 58px + var(--space-4));
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    width: min(410px, calc(100vw - 2 * var(--space-4)));
+    height: min(640px, calc(100dvh - 120px));
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow:
+      0 30px 80px -20px rgb(9 7 19 / 0.9),
+      0 0 0 1px rgb(139 92 246 / 0.08);
+    overflow: hidden;
+    animation: ask-panel-in var(--dur-fast) var(--ease-out);
+  }
+
+  .ask-panel[hidden] {
+    display: none;
+  }
+
+  .ask-panel__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-line);
+    background: var(--color-surface-raised);
+  }
+
+  .ask-panel__heading {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ask-panel__heading h2 {
+    font-size: var(--text-md);
+  }
+
+  .ask-panel__heading p {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .ask-panel__close {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+  }
+
+  .ask-panel__close:hover {
+    background: rgb(139 92 246 / 0.12);
+    color: var(--color-text);
+  }
+
+  @keyframes ask-panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .ask-panel {
+      inset: 0;
+      width: 100%;
+      height: 100dvh;
+      border: 0;
+      border-radius: 0;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ask-panel {
+      animation: none;
+    }
+  }
+</style>
