@@ -1,7 +1,7 @@
 name: CI
 
 # Type-checks and builds every pull request, so a broken change is caught before it reaches main.
-# Deploying is handled separately by deploy.yml on pushes to main.
+# Deploying is handled separately on pushes to main: deploy.yml (site) and deploy-ask.yml (Worker).
 on:
   pull_request:
     branches: [main]

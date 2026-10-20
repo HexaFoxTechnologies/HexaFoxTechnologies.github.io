@@ -2,6 +2,8 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "ask-hexafox",
+  // hexafoxtech@gmail.com's Cloudflare account. Not a secret; lets CI deploy with a token alone.
+  "account_id": "a537ab6b41ffe19c3d1a8303fa0db474",
   "main": "src/index.ts",
   "compatibility_date": "2026-10-01",
   "workers_dev": true,
