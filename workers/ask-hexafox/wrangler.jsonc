@@ -19,8 +19,8 @@
   "vars": {
     // Comma-separated. Any http://localhost:<port> or 127.0.0.1:<port> is also allowed for dev.
     "ALLOWED_ORIGINS": "https://hexafoxtechnologies.github.io",
-    // Tried in order until one answers: <provider>:<model>.
-    "MODEL_CHAIN": "groq:llama-3.3-70b-versatile,gemini:gemini-3.5-flash-lite,groq:llama-3.1-8b-instant",
+    // Tried in order until one answers: <provider>:<model>. Each Groq model has its own free quota.
+    "MODEL_CHAIN": "groq:openai/gpt-oss-120b,gemini:gemini-3.5-flash-lite,groq:qwen/qwen3.8-27b,groq:openai/gpt-oss-20b",
     "DAILY_LIMIT_PER_IP": "40",
     "DAILY_LIMIT_TOTAL": "1500"
   },

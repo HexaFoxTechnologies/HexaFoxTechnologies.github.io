@@ -7,6 +7,13 @@ interface GroqChunk {
   error?: { message?: string };
 }
 
+/** Keep reasoning models quick, and their reasoning out of the answer. */
+function reasoningOptions(model: string): Record<string, unknown> {
+  if (model.startsWith('openai/gpt-oss')) return { reasoning_effort: 'low', include_reasoning: false };
+  if (model.startsWith('qwen/')) return { reasoning_effort: 'none' };
+  return {};
+}
+
 /** Groq's OpenAI-compatible chat completions, streamed. */
 export const streamGroq: StreamText = async function* (apiKey, { model, messages, signal }) {
   const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -18,6 +25,7 @@ export const streamGroq: StreamText = async function* (apiKey, { model, messages
       stream: true,
       temperature: config.temperature,
       max_completion_tokens: config.maxAnswerTokens,
+      ...reasoningOptions(model),
     }),
     signal,
   });
