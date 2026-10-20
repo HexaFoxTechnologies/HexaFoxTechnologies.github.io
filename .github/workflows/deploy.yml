@@ -42,6 +42,8 @@ jobs:
       - run: npm run build
         env:
           PUBLIC_WEB3FORMS_KEY: ${{ vars.WEB3FORMS_KEY }}
+          PUBLIC_ASK_API_URL: ${{ vars.ASK_API_URL }}
+          PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.ASK_TURNSTILE_SITE_KEY }}
 
       - uses: actions/upload-pages-artifact@v3
         with:
