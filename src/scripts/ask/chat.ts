@@ -37,7 +37,7 @@ export function initChat(root: HTMLElement) {
   const resizeInput = () => {
     input.style.height = 'auto';
     input.style.height = `${Math.min(input.scrollHeight, 140)}px`;
-    const left = input.maxLength - input.value.length;
+    const left = Math.max(0, input.maxLength - input.value.length);
     counter.textContent = left < 80 ? `${left} characters left` : '';
   };
 
