@@ -3,6 +3,8 @@ import type { GeneratedImageName } from '@lib/images';
 export interface ServiceItem {
   title: string;
   text: string;
+  /** Optional page with more on this service, e.g. 'foxdesk/'; passed through withBase(). */
+  link?: { label: string; href: string };
 }
 
 export interface ServiceGroup {
@@ -57,6 +59,7 @@ export const serviceGroups: ServiceGroup[] = [
       {
         title: 'AI assistants and chatbots',
         text: 'Assistants that answer from your documents and data, not from guesswork.',
+        link: { label: 'Meet FoxDesk, our own assistant', href: 'foxdesk/' },
       },
       {
         title: 'AI features in your product',
