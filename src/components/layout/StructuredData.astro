@@ -1,0 +1,12 @@
+---
+/** schema.org JSON-LD, so search engines know who we are and what each page is about. */
+interface Props {
+  data: Record<string, unknown>[];
+}
+
+const { data } = Astro.props;
+// Escape "<" so no string in the data can close the script tag early.
+const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': data }).replace(/</g, '\\u003c');
+---
+
+<script type="application/ld+json" set:html={json} />
