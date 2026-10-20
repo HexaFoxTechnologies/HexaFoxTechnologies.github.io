@@ -1,0 +1,59 @@
+---
+/** Centred closing call to action: a heading, one line and up to two buttons. */
+import Button from './Button.astro';
+import { withBase } from '@lib/url';
+
+interface CtaLink {
+  label: string;
+  /** Site-relative page or anchor; passed through withBase(). */
+  href: string;
+}
+
+interface Props {
+  id: string;
+  title: string;
+  text: string;
+  primary: CtaLink;
+  secondary?: CtaLink;
+}
+
+const { id, title, text, primary, secondary } = Astro.props;
+---
+
+<section class="section cta-band" aria-labelledby={id}>
+  <div class="container cta-band__inner" data-reveal>
+    <h2 id={id}>{title}</h2>
+    <p>{text}</p>
+    <div class="cta-band__actions">
+      <Button href={withBase(primary.href)}>{primary.label}</Button>
+      {secondary && <Button href={withBase(secondary.href)} variant="ghost">{secondary.label}</Button>}
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band__inner {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-4);
+    max-width: 40rem;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: var(--text-2xl);
+  }
+
+  p {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+  }
+
+  .cta-band__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+</style>
