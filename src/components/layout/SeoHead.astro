@@ -41,4 +41,5 @@ const ogImage = new URL(withBase('og-cover.png'), Astro.site);
 <meta property="og:image:alt" content={`${site.legalName}: ${site.tagline}`} />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="generator" content={Astro.generator} />
+{site.googleSiteVerification && <meta name="google-site-verification" content={site.googleSiteVerification} />}
 {schema.length > 0 && <StructuredData data={schema} />}
