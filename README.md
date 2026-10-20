@@ -27,7 +27,10 @@ npm run preview   # serve the built site
 │   ├── deploy.yml                 Build + publish to GitHub Pages on every push to main
 │   └── deploy-ask.yml             Deploy the Ask HexaFox Worker when it or src/data changes on main
 ├── design/                        Source/master files (not shipped to the site)
-│   ├── brand/logo-sheet.png       Original logo presentation sheet
+│   ├── brand/
+│   │   ├── logo-sheet.png         Original logo presentation sheet
+│   │   └── github-avatar.png      500×500 profile picture for the GitHub organization
+│   ├── generated-originals/       Full-size PNG artwork masters (local only, git-ignored: ~9 MB)
 │   └── team-originals/            Uncropped founder photos (local only, git-ignored: ~8 MB)
 ├── docs/                          Planning docs
 │   ├── website-content.md         Copy reference and decisions
@@ -35,7 +38,7 @@ npm run preview   # serve the built site
 ├── public/                        Copied as-is: favicon, share image, robots.txt
 ├── tools/                         One-off asset scripts (Python + Pillow)
 │   ├── crop_team_photos.py        design/team-originals → src/assets/team
-│   └── make_brand_assets.py       logo sheet → logo mark, favicon, og-cover
+│   └── make_brand_assets.py       logo sheet → logo mark, favicon, og-cover, GitHub avatar
 ├── workers/ask-hexafox/           Ask HexaFox chat API (Cloudflare Worker, own package.json)
 │   ├── wrangler.jsonc             Bindings, model chain, allowed origins, daily caps
 │   ├── scripts/knowledge/         npm run knowledge (site copy → chunks → embeddings) and knowledge:check
@@ -154,6 +157,30 @@ create a new one, replace the secret, and delete the old token in Cloudflare.
 Variables*): `ASK_API_URL` (the Worker URL, e.g. `https://ask-hexafox.hexafox.workers.dev`) and
 `ASK_TURNSTILE_SITE_KEY` (public). Without `ASK_API_URL` the chat isn't shown.
 
+### How many questions it can answer
+
+Each question uses one call to each service below. One answer is about **1,000 tokens**
+(~935 in, ~75 out) and **under 1 Workers AI neuron**. Limits checked on 2026-10-20:
+
+| Service | Free limit | Checked how | Questions a day it allows |
+|---|---|---|---|
+| Our own cap (`wrangler.jsonc`) | 1,500 a day site-wide, 40 per visitor, 6 a minute per visitor | config | **1,500**: the ceiling by design |
+| Cloudflare Workers | 100,000 requests a day | Cloudflare docs | ~100,000 |
+| Workers AI (question embeddings) | 10,000 neurons a day | measured: 117 calls used 105.5 neurons | ~10,000 |
+| Groq, per model (3 models in the chain) | 1,000 requests a day, 8,000 tokens a minute | live API headers | ~200 each (token limit, see below) |
+| Gemini Flash-Lite | not published (blogs say 500–1,500 a day) | Google AI Studio only | ~500–1,500 |
+
+The real constraint is Groq's **daily token** limit, which its API doesn't report. Its published
+table says 200,000 tokens a day for these models (the request and per-minute numbers in the same
+table matched the live headers), so each Groq model gives ~200 answers a day and the three give
+~600. Adding Gemini, the models can serve roughly **1,100–2,100 answers a day**, so the 1,500 cap
+is what visitors hit first. In bursts, each Groq model handles ~8 questions a minute before the
+chain falls through to the next one.
+
+**Checking usage:** Workers AI neurons are in the Cloudflare dashboard → *AI* → *Workers AI*, Groq
+tokens and limits at console.groq.com/settings/limits, Gemini at aistudio.google.com (*Usage* and
+*Rate limit*), and every answer's model and tokens in the Worker's logs (`answered` events).
+
 ## Deploying to GitHub Pages
 
 1. Create the repository under the company GitHub account and push `main`.
@@ -167,4 +194,11 @@ On a free GitHub plan, Pages requires the repository to be **public**.
 ## Contributing
 
 `main` is protected: it can't be force-pushed or deleted. Make changes on a branch and open a pull
-request. The **CI** check type-checks and builds it, and the site deploys once it's merged.
+request. **CI** runs three checks on it: the site builds, the Ask HexaFox Worker type-checks and
+bundles, and the chat's knowledge matches `src/data`. Once it's merged, the site deploys, and so
+does the Worker if it or `src/data` changed.
+
+## Related repositories
+
+- [`HexaFoxTechnologies/.github`](https://github.com/HexaFoxTechnologies/.github): the organization's
+  profile page (`profile/README.md`), shown at github.com/HexaFoxTechnologies.
