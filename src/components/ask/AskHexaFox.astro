@@ -22,9 +22,10 @@ const fallback = `Sorry, I couldn’t answer just now. Please try again, or emai
       data-ask-base={withBase()}
       data-ask-turnstile={ask.turnstileSiteKey}
       data-ask-fallback={fallback}
+      data-ask-botcheck={ask.botCheckFailed}
     >
-      <AskPanel />
       <AskLauncher />
+      <AskPanel />
     </div>
   )
 }

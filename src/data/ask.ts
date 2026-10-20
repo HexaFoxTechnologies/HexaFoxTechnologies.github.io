@@ -10,6 +10,7 @@ export const ask = {
   starters: ['What AI services do you offer?', 'Who are the founders?', 'Why the name HexaFox?', 'Where are you based?'],
   placeholder: 'Ask about HexaFox…',
   privacy: 'Don’t share personal information. AI answers can be wrong.',
+  botCheckFailed: 'I couldn’t confirm you’re not a bot. Please refresh the page and try again.',
   /** Must match maxQuestionChars in the Worker's config. */
   maxQuestionChars: 500,
 } as const;

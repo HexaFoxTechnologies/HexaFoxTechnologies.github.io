@@ -12,14 +12,16 @@ const HISTORY_TURNS = 6;
 const phone = window.matchMedia('(max-width: 560px)');
 
 export function initChat(root: HTMLElement) {
-  const { askApi = '', askBase = '/', askTurnstile = '', askFallback = '' } = root.dataset;
+  const { askApi = '', askBase = '/', askTurnstile = '', askFallback = '', askBotcheck = askFallback } = root.dataset;
   const log = root.querySelector<HTMLElement>('[data-ask-log]')!;
   const form = root.querySelector<HTMLFormElement>('[data-ask-form]')!;
   const input = form.querySelector<HTMLTextAreaElement>('textarea')!;
   const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
   const counter = form.querySelector<HTMLElement>('[data-ask-counter]')!;
   const starters = root.querySelector<HTMLElement>('[data-ask-starters]');
-  const botCheck = askTurnstile ? createBotCheck(askTurnstile, root.querySelector<HTMLElement>('[data-ask-turnstile]')!) : null;
+  const botCheck = askTurnstile ? createBotCheck(askTurnstile, root.querySelector<HTMLElement>('[data-ask-turnstile]')!, askBotcheck) : null;
+
+  botCheck?.warm();
 
   const history: Turn[] = [];
   let busy = false;
