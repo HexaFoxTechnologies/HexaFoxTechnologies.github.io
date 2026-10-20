@@ -73,6 +73,7 @@ export function initChat(root: HTMLElement) {
         askFallback,
       );
       cancelAnimationFrame(frame);
+      if (!text.trim()) throw new AskError(askFallback);
       reply.finish(text, sources, askBase);
       history.push({ role: 'user', content: question }, { role: 'assistant', content: plainAnswer(text) });
     } catch (error) {

@@ -34,4 +34,6 @@ export async function askQuestion(apiUrl: string, request: AskRequest, handlers:
     else if (event === 'error') throw new AskError((data as { message?: string }).message ?? fallback);
     else if (event === 'done') return;
   }
+  // The connection closed before the answer finished.
+  throw new AskError(fallback);
 }

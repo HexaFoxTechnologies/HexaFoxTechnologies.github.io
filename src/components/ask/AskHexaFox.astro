@@ -6,11 +6,9 @@
 import AskLauncher from './AskLauncher.astro';
 import AskPanel from './AskPanel.astro';
 import { ask } from '@data/ask';
-import { site } from '@data/site';
 import { withBase } from '@lib/url';
 
 const enabled = ask.apiUrl.length > 0;
-const fallback = `Sorry, I couldn’t answer just now. Please try again, or email us at ${site.email}.`;
 ---
 
 {
@@ -21,7 +19,7 @@ const fallback = `Sorry, I couldn’t answer just now. Please try again, or emai
       data-ask-api={ask.apiUrl}
       data-ask-base={withBase()}
       data-ask-turnstile={ask.turnstileSiteKey}
-      data-ask-fallback={fallback}
+      data-ask-fallback={ask.fallback}
       data-ask-botcheck={ask.botCheckFailed}
     >
       <AskLauncher />

@@ -32,7 +32,8 @@ import { ask } from '@data/ask';
   .ask-panel {
     position: fixed;
     right: max(var(--space-4), env(safe-area-inset-right));
-    bottom: calc(max(var(--space-4), env(safe-area-inset-bottom)) + 72px);
+    /* Sit above the launcher: its hexagon is 58px tall, plus a gap. */
+    bottom: calc(max(var(--space-4), env(safe-area-inset-bottom)) + 58px + var(--space-4));
     z-index: 60;
     display: flex;
     flex-direction: column;
