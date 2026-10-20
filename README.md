@@ -2,8 +2,8 @@
 
 Company website for HexaFox Technologies, *Six minds. One vision.*
 A static site built with [Astro](https://astro.build), hosted free on GitHub Pages, with the
-contact form handled by [Web3Forms](https://web3forms.com) and the **Ask HexaFox** chat answered
-by a Cloudflare Worker.
+contact form handled by [Web3Forms](https://web3forms.com) and the **Ask HexaFox** chat served by
+FoxDesk, HexaFox's own embeddable assistant.
 
 **Live site:** https://hexafoxtechnologies.github.io
 
@@ -23,9 +23,8 @@ npm run preview   # serve the built site
 ```
 .
 ├── .github/workflows/
-│   ├── ci.yml                     Every pull request: site build, Worker bundle, knowledge freshness
-│   ├── deploy.yml                 Build + publish to GitHub Pages on every push to main
-│   └── deploy-ask.yml             Deploy the Ask HexaFox Worker when it or src/data changes on main
+│   ├── ci.yml                     Every pull request: type-check and build the site
+│   └── deploy.yml                 Build + publish to GitHub Pages on every push to main, then refresh the chat
 ├── design/                        Source/master files (not shipped to the site)
 │   ├── brand/
 │   │   ├── logo-sheet.png         Original logo presentation sheet
@@ -39,17 +38,6 @@ npm run preview   # serve the built site
 ├── tools/                         One-off asset scripts (Python + Pillow)
 │   ├── crop_team_photos.py        design/team-originals → src/assets/team
 │   └── make_brand_assets.py       logo sheet → logo mark, favicon, og-cover, GitHub avatar
-├── workers/ask-hexafox/           Ask HexaFox chat API (Cloudflare Worker, own package.json)
-│   ├── wrangler.jsonc             Bindings, model chain, allowed origins, daily caps
-│   ├── scripts/knowledge/         npm run knowledge (site copy → chunks → embeddings) and knowledge:check
-│   └── src/
-│       ├── index.ts               Routes: POST /chat, GET /health
-│       ├── chat/                  Request checks, the /chat flow, streamed events
-│       ├── rag/                   Corpus, query embedding, retrieval, system prompt
-│       ├── providers/             Groq, Gemini and the fallback chain
-│       ├── guard/                 Rate limits, daily quota (Durable Object), Turnstile
-│       ├── http/                  CORS and JSON errors
-│       └── knowledge/corpus.json  Generated knowledge base (committed)
 └── src/
     ├── assets/                    Images optimised at build time
     │   ├── brand/                 logo-mark.png
@@ -57,8 +45,7 @@ npm run preview   # serve the built site
     │   ├── photos/                group-photo.jpg
     │   └── team/                  600×600 founder headshots
     ├── components/
-    │   ├── ask/                   Ask HexaFox chat: launcher, panel, log, composer
-    │   ├── layout/                SeoHead, SkipLink, SiteHeader, MobileMenu, SiteFooter
+    │   ├── layout/                SeoHead, SkipLink, SiteHeader, MobileMenu, SiteFooter, ChatWidget
     │   ├── sections/<section>/    One folder per page section and its parts
     │   └── ui/                    Reusable pieces: Button, Logo, ArtFrame, HexPhoto, …
     ├── data/                      All site text and lists (edit copy here)
@@ -66,7 +53,6 @@ npm run preview   # serve the built site
     ├── lib/                       Small helpers: base-path URLs, optional images, hex maths
     ├── pages/                     index, 404, thanks
     ├── scripts/                   Tiny client scripts: reveal, mobile menu, contact form
-    │   └── ask/                   Chat client (loaded only when the panel opens)
     └── styles/                    tokens · base · layout · utilities · motion
 ```
 
@@ -78,7 +64,7 @@ and each component does one job. A new page section gets its own folder under
 
 | I want to… | Do this |
 |---|---|
-| Change wording | Edit the matching file in `src/data/`, then [refresh Ask HexaFox](#ask-hexafox-chat) |
+| Change wording | Edit the matching file in `src/data/`. The chat picks it up after the deploy ([how](#ask-hexafox-chat)). |
 | Change brand colours | Edit `src/styles/tokens.css` |
 | Add generated artwork | Save it in `src/assets/images/` with the name from `docs/image-prompts.md`. It appears automatically. |
 | Replace a founder photo | Put the original in `design/team-originals/` (kept out of git), adjust its crop in `tools/crop_team_photos.py`, run the script |
@@ -99,63 +85,38 @@ The key is public by design: it can only deliver messages to that inbox.
 ## Ask HexaFox (chat)
 
 A chat in the bottom-right corner that answers visitors' questions about HexaFox from the site's
-own copy, with citations that link to the section they came from. It costs nothing to run: free
-tiers only, no card on any account.
+own pages, with citations that link to the section they came from. It's **FoxDesk**, HexaFox's
+embeddable assistant (private repo
+[HexaFoxTechnologies/foxdesk](https://github.com/HexaFoxTechnologies/foxdesk), client `hexafox`).
+This site only loads its script ([src/components/layout/ChatWidget.astro](src/components/layout/ChatWidget.astro)):
 
-**How it works:** `npm run knowledge` turns `src/data/*.ts` into ~20 chunks and embeds them with
-Workers AI. The Worker bundles that file, embeds each question, picks the closest chunks
-(cosine similarity) and streams an answer from the first model in `MODEL_CHAIN` that responds
-(Groq `gpt-oss-120b`, then Gemini Flash-Lite, then two more Groq models). If none answers, the
-visitor gets a friendly "busy, email us" message.
+```html
+<script src="https://foxdesk-hexafox.hexafox.workers.dev/widget.js" data-bot="hexafox" defer></script>
+```
 
-**Abuse protection:** only the site (and `localhost`) may call it, an invisible Turnstile check
-runs before each question, each visitor gets 6 questions a minute and 40 a day, and the whole
-site 1,500 a day. Only request metadata is logged, never questions or answers.
+Its greeting, starter questions, look, models, limits and API keys all live in FoxDesk's
+`clients/hexafox/`, so changing them doesn't touch this repo. The models, Turnstile check and
+caps are the same as before: 6 questions a minute and 40 a day per visitor, 1,500 a day site-wide.
 
-**What's automatic:**
+**How it stays up to date:** FoxDesk answers from a crawl of the *published* site, not from
+`src/data`. So after you change any text:
 
-- Every pull request checks that `corpus.json` matches `src/data` (`npm run knowledge:check`).
-  If you changed site text without refreshing the chat's knowledge, CI fails and tells you how
-  to fix it.
-- Every merge to `main` that touches the Worker or `src/data` deploys the Worker
-  (`.github/workflows/deploy-ask.yml`). It ships the committed `corpus.json`; it doesn't rebuild it.
+1. Merge as usual. The Pages deploy publishes the site.
+2. The deploy's last job, *Refresh the chat's knowledge*, starts FoxDesk's *Refresh knowledge*
+   workflow (`workflow_dispatch`).
+   FoxDesk re-crawls the site. If the text changed, it re-embeds it and redeploys the chat within
+   a few minutes. If nothing changed, it stops there.
+3. As a backstop, FoxDesk also re-crawls every day at 08:00 IST.
 
-**What still needs a person:** running `npm run knowledge` after editing `src/data` (it calls
-Workers AI, so it uses your `wrangler login`), and setting or rotating the API keys.
+Step 2 needs the repository secret **`FOXDESK_DISPATCH_TOKEN`**: a fine-grained GitHub token
+(resource owner *HexaFoxTechnologies*, repository *foxdesk* only, the single permission
+*Actions: Read and write*). It can start FoxDesk's workflows but can't read or change its code.
+Without it, the deploy skips that step with a notice, and the daily re-crawl updates the chat
+within a day.
 
-All commands below run in `workers/ask-hexafox/` (`npm install` there first).
-
-| I want to… | Do this |
-|---|---|
-| Refresh its knowledge after editing site text | `npm run knowledge`, commit `src/knowledge/corpus.json`; it deploys when merged |
-| Check the knowledge is current | `npm run knowledge:check` (no Cloudflare login needed) |
-| Deploy the Worker by hand | `npx wrangler login` once, then `npm run deploy` (or run *Deploy Ask HexaFox* in the Actions tab) |
-| Set or rotate API keys | Copy `.dev.vars.example` to `.dev.vars` (git-ignored), fill it in, run `npm run secrets` |
-| Run it locally | `npm run dev` (uses `.dev.vars`), and set `PUBLIC_ASK_API_URL=http://localhost:8787` in the site's `.env` |
-| Change models, origins or daily caps | Edit `vars` in `wrangler.jsonc`, then deploy |
-| Watch it | Cloudflare dashboard → Workers → ask-hexafox → Logs |
-
-Keys: Groq from console.groq.com/keys, Gemini from aistudio.google.com/apikey, and the Turnstile
-secret from the "Ask HexaFox" widget under Turnstile in the Cloudflare dashboard. Use the
-hexafoxtech@gmail.com accounts, and never commit a key.
-
-**Auto-deploy setup (once):** the deploy workflow needs a Cloudflare API token as a GitHub secret.
-
-1. Signed in to Cloudflare as hexafoxtech@gmail.com, open
-   https://dash.cloudflare.com/profile/api-tokens and click **Create Token**.
-2. Next to **Edit Cloudflare Workers**, click **Use template**.
-3. Under **Account Resources** choose *Include* → the HexaFox account. Under **Zone Resources**
-   choose *Include* → *All zones from an account* → the HexaFox account.
-4. **Continue to summary** → **Create Token**, and copy the token. It's shown only once.
-5. In the GitHub repo: *Settings → Secrets and variables → Actions → Secrets* →
-   **New repository secret**. Name it `CLOUDFLARE_API_TOKEN`, paste the token, and click **Add secret**.
-
-The account ID is already in `wrangler.jsonc`, so no other secret is needed. To rotate the token,
-create a new one, replace the secret, and delete the old token in Cloudflare.
-
-**Live site:** the build reads two repo variables (*Settings → Secrets and variables → Actions →
-Variables*): `ASK_API_URL` (the Worker URL, e.g. `https://ask-hexafox.hexafox.workers.dev`) and
-`ASK_TURNSTILE_SITE_KEY` (public). Without `ASK_API_URL` the chat isn't shown.
+**Local development:** the live chat only answers on the live site, so `npm run dev` leaves it
+out. To try it locally, run `npm run fd -- dev hexafox` in the foxdesk repo and set
+`PUBLIC_FOXDESK_WIDGET_URL=http://localhost:8787/widget.js` in `.env` (see `.env.example`).
 
 ### How many questions it can answer
 
@@ -164,7 +125,7 @@ Each question uses one call to each service below. One answer is about **1,000 t
 
 | Service | Free limit | Checked how | Questions a day it allows |
 |---|---|---|---|
-| Our own cap (`wrangler.jsonc`) | 1,500 a day site-wide, 40 per visitor, 6 a minute per visitor | config | **1,500**: the ceiling by design |
+| Our own cap (FoxDesk `clients/hexafox/config.json`) | 1,500 a day site-wide, 40 per visitor, 6 a minute per visitor | config | **1,500**: the ceiling by design |
 | Cloudflare Workers | 100,000 requests a day | Cloudflare docs | ~100,000 |
 | Workers AI (question embeddings) | 10,000 neurons a day | measured: 117 calls used 105.5 neurons | ~10,000 |
 | Groq, per model (3 models in the chain) | 1,000 requests a day, 8,000 tokens a minute | live API headers | ~200 each (token limit, see below) |
@@ -179,7 +140,8 @@ chain falls through to the next one.
 
 **Checking usage:** Workers AI neurons are in the Cloudflare dashboard → *AI* → *Workers AI*, Groq
 tokens and limits at console.groq.com/settings/limits, Gemini at aistudio.google.com (*Usage* and
-*Rate limit*), and every answer's model and tokens in the Worker's logs (`answered` events).
+*Rate limit*), and every answer's model and tokens in the `foxdesk-hexafox` Worker's logs
+(`answered` events).
 
 ## Deploying to GitHub Pages
 
@@ -194,9 +156,8 @@ On a free GitHub plan, Pages requires the repository to be **public**.
 ## Contributing
 
 `main` is protected: it can't be force-pushed or deleted. Make changes on a branch and open a pull
-request. **CI** runs three checks on it: the site builds, the Ask HexaFox Worker type-checks and
-bundles, and the chat's knowledge matches `src/data`. Once it's merged, the site deploys, and so
-does the Worker if it or `src/data` changed.
+request. **CI** type-checks and builds the site. Once it's merged, the site deploys and the chat
+refreshes its knowledge (see [Ask HexaFox](#ask-hexafox-chat)).
 
 ## Related repositories
 
