@@ -53,7 +53,6 @@ npm run preview   # serve the built site
     ├── lib/                       Small helpers: base-path URLs, optional images, hex maths
     ├── pages/                     index, 404, thanks
     ├── scripts/                   Tiny client scripts: reveal, mobile menu, contact form
-    │   └── ask/                   Chat client (loaded only when the panel opens)
     └── styles/                    tokens · base · layout · utilities · motion
 ```
 
