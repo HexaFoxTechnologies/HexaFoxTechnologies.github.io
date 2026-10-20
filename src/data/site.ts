@@ -15,4 +15,6 @@ export const site = {
   college: 'Sri Ramakrishna Institute of Technology',
   github: 'https://github.com/HexaFoxTechnologies',
   web3formsKey: import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '',
+  /** Google Search Console ownership code (public; shown in every page's source). */
+  googleSiteVerification: 'Ca3pzl-6kkn_EHT8UGefgTqh8v022gsw_XHQZFvhbFY',
 } as const;
