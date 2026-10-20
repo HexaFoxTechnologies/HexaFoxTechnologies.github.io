@@ -2,7 +2,8 @@
 
 Company website for HexaFox Technologies, *Six minds. One vision.*
 A static site built with [Astro](https://astro.build), hosted free on GitHub Pages, with the
-contact form handled by [Web3Forms](https://web3forms.com).
+contact form handled by [Web3Forms](https://web3forms.com) and the **Ask HexaFox** chat answered
+by a Cloudflare Worker.
 
 **Live site:** https://hexafoxtechnologies.github.io
 
@@ -22,7 +23,7 @@ npm run preview   # serve the built site
 ```
 .
 ├── .github/workflows/
-│   ├── ci.yml                     Type-check + build every pull request
+│   ├── ci.yml                     Type-check + build every pull request (site and Worker)
 │   └── deploy.yml                 Build + publish to GitHub Pages on every push to main
 ├── design/                        Source/master files (not shipped to the site)
 │   ├── brand/logo-sheet.png       Original logo presentation sheet
@@ -34,6 +35,17 @@ npm run preview   # serve the built site
 ├── tools/                         One-off asset scripts (Python + Pillow)
 │   ├── crop_team_photos.py        design/team-originals → src/assets/team
 │   └── make_brand_assets.py       logo sheet → logo mark, favicon, og-cover
+├── workers/ask-hexafox/           Ask HexaFox chat API (Cloudflare Worker, own package.json)
+│   ├── wrangler.jsonc             Bindings, model chain, allowed origins, daily caps
+│   ├── scripts/knowledge/         npm run knowledge: site copy → chunks → embeddings
+│   └── src/
+│       ├── index.ts               Routes: POST /chat, GET /health
+│       ├── chat/                  Request checks, the /chat flow, streamed events
+│       ├── rag/                   Corpus, query embedding, retrieval, system prompt
+│       ├── providers/             Groq, Gemini and the fallback chain
+│       ├── guard/                 Rate limits, daily quota (Durable Object), Turnstile
+│       ├── http/                  CORS and JSON errors
+│       └── knowledge/corpus.json  Generated knowledge base (committed)
 └── src/
     ├── assets/                    Images optimised at build time
     │   ├── brand/                 logo-mark.png
@@ -41,6 +53,7 @@ npm run preview   # serve the built site
     │   ├── photos/                group-photo.jpg
     │   └── team/                  600×600 founder headshots
     ├── components/
+    │   ├── ask/                   Ask HexaFox chat: launcher, panel, log, composer
     │   ├── layout/                SeoHead, SkipLink, SiteHeader, MobileMenu, SiteFooter
     │   ├── sections/<section>/    One folder per page section and its parts
     │   └── ui/                    Reusable pieces: Button, Logo, ArtFrame, HexPhoto, …
@@ -49,6 +62,7 @@ npm run preview   # serve the built site
     ├── lib/                       Small helpers: base-path URLs, optional images, hex maths
     ├── pages/                     index, 404, thanks
     ├── scripts/                   Tiny client scripts: reveal, mobile menu, contact form
+    │   └── ask/                   Chat client (loaded only when the panel opens)
     └── styles/                    tokens · base · layout · utilities · motion
 ```
 
@@ -60,7 +74,7 @@ and each component does one job. A new page section gets its own folder under
 
 | I want to… | Do this |
 |---|---|
-| Change wording | Edit the matching file in `src/data/` |
+| Change wording | Edit the matching file in `src/data/`, then [refresh Ask HexaFox](#ask-hexafox-chat) |
 | Change brand colours | Edit `src/styles/tokens.css` |
 | Add generated artwork | Save it in `src/assets/images/` with the name from `docs/image-prompts.md`. It appears automatically. |
 | Replace a founder photo | Put the original in `design/team-originals/` (kept out of git), adjust its crop in `tools/crop_team_photos.py`, run the script |
@@ -77,6 +91,41 @@ The two scripts in `tools/` need Pillow: `pip install pillow`.
 
 Without a key, the contact section shows an "Email us" button instead of the form.
 The key is public by design: it can only deliver messages to that inbox.
+
+## Ask HexaFox (chat)
+
+A chat in the bottom-right corner that answers visitors' questions about HexaFox from the site's
+own copy, with citations that link to the section they came from. It costs nothing to run: free
+tiers only, no card on any account.
+
+**How it works:** `npm run knowledge` turns `src/data/*.ts` into ~20 chunks and embeds them with
+Workers AI. The Worker bundles that file, embeds each question, picks the closest chunks
+(cosine similarity) and streams an answer from the first model in `MODEL_CHAIN` that responds
+(Groq `gpt-oss-120b`, then Gemini Flash-Lite, then two more Groq models). If none answers, the
+visitor gets a friendly "busy, email us" message.
+
+**Abuse protection:** only the site (and `localhost`) may call it, an invisible Turnstile check
+runs before each question, each visitor gets 6 questions a minute and 40 a day, and the whole
+site 1,500 a day. Only request metadata is logged, never questions or answers.
+
+All commands below run in `workers/ask-hexafox/` (`npm install` there first).
+
+| I want to… | Do this |
+|---|---|
+| Refresh its knowledge after editing site text | `npm run knowledge`, commit `src/knowledge/corpus.json`, then `npm run deploy` |
+| Deploy the Worker | `npx wrangler login` once, then `npm run deploy` |
+| Set or rotate API keys | Copy `.dev.vars.example` to `.dev.vars` (git-ignored), fill it in, run `npm run secrets` |
+| Run it locally | `npm run dev` (uses `.dev.vars`), and set `PUBLIC_ASK_API_URL=http://localhost:8787` in the site's `.env` |
+| Change models, origins or daily caps | Edit `vars` in `wrangler.jsonc`, then deploy |
+| Watch it | Cloudflare dashboard → Workers → ask-hexafox → Logs |
+
+Keys: Groq from console.groq.com/keys, Gemini from aistudio.google.com/apikey, and the Turnstile
+secret from the "Ask HexaFox" widget under Turnstile in the Cloudflare dashboard. Use the
+hexafoxtech@gmail.com accounts, and never commit a key.
+
+**Live site:** the build reads two repo variables (*Settings → Secrets and variables → Actions →
+Variables*): `ASK_API_URL` (the Worker URL, e.g. `https://ask-hexafox.hexafox.workers.dev`) and
+`ASK_TURNSTILE_SITE_KEY` (public). Without `ASK_API_URL` the chat isn't shown.
 
 ## Deploying to GitHub Pages
 
