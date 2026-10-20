@@ -57,9 +57,10 @@ jobs:
       - id: deployment
         uses: actions/deploy-pages@v4
 
-  # The chat (FoxDesk) answers from a crawl of the live site. Once the new pages are out, ask FoxDesk
-  # to re-crawl; it only re-embeds and redeploys if the text actually changed. Without the token,
-  # FoxDesk's daily re-crawl picks changes up instead.
+  # The chat (FoxDesk) answers from a crawl of the live site. Once the new pages are out, start
+  # FoxDesk's Refresh knowledge workflow; it only re-embeds and redeploys if the text changed.
+  # The token is fine-grained: Actions read & write on foxdesk only. Without it, FoxDesk's daily
+  # re-crawl picks changes up instead.
   refresh-chat:
     name: Refresh the chat's knowledge
     needs: deploy
@@ -75,4 +76,4 @@ jobs:
             echo "::notice::FOXDESK_DISPATCH_TOKEN isn't set, so the chat refreshes on FoxDesk's daily schedule (README → Chat)."
             exit 0
           fi
-          gh api repos/HexaFoxTechnologies/foxdesk/dispatches -f event_type=refresh -F 'client_payload[client]=hexafox'
+          gh workflow run refresh.yml -R HexaFoxTechnologies/foxdesk -f client=hexafox
