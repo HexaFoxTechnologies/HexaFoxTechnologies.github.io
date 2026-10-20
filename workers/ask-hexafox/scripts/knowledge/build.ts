@@ -9,10 +9,13 @@ import { assistantChunk } from './assistant.ts';
 import { buildChunks } from './chunks.ts';
 import { embedChunks } from './embed-chunks.ts';
 import { loadSiteData } from './load-site-data.ts';
+import { topics } from './topics.ts';
 
 const OUTPUT = new URL('../../src/knowledge/corpus.json', import.meta.url);
 
-const chunks = [...buildChunks(await loadSiteData()), assistantChunk];
+const chunks = [...buildChunks(await loadSiteData()), assistantChunk].map((chunk) =>
+  topics[chunk.id] ? { ...chunk, text: `${topics[chunk.id]}\n${chunk.text}` } : chunk,
+);
 console.log(`Embedding ${chunks.length} chunks with ${config.embeddingModel}…`);
 const vectors = await embedChunks(chunks);
 

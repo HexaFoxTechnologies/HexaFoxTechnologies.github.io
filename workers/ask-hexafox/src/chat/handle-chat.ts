@@ -1,3 +1,4 @@
+import { config } from '../config.ts';
 import type { Env } from '../env.ts';
 import { clientKey } from '../guard/client-ip.ts';
 import { checkLimits } from '../guard/rate-limit.ts';
@@ -10,6 +11,7 @@ import { embed } from '../rag/embed.ts';
 import { buildMessages } from '../rag/prompt.ts';
 import { retrieve } from '../rag/retrieve.ts';
 import { encodeEvent, type Source } from './events.ts';
+import { normaliseCitations } from './normalise.ts';
 import { parseChatRequest } from './validate.ts';
 
 /** POST /chat: validate → guard → retrieve → answer (streamed with citations). */
@@ -31,7 +33,7 @@ export async function handleChat(request: Request, env: Env, ctx: ExecutionConte
 
   // Embed the question (alone, and with the previous question for follow-ups) while the quota is checked.
   const previous = history.findLast((message) => message.role === 'user')?.content;
-  const queries = previous ? [question, `${previous}\n${question}`] : [question];
+  const queries = (previous ? [question, `${previous}\n${question}`] : [question]).map((query) => config.queryPrefix + query);
   const [limit, vectors] = await Promise.all([clientKey(request).then((key) => checkLimits(env, key)), embed(env.AI, queries)]);
   if (limit === 'slow_down') return jsonError(429, 'slow_down', messages.slowDown, cors);
   if (limit === 'daily_limit') return jsonError(429, 'daily_limit', messages.dailyLimit, cors);
@@ -50,7 +52,7 @@ export async function handleChat(request: Request, env: Env, ctx: ExecutionConte
   const pump = async () => {
     try {
       await writer.write(encodeEvent({ type: 'sources', sources }));
-      for await (const text of answer.text) await writer.write(encodeEvent({ type: 'delta', text }));
+      for await (const text of answer.text) await writer.write(encodeEvent({ type: 'delta', text: normaliseCitations(text) }));
       await writer.write(encodeEvent({ type: 'done', provider: answer.provider, model: answer.model }));
     } catch {
       await writer.write(encodeEvent({ type: 'error', code: 'busy', message: messages.busy })).catch(() => {});

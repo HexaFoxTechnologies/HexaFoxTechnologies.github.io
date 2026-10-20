@@ -2,6 +2,8 @@
 export const config = {
   email: 'hexafoxtech@gmail.com',
   embeddingModel: '@cf/baai/bge-base-en-v1.5',
+  /** BGE's instruction for short search queries (passages are embedded without it). */
+  queryPrefix: 'Represent this sentence for searching relevant passages: ',
 
   /** Request shape limits. */
   maxBodyBytes: 16_000,
