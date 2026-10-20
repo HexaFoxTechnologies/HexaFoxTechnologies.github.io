@@ -1,0 +1,43 @@
+---
+/** Suggested first questions. Removed from the log once the visitor asks something. */
+import { ask } from '@data/ask';
+---
+
+<ul class="ask-starters" aria-label="Suggested questions" data-ask-starters>
+  {
+    ask.starters.map((question) => (
+      <li>
+        <button type="button" data-ask-starter>
+          {question}
+        </button>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .ask-starters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding-top: var(--space-1);
+  }
+
+  .ask-starters button {
+    padding: 0.45rem 0.85rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-pill);
+    background: rgb(139 92 246 / 0.06);
+    font-size: var(--text-xs);
+    text-align: left;
+    cursor: pointer;
+    transition:
+      border-color var(--dur-fast) ease,
+      background-color var(--dur-fast) ease;
+  }
+
+  .ask-starters button:hover {
+    border-color: var(--color-violet-soft);
+    background: rgb(139 92 246 / 0.14);
+  }
+</style>
