@@ -6,9 +6,12 @@ import type { StoryChapter } from '@data/story';
 interface Props {
   chapter: StoryChapter;
   index: number;
+  /** Heading level for the chapter title: 2 on the story page, 3 inside a section. */
+  level?: 2 | 3;
 }
 
-const { chapter, index } = Astro.props;
+const { chapter, index, level = 3 } = Astro.props;
+const Heading = level === 2 ? 'h2' : 'h3';
 const number = String(index + 1).padStart(2, '0');
 const flipped = index % 2 === 1;
 ---
@@ -17,7 +20,7 @@ const flipped = index % 2 === 1;
   <HexMarker label={number} />
   <div class="chapter__body">
     <div class="chapter__text" data-reveal>
-      <h3>{chapter.title}</h3>
+      <Heading class="chapter__title">{chapter.title}</Heading>
       {chapter.paragraphs.map((p) => <p>{p}</p>)}
     </div>
     <div class="chapter__media" data-reveal style="--reveal-delay: 120ms">
@@ -50,7 +53,7 @@ const flipped = index % 2 === 1;
     gap: var(--space-4);
   }
 
-  h3 {
+  .chapter__title {
     font-size: var(--text-xl);
   }
 
