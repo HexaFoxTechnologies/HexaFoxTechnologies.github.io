@@ -1,0 +1,7 @@
+# Copy to .dev.vars (git-ignored) and fill in. `npm run secrets` uploads these to the Worker.
+# Groq key: https://console.groq.com/keys (sign in as hexafoxtech@gmail.com)
+GROQ_API_KEY=
+# Gemini key: https://aistudio.google.com/apikey (same account, free tier, no billing)
+GEMINI_API_KEY=
+# Optional Turnstile secret key; leave empty to skip the bot check.
+TURNSTILE_SECRET_KEY=
