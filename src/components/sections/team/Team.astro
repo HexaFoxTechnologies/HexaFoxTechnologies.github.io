@@ -1,12 +1,17 @@
 ---
 import SectionHeader from '@components/ui/SectionHeader.astro';
 import TeamCard from './TeamCard.astro';
-import { team, teamIntro } from '@data/team';
+import { team, teamIntro, teamStory } from '@data/team';
+import { withBase } from '@lib/url';
 ---
 
 <section id="team" class="section" aria-labelledby="team-title">
   <div class="container">
-    <SectionHeader id="team-title" eyebrow="The pack" title="Six co-founders. One team." intro={teamIntro} align="center" />
+    <SectionHeader id="team-title" eyebrow="The pack" title="Six co-founders. One team." intro={teamIntro} align="center">
+      <p class="team__story">
+        {teamStory.text} <a href={withBase(teamStory.href)}>{teamStory.label} →</a>
+      </p>
+    </SectionHeader>
     <ul class="team">
       {team.map((member, i) => <TeamCard member={member} index={i} />)}
     </ul>
@@ -14,6 +19,16 @@ import { team, teamIntro } from '@data/team';
 </section>
 
 <style>
+  .team__story {
+    color: var(--color-text-muted);
+  }
+
+  .team__story a {
+    color: var(--color-lavender);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
   .team {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

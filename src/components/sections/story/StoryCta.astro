@@ -1,0 +1,44 @@
+---
+/** Closing call to action on the story page: back to the parts a client came for. */
+import Button from '@components/ui/Button.astro';
+import { storyCta } from '@data/story';
+import { withBase } from '@lib/url';
+---
+
+<section class="section story-cta" aria-labelledby="story-cta-title">
+  <div class="container story-cta__inner" data-reveal>
+    <h2 id="story-cta-title">{storyCta.title}</h2>
+    <p>{storyCta.text}</p>
+    <div class="story-cta__actions">
+      <Button href={withBase(storyCta.primary.href)}>{storyCta.primary.label}</Button>
+      <Button href={withBase(storyCta.secondary.href)} variant="ghost">{storyCta.secondary.label}</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .story-cta__inner {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-4);
+    max-width: 40rem;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: var(--text-2xl);
+  }
+
+  p {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+  }
+
+  .story-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+</style>

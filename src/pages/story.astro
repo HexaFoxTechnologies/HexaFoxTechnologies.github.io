@@ -1,0 +1,14 @@
+---
+/** The founders' story: moved off the home page so it stays focused on what clients need. */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Story from '@components/sections/story/Story.astro';
+import StoryCta from '@components/sections/story/StoryCta.astro';
+---
+
+<BaseLayout
+  title="Our story"
+  description="How six friends from a college hostel room in Coimbatore became HexaFox Technologies, and where the name comes from."
+>
+  <Story asPage />
+  <StoryCta />
+</BaseLayout>

@@ -34,7 +34,7 @@ npm run preview   # serve the built site
 ├── docs/                          Planning docs
 │   ├── website-content.md         Copy reference and decisions
 │   └── image-prompts.md           Prompts for the AI-generated artwork
-├── public/                        Copied as-is: favicon, share image, robots.txt
+├── public/                        Copied as-is: favicon, share image, robots.txt (points to the sitemap)
 ├── tools/                         One-off asset scripts (Python + Pillow)
 │   ├── crop_team_photos.py        design/team-originals → src/assets/team
 │   └── make_brand_assets.py       logo sheet → logo mark, favicon, og-cover, GitHub avatar
@@ -51,7 +51,7 @@ npm run preview   # serve the built site
     ├── data/                      All site text and lists (edit copy here)
     ├── layouts/BaseLayout.astro   <html> shell: fonts, global styles, header, footer
     ├── lib/                       Small helpers: base-path URLs, optional images, hex maths
-    ├── pages/                     index, 404, thanks
+    ├── pages/                     index, story, 404, thanks (sitemap-index.xml is generated at build)
     ├── scripts/                   Tiny client scripts: reveal, mobile menu, contact form
     └── styles/                    tokens · base · layout · utilities · motion
 ```

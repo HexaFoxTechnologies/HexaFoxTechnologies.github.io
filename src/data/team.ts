@@ -13,6 +13,13 @@ export interface TeamMember {
   photo: ImageMetadata;
 }
 
+/** Short pointer from the Team section to the full story page. */
+export const teamStory = {
+  text: 'Six friends since our college days in Coimbatore.',
+  label: 'Read our story',
+  href: 'story/',
+};
+
 export const teamIntro = 'All six of us are co-founders. Each of us brings one side of the hexagon.';
 
 export const team: TeamMember[] = [

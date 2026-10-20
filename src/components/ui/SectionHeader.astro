@@ -6,15 +6,19 @@ interface Props {
   title: string;
   intro?: string;
   align?: 'start' | 'center';
+  /** 1 when this section is the page's main heading (e.g. the story page); 2 otherwise. */
+  level?: 1 | 2;
 }
 
-const { id, eyebrow, title, intro, align = 'start' } = Astro.props;
+const { id, eyebrow, title, intro, align = 'start', level = 2 } = Astro.props;
+const Heading = level === 1 ? 'h1' : 'h2';
 ---
 
 <header class:list={['section-header', `section-header--${align}`]} data-reveal>
   <p class="eyebrow">{eyebrow}</p>
-  <h2 id={id}>{title}</h2>
+  <Heading id={id} class="section-header__title">{title}</Heading>
   {intro && <p class="section-header__intro">{intro}</p>}
+  <slot />
 </header>
 
 <style>
@@ -31,7 +35,7 @@ const { id, eyebrow, title, intro, align = 'start' } = Astro.props;
     justify-items: center;
   }
 
-  h2 {
+  .section-header__title {
     font-size: var(--text-2xl);
   }
 
