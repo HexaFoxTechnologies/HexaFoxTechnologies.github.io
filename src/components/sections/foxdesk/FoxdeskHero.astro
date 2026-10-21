@@ -1,5 +1,9 @@
 ---
-/** Top of the FoxDesk page: the promise, two buttons and the chat illustration. */
+/**
+ * Top of the FoxDesk page: the promise, the buttons and the chat illustration. "Try it now" opens the
+ * real chat through window.FoxDesk.open(); it stays hidden until the widget has loaded (never in
+ * `npm run dev`, where the chat is left out), and the hint says where the chat is either way.
+ */
 import Button from '@components/ui/Button.astro';
 import HexGridBackground from '@components/ui/HexGridBackground.astro';
 import ChatMock from './ChatMock.astro';
@@ -18,14 +22,21 @@ import { withBase } from '@lib/url';
       <p class="fd-hero__lead" data-reveal style="--reveal-delay: 160ms">{hero.lead}</p>
       <div class="fd-hero__actions" data-reveal style="--reveal-delay: 240ms">
         <Button href={withBase(hero.primary.href)}>{hero.primary.label}</Button>
-        <Button href={withBase(hero.secondary.href)} variant="ghost">{hero.secondary.label}</Button>
+        <div data-foxdesk-open hidden>
+          <Button variant="ghost">{hero.tryButton}</Button>
+        </div>
       </div>
+      <p class="fd-hero__hint" data-reveal style="--reveal-delay: 300ms">{hero.tryHint}</p>
     </div>
     <div class="fd-hero__art" data-reveal style="--reveal-delay: 200ms">
       <ChatMock />
     </div>
   </div>
 </section>
+
+<script>
+  import '../../../scripts/foxdesk-open';
+</script>
 
 <style>
   .fd-hero {
@@ -63,6 +74,12 @@ import { withBase } from '@lib/url';
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
+  }
+
+  .fd-hero__hint {
+    max-width: 34rem;
+    font-size: var(--text-sm);
+    color: var(--color-text-faint);
   }
 
   .fd-hero__art {

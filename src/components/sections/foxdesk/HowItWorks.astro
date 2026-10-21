@@ -1,26 +1,110 @@
 ---
-/** Three steps from "we read your site" to answers, then the script tag a client adds. */
+/** Three steps from "we read your site" to answers, each with a small picture, then the script tag a client adds. */
 import SectionHeader from '@components/ui/SectionHeader.astro';
-import HowStep from './HowStep.astro';
+import HexMarker from '@components/ui/HexMarker.astro';
 import EmbedSnippet from './EmbedSnippet.astro';
+import StepArt from './StepArt.astro';
 import { steps } from '@data/foxdesk';
+
+const art = ['read', 'embed', 'answer'] as const;
 ---
 
 <section id="how" class="section" aria-labelledby="how-title">
   <div class="container">
     <SectionHeader id="how-title" eyebrow={steps.eyebrow} title={steps.title} />
-    <ol class="how__steps">
-      {steps.items.map((step, i) => <HowStep step={step} index={i} />)}
+    <ol class="flow">
+      {
+        steps.items.map((step, i) => (
+          <li class="flow__step" data-reveal style={`--reveal-delay: ${i * 90}ms`}>
+            <div class="flow__art">
+              <StepArt kind={art[i]!} />
+            </div>
+            <h3>
+              <HexMarker size="sm" label={String(i + 1)} />
+              {step.title}
+            </h3>
+            <p>{step.text}</p>
+          </li>
+        ))
+      }
     </ol>
     <EmbedSnippet label={steps.snippetLabel} code={steps.snippet} />
   </div>
 </section>
 
 <style>
-  .how__steps {
+  .flow {
+    --flow-gap: clamp(2rem, 1rem + 3vw, 3.5rem);
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-    gap: var(--space-5);
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--flow-gap);
     margin-bottom: var(--space-7);
+  }
+
+  .flow__step {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: var(--space-3);
+  }
+
+  .flow__art {
+    position: relative;
+    margin-bottom: var(--space-2);
+    padding: var(--space-4);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background: radial-gradient(circle at 50% 40%, rgb(139 92 246 / 0.14), transparent 70%), var(--color-surface);
+  }
+
+  /* An arrow from each picture to the next: across on wide screens, down when stacked. */
+  .flow__step:not(:last-child) .flow__art::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: calc(var(--flow-gap) / -2 - 7px);
+    width: 14px;
+    height: 14px;
+    border-top: 2px solid var(--color-violet-soft);
+    border-right: 2px solid var(--color-violet-soft);
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: 1.15rem;
+  }
+
+  p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 760px) {
+    .flow {
+      grid-template-columns: 1fr;
+    }
+
+    .flow__art {
+      max-width: 320px;
+    }
+
+    .flow__step:not(:last-child) .flow__art::after {
+      display: none;
+    }
+
+    .flow__step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      bottom: calc(var(--flow-gap) / -2 - 4px);
+      left: min(50%, 160px);
+      width: 14px;
+      height: 14px;
+      border-right: 2px solid var(--color-violet-soft);
+      border-bottom: 2px solid var(--color-violet-soft);
+      transform: translateX(-50%) rotate(45deg);
+    }
   }
 </style>
