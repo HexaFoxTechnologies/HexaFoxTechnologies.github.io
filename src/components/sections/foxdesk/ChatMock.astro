@@ -5,7 +5,7 @@
  */
 import { Image } from 'astro:assets';
 import mark from '@assets/brand/logo-mark.png';
-import { chatMock } from '@data/foxdesk';
+import { chatButtonLabel, chatMock } from '@data/foxdesk';
 
 interface Props {
   /** 'compact' drops the input row and launcher, for small previews. */
@@ -50,7 +50,14 @@ const { size = 'full' } = Astro.props;
       )
     }
   </div>
-  {size === 'full' && <span class="chat-mock__launcher" aria-hidden="true"></span>}
+  {
+    size === 'full' && (
+      <span class="chat-mock__button" aria-hidden="true">
+        <span class="chat-mock__button-label">{chatButtonLabel}</span>
+        <span class="chat-mock__launcher" />
+      </span>
+    )
+  }
 </figure>
 
 <style>
@@ -200,11 +207,24 @@ const { size = 'full' } = Astro.props;
     color: #fff;
   }
 
-  /* The corner button the real widget draws, peeking out under the window. */
-  .chat-mock__launcher {
+  /* The corner button the real widget draws, peeking out under the window, with its caption. */
+  .chat-mock__button {
     position: absolute;
     right: var(--space-5);
     bottom: 0;
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-2);
+  }
+
+  .chat-mock__button-label {
+    padding-bottom: var(--space-1);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .chat-mock__launcher {
+    flex: none;
     width: 52px;
     height: 58px;
     clip-path: var(--hex);

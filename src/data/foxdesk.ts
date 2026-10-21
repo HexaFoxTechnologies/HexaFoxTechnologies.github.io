@@ -36,6 +36,9 @@ export interface Price {
   label: string;
 }
 
+/** Caption next to the corner button in the chat pictures, so the shape doesn't read as decoration. */
+export const chatButtonLabel = 'Chat button';
+
 /** The chat-window illustration: one real question and answer about this site. */
 export const chatMock = {
   title: 'Ask HexaFox',

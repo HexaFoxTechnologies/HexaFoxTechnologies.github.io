@@ -4,7 +4,7 @@
  * sets (light/dark preset, accent, corner radius, button shape and side). The light and dark
  * colours match the widget's own presets. Decorative: the parent figure carries the label.
  */
-import type { ThemeLook } from '@data/foxdesk';
+import { chatButtonLabel, type ThemeLook } from '@data/foxdesk';
 
 interface Props {
   look: ThemeLook;
@@ -30,7 +30,10 @@ const style = `--look-accent: ${look.accent}; --look-radius: ${look.radius}px;`;
       <span class="look__send"></span>
     </div>
   </div>
-  <span class:list={['look__launcher', `look__launcher--${look.launcher}`]}></span>
+  <span class="look__button">
+    <span class="look__button-label">{chatButtonLabel}</span>
+    <span class:list={['look__launcher', `look__launcher--${look.launcher}`]}></span>
+  </span>
 </div>
 
 <style>
@@ -137,14 +140,32 @@ const style = `--look-accent: ${look.accent}; --look-radius: ${look.radius}px;`;
     background: var(--look-accent);
   }
 
+  /* The corner button and its caption; the caption sits on the side facing the page. */
+  .look__button {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    justify-self: start;
+  }
+
+  .look--right .look__button {
+    justify-self: end;
+  }
+
+  .look--left .look__button {
+    flex-direction: row-reverse;
+  }
+
+  .look__button-label {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
   .look__launcher {
+    flex: none;
     width: 40px;
     height: 40px;
     background: var(--look-accent);
-  }
-
-  .look--right .look__launcher {
-    justify-self: end;
   }
 
   .look__launcher--circle {
