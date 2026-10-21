@@ -5,7 +5,7 @@
  */
 export interface Link {
   label: string;
-  /** Site-relative page or anchor ('#contact', 'foxdesk/#demo'); pass through withBase(). */
+  /** Site-relative page or anchor ('#contact', 'foxdesk/'); pass through withBase(). */
   href: string;
 }
 
@@ -39,34 +39,27 @@ export const hero = {
   emphasis: 'your website.',
   lead: 'Visitors ask in plain words and get a short answer from your own pages, with a link to where it came from. Add it to your site with one line of code.',
   primary: { label: 'Get FoxDesk', href: '#contact' } satisfies Link,
-  secondary: { label: 'See it live', href: 'foxdesk/#demo' } satisfies Link,
+  /** Opens the chat on this page (shown once the widget has loaded). */
+  tryButton: 'Try it now',
+  tryHint: 'The chat in the corner of this page is FoxDesk, set up for HexaFox. It answers from this website and nothing else.',
 };
 
-export const demo = {
-  eyebrow: 'Live demo',
-  title: 'You’re looking at it',
-  intro: 'The chat in the corner of this page is FoxDesk, set up for HexaFox. It answers from this website and nothing else.',
-  button: 'Open the chat',
-  where: 'Look for the Ask HexaFox button in the bottom-right corner of the page.',
-  tryLabel: 'Try asking',
-  questions: ['What AI services do you offer?', 'Who are the founders?', 'Why the name HexaFox?'],
-};
-
+/** The three steps, each drawn as a small picture (see HowItWorks.astro). */
 export const steps = {
   eyebrow: 'How it works',
   title: 'Live on your site in three steps',
   items: [
     {
       title: 'We read your site',
-      text: 'We go through your public pages and PDFs, plus any facts you give us, and turn them into knowledge the assistant can search.',
+      text: 'Your public pages and PDFs, plus any facts you give us, become knowledge the assistant can search.',
     },
     {
       title: 'You add one line of code',
-      text: 'Paste a single script tag into your site. It works anywhere you can add HTML, and the chat only loads when someone opens it.',
+      text: 'Paste one script tag into any site where you can add HTML. The chat loads only when someone opens it.',
     },
     {
       title: 'Visitors get answers with sources',
-      text: 'Each answer is a few sentences from your content, with links to the exact section it came from.',
+      text: 'A few sentences from your content, with a link to the section each answer came from.',
     },
   ] satisfies TitledText[],
   snippetLabel: 'The one line you add',
@@ -79,39 +72,19 @@ export const features = {
   items: [
     {
       title: 'Answers only from your content',
-      text: 'It writes every answer from your own pages, not from what an AI model happens to know.',
-    },
-    {
-      title: 'Shows its sources',
-      text: 'Answers cite where they came from, and each citation links to that section of your site.',
-    },
-    {
-      title: 'Says “I don’t know”',
-      text: 'When your content doesn’t cover a question, it says so and points the visitor to your contact page instead of guessing.',
+      text: 'Every answer is written from your own pages. When they don’t cover a question, it says so and points to your contact page instead of guessing.',
     },
     {
       title: 'Looks like your brand',
       text: 'Your colours, logo and name, with your own greeting and starter questions.',
     },
     {
-      title: 'Keeps bots and abuse out',
-      text: 'An invisible Cloudflare Turnstile check and per-visitor and daily limits keep it from being misused or running up costs.',
+      title: 'Safe and private',
+      text: 'An invisible bot check and daily limits stop misuse and runaway costs. Conversations aren’t stored.',
     },
     {
       title: 'Stays up to date',
       text: 'It re-reads your site every day, and can refresh right after you publish a change.',
-    },
-    {
-      title: 'Doesn’t keep conversations',
-      text: 'Questions aren’t stored. Logs keep only technical details, such as which model answered and how long it took.',
-    },
-    {
-      title: 'Light on your page',
-      text: 'The button is a small script. The chat itself loads only when a visitor opens it.',
-    },
-    {
-      title: 'Your cloud or ours',
-      text: 'Each site gets its own assistant on Cloudflare: run by us, or in your own Cloudflare account.',
     },
   ] satisfies TitledText[],
 };
