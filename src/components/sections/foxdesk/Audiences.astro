@@ -1,6 +1,5 @@
 ---
-/** Who FoxDesk is for: three kinds of organisation and the questions it takes off their hands, as one light row. */
-import HexMarker from '@components/ui/HexMarker.astro';
+/** Who FoxDesk is for: a row of example kinds of business (not a limit), then the one test that matters. */
 import SectionHeader from '@components/ui/SectionHeader.astro';
 import { audiences } from '@data/foxdesk';
 ---
@@ -8,46 +7,31 @@ import { audiences } from '@data/foxdesk';
 <section id="for-who" class="section" aria-labelledby="audiences-title">
   <div class="container">
     <SectionHeader id="audiences-title" eyebrow={audiences.eyebrow} title={audiences.title} />
-    <ul class="audiences">
-      {
-        audiences.items.map((audience, i) => (
-          <li data-reveal style={`--reveal-delay: ${i * 80}ms`}>
-            <h3>
-              <HexMarker size="sm" />
-              {audience.title}
-            </h3>
-            <p>{audience.text}</p>
-          </li>
-        ))
-      }
+    <ul class="audiences" data-reveal>
+      {audiences.items.map((item) => <li>{item}</li>)}
     </ul>
+    <p class="audiences__text" data-reveal>{audiences.text}</p>
   </div>
 </section>
 
 <style>
   .audiences {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-    gap: var(--space-6);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
   }
 
   li {
-    display: grid;
-    align-content: start;
-    gap: var(--space-2);
-    padding-left: var(--space-4);
-    border-left: 2px solid var(--color-line-strong);
-  }
-
-  h3 {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: 1.1rem;
-  }
-
-  p {
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
     font-size: var(--text-sm);
+  }
+
+  .audiences__text {
+    max-width: 44rem;
     color: var(--color-text-muted);
   }
 </style>

@@ -1,8 +1,12 @@
 ---
-/** Three steps from "we read your site" to answers, each with a small picture, then the script tag a client adds. */
+/**
+ * Three steps from "we read your site" to answers, each with a small picture, then the script tag a
+ * client adds and the sites it works on.
+ */
 import SectionHeader from '@components/ui/SectionHeader.astro';
 import HexMarker from '@components/ui/HexMarker.astro';
 import EmbedSnippet from './EmbedSnippet.astro';
+import Sites from './Sites.astro';
 import StepArt from './StepArt.astro';
 import { steps } from '@data/foxdesk';
 
@@ -29,6 +33,7 @@ const art = ['read', 'embed', 'answer'] as const;
       }
     </ol>
     <EmbedSnippet label={steps.snippetLabel} code={steps.snippet} />
+    <Sites />
   </div>
 </section>
 
