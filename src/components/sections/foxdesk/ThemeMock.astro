@@ -4,7 +4,7 @@
  * sets (light/dark preset, accent, corner radius, button shape and side). The light and dark
  * colours match the widget's own presets. Decorative: the parent figure carries the label.
  */
-import { chatButtonLabel, type ThemeLook } from '@data/foxdesk';
+import type { ThemeLook } from '@data/foxdesk';
 
 interface Props {
   look: ThemeLook;
@@ -31,8 +31,12 @@ const style = `--look-accent: ${look.accent}; --look-radius: ${look.radius}px;`;
     </div>
   </div>
   <span class="look__button">
-    <span class="look__button-label">{chatButtonLabel}</span>
-    <span class:list={['look__launcher', `look__launcher--${look.launcher}`]}></span>
+    <span class="look__button-label">{look.title}</span>
+    <span class:list={['look__launcher', `look__launcher--${look.launcher}`]}>
+      <svg viewBox="0 0 24 24"
+        ><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-4.5 3.5V17H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"></path></svg
+      >
+    </span>
   </span>
 </div>
 
@@ -140,12 +144,13 @@ const style = `--look-accent: ${look.accent}; --look-radius: ${look.radius}px;`;
     background: var(--look-accent);
   }
 
-  /* The corner button and its caption; the caption sits on the side facing the page. */
+  /* The corner button as the widget draws it: a name pill beside the shape (chat icon inside). */
   .look__button {
     display: flex;
     align-items: center;
     gap: var(--space-2);
     justify-self: start;
+    filter: drop-shadow(0 8px 16px rgb(0 0 0 / 0.5));
   }
 
   .look--right .look__button {
@@ -157,15 +162,32 @@ const style = `--look-accent: ${look.accent}; --look-radius: ${look.radius}px;`;
   }
 
   .look__button-label {
+    padding: 0.35em 0.85em;
+    border: 1px solid var(--look-accent);
+    border-radius: var(--radius-pill);
+    background: var(--look-surface);
+    color: var(--look-text);
     font-size: 0.75rem;
-    color: var(--color-text-muted);
+    font-weight: 500;
   }
 
   .look__launcher {
+    display: grid;
+    place-items: center;
     flex: none;
     width: 40px;
     height: 40px;
     background: var(--look-accent);
+    color: #fff;
+  }
+
+  .look__launcher svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linejoin: round;
   }
 
   .look__launcher--circle {
