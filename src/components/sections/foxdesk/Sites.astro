@@ -1,0 +1,48 @@
+---
+/** Under "How it works": FoxDesk on a client's existing site or a new one HexaFox builds, and what it can read. */
+import InfoCard from './InfoCard.astro';
+import { sites } from '@data/foxdesk';
+import { withBase } from '@lib/url';
+---
+
+<div class="sites">
+  <h3 data-reveal>{sites.title}</h3>
+  <ul class="sites__cards">
+    {sites.items.map((item, i) => <InfoCard item={item} index={i} />)}
+  </ul>
+  <p class="sites__note" data-reveal>
+    {sites.note}
+    <a href={withBase(sites.link.href)}>{sites.link.label} →</a>
+  </p>
+</div>
+
+<style>
+  .sites {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+  }
+
+  h3 {
+    font-size: var(--text-xl);
+  }
+
+  .sites__cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: var(--space-4);
+  }
+
+  .sites__note {
+    max-width: 48rem;
+    font-size: var(--text-sm);
+    color: var(--color-text-faint);
+  }
+
+  a {
+    display: inline-block;
+    margin-top: var(--space-2);
+    color: var(--color-lavender);
+    font-weight: 500;
+  }
+</style>

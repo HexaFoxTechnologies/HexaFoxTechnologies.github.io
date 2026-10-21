@@ -14,6 +14,23 @@ export interface TitledText {
   text: string;
 }
 
+/** One of the example looks in "Make it yours": options a client really sets in FoxDesk's config. */
+export interface ThemeLook {
+  title: string;
+  greeting: string;
+  starter: string;
+  preset: 'light' | 'dark';
+  accent: string;
+  radius: number;
+  launcher: 'circle' | 'hexagon';
+  position: 'left' | 'right';
+}
+
+export interface Group {
+  title: string;
+  items: string[];
+}
+
 export interface Plan {
   id: string;
   name: string;
@@ -75,8 +92,8 @@ export const features = {
       text: 'Every answer is written from your own pages. When they don’t cover a question, it says so and points to your contact page instead of guessing.',
     },
     {
-      title: 'Looks like your brand',
-      text: 'Your colours, logo and name, with your own greeting and starter questions.',
+      title: 'Speaks your visitors’ language',
+      text: 'Visitors can ask in Tamil, Hindi, English and other languages, and get the answer in the language they asked in, even when your site is in English.',
     },
     {
       title: 'Safe and private',
@@ -89,23 +106,84 @@ export const features = {
   ] satisfies TitledText[],
 };
 
+/** What a client can change. Each item maps to a real setting in a FoxDesk client config. */
+export const customise = {
+  eyebrow: 'Make it yours',
+  title: 'Your look, your words, your rules',
+  intro: 'Every FoxDesk is set up for one site. Three looks from the same assistant:',
+  looks: [
+    {
+      title: 'Ask HexaFox',
+      greeting: 'Hi! Ask me about what we do, who we are or how we work.',
+      starter: 'Who are the founders?',
+      preset: 'dark',
+      accent: '#7347e6',
+      radius: 22,
+      launcher: 'hexagon',
+      position: 'right',
+    },
+    {
+      title: 'Spice Route Café',
+      greeting: 'Hello! Ask about our menu, timings or how to book a table.',
+      starter: 'Are you open on Sunday?',
+      preset: 'light',
+      accent: '#0f766e',
+      radius: 8,
+      launcher: 'circle',
+      position: 'left',
+    },
+    {
+      title: 'Sunrise College',
+      greeting: 'வணக்கம்! சேர்க்கை, படிப்புகள் பற்றி கேளுங்கள்.',
+      starter: 'B.Sc சேர்க்கை எப்போது?',
+      preset: 'light',
+      accent: '#c2410c',
+      radius: 18,
+      launcher: 'circle',
+      position: 'right',
+    },
+  ] satisfies ThemeLook[],
+  looksLabel: 'Three example chat windows: a dark violet one with a hexagon button, a light teal one with square corners and its button on the left, and a light orange one greeting visitors in Tamil.',
+  groups: [
+    { title: 'Look', items: ['Your colours, light or dark', 'Your logo and font', 'Round or square corners', 'A round or hexagon button, left or right'] },
+    { title: 'Words', items: ['Its name and greeting', 'Up to six starter questions', 'The note visitors see under the chat'] },
+    { title: 'What it reads', items: ['Which pages and sections, and which to skip', 'Your PDFs', 'Extra facts you send us'] },
+    { title: 'Rules', items: ['Things it must never guess, like prices or dates', 'Extra rules, like “no medical advice”', 'Where to send people who want to talk', 'Daily question limits'] },
+  ] satisfies Group[],
+};
+
+/** Works on the client's current site, or on a new one HexaFox builds. */
+export const sites = {
+  title: 'On the site you have, or a new one we build',
+  items: [
+    {
+      title: 'Your existing site',
+      text: 'Add one line of code to any site where you can add HTML. Nothing else on your site changes.',
+    },
+    {
+      title: 'A new site from us',
+      text: 'Need a new website too? We design and build it, with FoxDesk set up from day one.',
+    },
+  ] satisfies TitledText[],
+  link: { label: 'See our web services', href: '#services' } satisfies Link,
+  note: 'FoxDesk reads the text on your public pages and PDFs. Pages behind a login, and text that only appears inside images, need to reach us another way, such as a note or a document.',
+};
+
+/** Who it's for: examples, not a limit. Kinds of business whose sites answer the same questions daily. */
 export const audiences = {
   eyebrow: 'Who it’s for',
   title: 'For anyone who answers the same questions every day',
   items: [
-    {
-      title: 'Colleges',
-      text: 'Courses, admissions, eligibility and campus facilities, answered from your website and prospectus PDFs.',
-    },
-    {
-      title: 'Clinics',
-      text: 'Timings, departments, doctors and how to book. We set it to stick to your site and stay away from medical advice.',
-    },
-    {
-      title: 'Service businesses',
-      text: 'What you offer, where you work and how to get a quote, with a nudge to your contact page when someone is ready to talk.',
-    },
-  ] satisfies TitledText[],
+    'Shops and online stores',
+    'Restaurants and cafés',
+    'Clinics and hospitals',
+    'Colleges, schools and coaching centres',
+    'Hotels and travel',
+    'Real estate',
+    'Salons and gyms',
+    'Service businesses',
+  ],
+  text: 'If your website already answers the questions visitors keep asking, such as timings, prices, services or how to book, FoxDesk can answer them for you, day and night.',
 };
 
 export const plans = {
@@ -159,8 +237,8 @@ export const faq = {
       text: 'It can, like any AI. It’s told to answer only from your content and to say when it doesn’t know, every answer shows its sources so visitors can check, and the chat reminds visitors that AI answers might not always be accurate. Before launch we test it against the questions your visitors really ask.',
     },
     {
-      title: 'Do I need to change my website?',
-      text: 'No. You add one line of code, and it works on any site where you can add HTML.',
+      title: 'Which languages does it speak?',
+      text: 'Visitors can ask in their own language and get the answer in it, even when your site is in English. We’ve tested Tamil, Hindi and English. Tamil typed in English letters (Tanglish) is less reliable today.',
     },
     {
       title: 'What does it cost?',

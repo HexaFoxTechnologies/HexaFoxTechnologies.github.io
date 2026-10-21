@@ -1,0 +1,158 @@
+---
+/**
+ * A small FoxDesk chat window in one client's look, built from the same options a client config
+ * sets (light/dark preset, accent, corner radius, button shape and side). The light and dark
+ * colours match the widget's own presets. Decorative: the parent figure carries the label.
+ */
+import type { ThemeLook } from '@data/foxdesk';
+
+interface Props {
+  look: ThemeLook;
+}
+
+const { look } = Astro.props;
+const style = `--look-accent: ${look.accent}; --look-radius: ${look.radius}px;`;
+---
+
+<div class:list={['look', `look--${look.preset}`, `look--${look.position}`]} style={style} aria-hidden="true">
+  <div class="look__window">
+    <div class="look__bar">
+      <span class="look__badge">{look.title.charAt(0)}</span>
+      <strong>{look.title}</strong>
+      <svg class="look__close" viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"></path></svg>
+    </div>
+    <div class="look__body">
+      <p class="look__msg">{look.greeting}</p>
+      <span class="look__chip">{look.starter}</span>
+    </div>
+    <div class="look__input">
+      <span>Ask a question…</span>
+      <span class="look__send"></span>
+    </div>
+  </div>
+  <span class:list={['look__launcher', `look__launcher--${look.launcher}`]}></span>
+</div>
+
+<style>
+  /* The widget's presets (packages/widget/src/shared/theme.ts in FoxDesk). */
+  .look--light {
+    --look-surface: #ffffff;
+    --look-text: #1d1b26;
+  }
+
+  .look--dark {
+    --look-surface: #17132a;
+    --look-text: #eeeaf8;
+  }
+
+  .look {
+    display: grid;
+    gap: var(--space-3);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+  }
+
+  .look__window {
+    display: grid;
+    overflow: hidden;
+    border-radius: var(--look-radius);
+    background: var(--look-surface);
+    color: var(--look-text);
+    box-shadow: 0 24px 48px -28px rgb(0 0 0 / 0.9);
+    outline: 1px solid color-mix(in srgb, var(--look-text) 14%, transparent);
+  }
+
+  .look__bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    border-bottom: 1px solid color-mix(in srgb, var(--look-text) 12%, var(--look-surface));
+  }
+
+  .look__badge {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--look-accent);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .look__bar strong {
+    flex: 1;
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+
+  .look__close {
+    width: 12px;
+    height: 12px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    opacity: 0.6;
+  }
+
+  .look__body {
+    display: grid;
+    gap: var(--space-3);
+    min-height: 118px;
+    align-content: start;
+    padding: var(--space-3);
+  }
+
+  .look__msg {
+    padding: var(--space-2) var(--space-3);
+    border-radius: calc(var(--look-radius) * 0.6);
+    background: color-mix(in srgb, var(--look-surface) 92%, var(--look-text));
+  }
+
+  .look__chip {
+    justify-self: start;
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid color-mix(in srgb, var(--look-accent) 55%, transparent);
+    border-radius: 999px;
+    color: color-mix(in srgb, var(--look-accent) 70%, var(--look-text));
+  }
+
+  .look__input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 var(--space-3) var(--space-3);
+    padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3);
+    border: 1px solid color-mix(in srgb, var(--look-text) 18%, var(--look-surface));
+    border-radius: calc(var(--look-radius) * 0.6);
+    color: color-mix(in srgb, var(--look-text) 55%, var(--look-surface));
+  }
+
+  .look__send {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--look-accent);
+  }
+
+  .look__launcher {
+    width: 40px;
+    height: 40px;
+    background: var(--look-accent);
+  }
+
+  .look--right .look__launcher {
+    justify-self: end;
+  }
+
+  .look__launcher--circle {
+    border-radius: 50%;
+  }
+
+  .look__launcher--hexagon {
+    height: 44px;
+    clip-path: var(--hex);
+  }
+</style>
