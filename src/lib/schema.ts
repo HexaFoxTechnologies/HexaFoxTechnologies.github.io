@@ -4,6 +4,7 @@
  */
 import { site } from '@data/site';
 import { team } from '@data/team';
+import { priceInr } from '@data/foxdesk';
 
 type Schema = Record<string, unknown>;
 
@@ -55,5 +56,16 @@ export function foxdeskApp(home: string, description: string): Schema {
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
     publisher: { '@id': orgId(home) },
+    offers: {
+      '@type': 'Offer',
+      name: 'FoxDesk Managed',
+      price: priceInr.monthly,
+      priceCurrency: 'INR',
+      priceSpecification: [
+        { '@type': 'UnitPriceSpecification', price: priceInr.monthly, priceCurrency: 'INR', unitCode: 'MON', valueAddedTaxIncluded: false },
+        { '@type': 'UnitPriceSpecification', price: priceInr.yearly, priceCurrency: 'INR', unitCode: 'ANN', valueAddedTaxIncluded: false },
+        { '@type': 'PriceSpecification', name: 'One-time setup', price: priceInr.setup, priceCurrency: 'INR', valueAddedTaxIncluded: false },
+      ],
+    },
   };
 }

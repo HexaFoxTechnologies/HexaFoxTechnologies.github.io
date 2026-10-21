@@ -1,0 +1,123 @@
+---
+/** The one offer, fully managed: setup fee and monthly price, then what each covers. */
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import Button from '@components/ui/Button.astro';
+import PriceGroup from './PriceGroup.astro';
+import { pricing } from '@data/foxdesk';
+import { withBase } from '@lib/url';
+---
+
+<section id="pricing" class="section section--tinted" aria-labelledby="pricing-title">
+  <div class="container">
+    <SectionHeader id="pricing-title" eyebrow={pricing.eyebrow} title={pricing.title} intro={pricing.intro} />
+    <article class="price-card" data-reveal>
+      <div class="price-card__summary">
+        <h3>{pricing.name}</h3>
+        <dl class="price-card__prices">
+          {
+            pricing.prices.map((price) => (
+              <div>
+                <dt>{price.label}</dt>
+                <dd>{price.amount}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <p class="price-card__annual">{pricing.annual}</p>
+        <p class="price-card__addon">{pricing.addOn}</p>
+        <p class="price-card__tax">{pricing.tax}</p>
+        <Button href={withBase(pricing.cta.href)}>{pricing.cta.label}</Button>
+      </div>
+      <div class="price-card__groups">
+        {pricing.groups.map((group) => <PriceGroup group={group} />)}
+      </div>
+    </article>
+    <p class="price-extras" data-reveal>{pricing.extras}</p>
+  </div>
+</section>
+
+<style>
+  .price-card {
+    display: grid;
+    grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+    gap: clamp(1.5rem, 1rem + 3vw, 3.5rem);
+    padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    border: 1px solid rgb(139 92 246 / 0.55);
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(circle at 0% 0%, rgb(139 92 246 / 0.16), transparent 55%),
+      var(--color-surface);
+  }
+
+  .price-card__summary {
+    display: grid;
+    align-content: start;
+    justify-items: start;
+    gap: var(--space-3);
+  }
+
+  h3 {
+    font-size: var(--text-xl);
+  }
+
+  .price-card__prices {
+    display: grid;
+    gap: var(--space-3);
+    margin: var(--space-2) 0 0;
+  }
+
+  /* The amount reads first, its label underneath. */
+  .price-card__prices div {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  dt {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  dd {
+    margin: 0;
+    font-size: var(--text-2xl);
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  .price-card__annual {
+    color: var(--color-lavender);
+    font-size: var(--text-sm);
+  }
+
+  .price-card__addon {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    background: rgb(139 92 246 / 0.1);
+    font-size: var(--text-sm);
+  }
+
+  .price-card__tax {
+    margin-bottom: var(--space-3);
+    color: var(--color-text-faint);
+    font-size: var(--text-xs);
+  }
+
+  .price-card__groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: var(--space-6);
+  }
+
+  .price-extras {
+    max-width: 48rem;
+    margin-top: var(--space-5);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  @media (max-width: 760px) {
+    .price-card {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

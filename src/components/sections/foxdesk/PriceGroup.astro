@@ -1,0 +1,54 @@
+---
+/** One titled list in the pricing card, e.g. what setup includes. */
+import HexMarker from '@components/ui/HexMarker.astro';
+import type { Group } from '@data/foxdesk';
+
+interface Props {
+  group: Group;
+}
+
+const { group } = Astro.props;
+---
+
+<div class="price-group">
+  <h4>{group.title}</h4>
+  <ul>
+    {
+      group.items.map((item) => (
+        <li>
+          <HexMarker size="sm" />
+          {item}
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .price-group {
+    display: grid;
+    align-content: start;
+    gap: var(--space-3);
+  }
+
+  h4 {
+    font-size: 1.05rem;
+  }
+
+  ul {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: var(--space-3);
+    align-items: start;
+    font-size: var(--text-sm);
+  }
+
+  li > :global(.hex-marker) {
+    margin-top: 2px;
+  }
+</style>

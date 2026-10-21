@@ -1,7 +1,7 @@
 /**
  * FoxDesk, HexaFox's own product: the /foxdesk/ page and the "Our product" band on the home page.
- * Claim only what FoxDesk does today (private repo HexaFoxTechnologies/foxdesk). No prices, no
- * client names, no usage numbers.
+ * Claim only what FoxDesk does today (private repo HexaFoxTechnologies/foxdesk). Prices only in
+ * `pricing` (agreed with the founders, 2026-10-21). No client names, no usage numbers.
  */
 export interface Link {
   label: string;
@@ -31,12 +31,9 @@ export interface Group {
   items: string[];
 }
 
-export interface Plan {
-  id: string;
-  name: string;
-  tagline: string;
-  points: string[];
-  featured?: boolean;
+export interface Price {
+  amount: string;
+  label: string;
 }
 
 /** The chat-window illustration: one real question and answer about this site. */
@@ -93,7 +90,7 @@ export const features = {
     },
     {
       title: 'Speaks your visitors’ language',
-      text: 'Visitors can ask in Tamil, Hindi, English and other languages, and get the answer in the language they asked in, even when your site is in English.',
+      text: 'Visitors can ask in English, Tamil, Hindi or even Tanglish, and get the answer in their own language, even when your site is in English.',
     },
     {
       title: 'Safe and private',
@@ -186,38 +183,49 @@ export const audiences = {
   text: 'If your website already answers the questions visitors keep asking, such as timings, prices, services or how to book, FoxDesk can answer them for you, day and night.',
 };
 
-export const plans = {
-  eyebrow: 'Plans',
-  title: 'Two ways to run it',
-  intro: 'Pricing depends on your site and your traffic, so we quote after a short call.',
-  cta: { label: 'Talk to us', href: '#contact' } satisfies Link,
-  featuredLabel: 'Recommended',
-  items: [
+/** FoxDesk Managed prices in rupees, before GST. Also used by the page's structured data. */
+export const priceInr = { setup: 14999, monthly: 2499, yearly: 24990, extraQuestions: 1499 };
+const inr = (amount: number) => `₹${amount.toLocaleString('en-IN')}`;
+
+/** The one offer: fully managed. Prices exclude GST. "500 questions a day" is the client's limits.dailyTotal. */
+export const pricing = {
+  eyebrow: 'Pricing',
+  title: 'One plan. We do everything.',
+  intro: 'Tell us about your site. We set up FoxDesk, run it and keep it up to date, so you don’t have to touch a thing.',
+  name: 'FoxDesk Managed',
+  prices: [
+    { amount: inr(priceInr.setup), label: 'one-time setup' },
+    { amount: inr(priceInr.monthly), label: 'a month' },
+  ] satisfies Price[],
+  annual: `Or ${inr(priceInr.yearly)} a year: two months free.`,
+  addOn: `Includes up to 500 questions a day. Busier site? Each extra 500 a day is ${inr(priceInr.extraQuestions)} a month, so up to 1,000 a day is ${inr(priceInr.monthly + priceInr.extraQuestions)} a month.`,
+  tax: 'Prices exclude GST.',
+  cta: { label: 'Get FoxDesk', href: '#contact' } satisfies Link,
+  groups: [
     {
-      id: 'managed',
-      name: 'Managed',
-      tagline: 'We set up and run everything.',
-      featured: true,
-      points: [
-        'We read your site, review what it found and tune the answers',
+      title: 'Setup, once',
+      items: [
+        'We read your site, your PDFs and any facts you send us',
         'Your colours, logo, name, greeting and starter questions',
-        'Hosting, AI models, bot checks and limits set up for you',
-        'Knowledge refreshed when your site changes',
-        'Changes and support when you need them',
+        'Tested with the questions your visitors really ask, before launch',
+        'Live on your site with one line of code',
       ],
     },
     {
-      id: 'self-hosted',
-      name: 'Self-hosted',
-      tagline: 'For teams that need their data in their own cloud.',
-      points: [
-        'Runs in your own Cloudflare account',
-        'Uses your own AI provider keys',
-        'We set it up with you',
-        'Annual licence: ask us',
+      title: 'Every month',
+      items: [
+        'Up to 500 questions a day included',
+        'Knowledge refreshed every day, and right after you publish a change',
+        'Answers in your visitors’ language',
+        'Your brand only, no FoxDesk badge',
+        'Up to two small changes a month, like new starter questions or rules',
+        'Hosting, AI models, bot checks and limits included',
+        'A reply from us within one working day',
       ],
     },
-  ] satisfies Plan[],
+  ] satisfies Group[],
+  extras:
+    'Quoted separately, if you need them: another website, very large sites (over about 200 pages or 20 PDFs), pages behind a login and scanned PDFs.',
 };
 
 export const faq = {
@@ -226,7 +234,7 @@ export const faq = {
   items: [
     {
       title: 'Where is my data?',
-      text: 'The knowledge built from your site lives with your assistant on Cloudflare, in our account or yours. Conversations aren’t stored. To write an answer, the question and the matching parts of your site are sent to the AI provider, so we agree the providers with you up front.',
+      text: 'The knowledge built from your site lives with your assistant in our Cloudflare account. Conversations aren’t stored. To write an answer, the question and the matching parts of your site are sent to the AI provider, so we agree the providers with you up front.',
     },
     {
       title: 'Which AI does it use?',
@@ -238,11 +246,11 @@ export const faq = {
     },
     {
       title: 'Which languages does it speak?',
-      text: 'Visitors can ask in their own language and get the answer in it, even when your site is in English. We’ve tested Tamil, Hindi and English. Tamil typed in English letters (Tanglish) is less reliable today.',
+      text: 'Visitors can ask in their own language and get the answer in it, even when your site is in English. We’ve tested English, Tamil, Hindi and Tanglish (Tamil typed in English letters). Tanglish questions are answered in Tamil script, and finding the right answer for them is less reliable today. Other languages usually work too, and we test the ones you need before launch.',
     },
     {
       title: 'What does it cost?',
-      text: 'It depends on the size of your site and how many questions it gets. Talk to us and we’ll give you a clear quote.',
+      text: `${inr(priceInr.setup)} once for setup, then ${inr(priceInr.monthly)} a month, or ${inr(priceInr.yearly)} a year (two months free). Prices exclude GST. That covers up to 500 questions a day; each extra 500 a day is ${inr(priceInr.extraQuestions)} a month.`,
     },
   ] satisfies TitledText[],
 };
