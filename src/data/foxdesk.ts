@@ -39,7 +39,7 @@ export interface Price {
 /** The chat-window illustration: one real question and answer about this site. */
 export const chatMock = {
   title: 'Ask HexaFox',
-  subtitle: 'AI answers from our website',
+  subtitle: 'Runs on FoxDesk · answers from our site',
   question: 'Do you build AI chatbots?',
   answer: 'Yes. We build assistants that answer from your own documents and data, not from guesswork.',
   source: 'Services · AI solutions',
