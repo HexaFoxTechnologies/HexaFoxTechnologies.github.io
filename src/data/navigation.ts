@@ -5,11 +5,11 @@ export interface NavLink {
 }
 
 export const navLinks: NavLink[] = [
-  { label: 'Story', href: 'story/' },
   { label: 'Services', href: '#services' },
   { label: 'FoxDesk', href: 'foxdesk/' },
   { label: 'How we work', href: '#process' },
   { label: 'Team', href: '#team' },
+  { label: 'Our story', href: 'story/' },
 ];
 
 export const contactLink: NavLink = { label: 'Talk to us', href: '#contact' };
