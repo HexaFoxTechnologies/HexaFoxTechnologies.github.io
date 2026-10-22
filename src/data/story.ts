@@ -72,7 +72,7 @@ export const chapters: StoryChapter[] = [
     media: {
       kind: 'photo',
       src: groupPhoto,
-      alt: 'The six HexaFox founders taking a selfie together at night.',
+      alt: 'A hand-drawn illustration of the six HexaFox founders taking a selfie together.',
     },
   },
 ];
