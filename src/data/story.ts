@@ -31,7 +31,7 @@ export const chapters: StoryChapter[] = [
     id: 'hostel-room',
     title: 'It started in someone else’s room',
     paragraphs: [
-      'Six of us studied Computer Science at Sri Ramakrishna Institute of Technology, Coimbatore. We weren’t roommates. We lived in different rooms, but each of us, for our own reasons, kept ending up in the same hostel room.',
+      'Six of us studied Computer Science at the same college in Coimbatore. We weren’t roommates. We lived in different rooms, but each of us, for our own reasons, kept ending up in the same hostel room.',
       'Somewhere between the late nights and the endless conversations, that room became ours, and the six of us became a team.',
     ],
     media: {

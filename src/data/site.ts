@@ -12,7 +12,6 @@ export const site = {
   location: 'Coimbatore, Tamil Nadu, India',
   responseTime: '2 working days',
   groupName: 'Nanga Nari Kootam',
-  college: 'Sri Ramakrishna Institute of Technology',
   github: 'https://github.com/HexaFoxTechnologies',
   web3formsKey: import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '',
   /** Google Search Console ownership code (public; shown in every page's source). */
