@@ -83,6 +83,27 @@ faces, stock-photo people, neon cyberpunk clutter, rainbow colours.
 
 ---
 
+## 6. Team section: the six hexagon pieces
+Six square pictures, one per skill, each cropped into one piece of the big hexagon around the logo. The site
+adds a violet tint and rim on top, so a moody, mostly monochrome photo works best. Keep the main subject in the
+middle third, since the edges get cut off by the piece shape.
+
+- **Files:** `team-piece-ai.png`, `team-piece-frontend.png`, `team-piece-cloud.png`, `team-piece-data.png`, `team-piece-design.png`, `team-piece-consulting.png`
+- **Size / ratio:** 1200 × 1200 (1:1), all six in one session so the lighting matches
+- **Used in:** Home → "Six skills. One complete team." Save each file into `src/assets/images/` with its exact name
+  and the site picks it up automatically; until then that piece shows a violet placeholder.
+- **Shared start for all six:**
+  > Cinematic close-up photograph, deep midnight indigo shadows with violet and lavender light, shallow depth
+  > of field, soft film grain, calm and premium. Mostly monochrome violet. No readable text, no logos, no
+  > faces.
+- **AI (`team-piece-ai.png`):** > …a translucent glass brain made of fine glowing circuit lines, floating in the dark, tiny points of light along its paths.
+- **Frontend (`team-piece-frontend.png`):** > …a laptop seen at an angle on a desk at night, its screen showing blurred lines of code and a simple web layout, lit by the screen's glow.
+- **Cloud & support (`team-piece-cloud.png`):** > …a row of server racks in a dark data centre, small status lights glowing violet, perspective leading into the distance.
+- **Data (`team-piece-data.png`):** > …a large curved monitor wall with blurred dashboards and bar charts, glowing lines of data, seen from slightly below.
+- **Design (`team-piece-design.png`):** > …hand-drawn wireframe sketches of app screens on paper, a pen resting on them, seen from above under a soft desk lamp.
+- **Consulting (`team-piece-consulting.png`):** > …two people at a meeting table seen from behind and out of focus, hands over a notebook and a laptop, a whiteboard of sticky notes in the background. No faces visible.
+- **End every prompt with:** the Style block's "Avoid" list (no text, no logos, no realistic faces).
+
 ## Optional (nice to have)
 - **`og-cover.png`**: already generated from the logo by `tools/make_brand_assets.py`.
   No prompt needed.

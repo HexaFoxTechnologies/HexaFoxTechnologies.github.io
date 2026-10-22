@@ -1,0 +1,324 @@
+---
+/**
+ * The Team section without names or photos: text and a link to the story on the left; on the right one hexagon
+ * split into six picture pieces (one per co-founder's skill) around the HexaFox mark, each labelled outside.
+ * A piece without its image yet shows a violet placeholder with its icon (images: see teamSkills.ts).
+ */
+import { Image, getImage } from 'astro:assets';
+import mark from '@assets/brand/logo-mark.png';
+import Button from '@components/ui/Button.astro';
+import SkillIcon from '@components/ui/SkillIcon.astro';
+import TeamPhoneList from './TeamPhoneList.astro';
+import { skillCards } from '@data/teamSkills';
+import { teamStory } from '@data/team';
+import { hexCorners, percent, polar, shrink, toPoints, type Point } from '@lib/hexGeometry';
+import { withBase } from '@lib/url';
+
+const W = 760;
+const H = 600;
+const C: Point = { x: W / 2, y: H / 2 };
+const R = 200;
+const r = 72;
+const outer = hexCorners(C, R);
+const inner = hexCorners(C, r);
+const mid = (a: Point, b: Point): Point => ({ x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 });
+
+const angleFor: Record<string, number> = { ai: 0, data: 60, design: 120, consulting: 180, cloud: 240, frontend: 300 };
+
+const pieces = await Promise.all(
+  skillCards.map(async (card, order) => {
+    const angle = angleFor[card.icon];
+    const i = angle / 60;
+    const prev = (i + 5) % 6;
+    const next = (i + 1) % 6;
+    const shape = shrink(
+      [mid(inner[prev], inner[i]), inner[i], mid(inner[i], inner[next]), mid(outer[i], outer[next]), outer[i], mid(outer[prev], outer[i])],
+      0.95,
+    );
+    const xs = shape.map((p) => p.x);
+    const ys = shape.map((p) => p.y);
+    const box = { x: Math.min(...xs), y: Math.min(...ys), w: Math.max(...xs) - Math.min(...xs), h: Math.max(...ys) - Math.min(...ys) };
+    const iconAt = polar(C, (r + R) / 2 + 8, angle);
+    // Labels sit just outside the outer corner: above, below, or to the side facing out.
+    const side = angle === 0 ? 'above' : angle === 180 ? 'below' : angle < 180 ? 'right' : 'left';
+    const corner = outer[i];
+    const labelAt =
+      side === 'above' ? { x: corner.x, y: corner.y - 16 } : side === 'below' ? { x: corner.x, y: corner.y + 16 } : { x: corner.x + (side === 'right' ? 24 : -24), y: corner.y };
+    const img = card.image ? (await getImage({ src: card.image, width: 640, format: 'webp' })).src : undefined;
+    return { card, order, points: toPoints(shape), box, iconAt, side, labelAt, img, id: `split-${card.icon}` };
+  }),
+);
+---
+
+<div class="split">
+  <div class="split__copy" data-reveal>
+    <p class="eyebrow">The pack</p>
+    <h2 id="team-title" class="split__title">Six skills.<br /><span>One complete team.</span></h2>
+    <p class="split__lead">
+      From AI and data to design, cloud and delivery, our six co-founders cover every side of a project, so an idea
+      becomes a working product without hand-offs to strangers.
+    </p>
+    <p class="split__story">{teamStory.text}</p>
+    <Button href={withBase(teamStory.href)}>{teamStory.label} →</Button>
+  </div>
+
+  <div class="split__art" data-reveal>
+    <div class="split__stage" style={`aspect-ratio: ${W} / ${H}`}>
+      <svg viewBox={`0 0 ${W} ${H}`} aria-hidden="true">
+        <defs>
+          <linearGradient id="split-rim" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="var(--color-lavender)"></stop>
+            <stop offset="1" stop-color="var(--color-violet-strong)"></stop>
+          </linearGradient>
+          <linearGradient id="split-placeholder" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#3b2a6e"></stop>
+            <stop offset="1" stop-color="#140f26"></stop>
+          </linearGradient>
+          {pieces.map(({ id, points }) => (
+            <clipPath id={id}>
+              <polygon points={points} />
+            </clipPath>
+          ))}
+        </defs>
+        <polygon class="split__glow" points={toPoints(hexCorners(C, R + 6))}></polygon>
+        {
+          pieces.map(({ id, points, box, img, order }) => (
+            <g class="piece" style={`--i: ${order}`}>
+              {img ? (
+                <image href={img} x={box.x} y={box.y} width={box.w} height={box.h} preserveAspectRatio="xMidYMid slice" clip-path={`url(#${id})`} />
+              ) : (
+                <polygon class="piece__placeholder" points={points} />
+              )}
+              <polygon class="piece__tint" points={points} />
+              <polygon class="piece__rim" points={points} />
+            </g>
+          ))
+        }
+        <polygon class="split__core" points={toPoints(hexCorners(C, r - 8))}></polygon>
+      </svg>
+
+      {
+        pieces
+          .filter((p) => !p.img)
+          .map(({ card, iconAt }) => (
+            <span class="piece__icon" style={percent(iconAt, W, H)}>
+              <SkillIcon name={card.icon} />
+            </span>
+          ))
+      }
+
+      {
+        pieces.map(({ card, side, labelAt, order }) => (
+          <div class:list={['label', `label--${side}`]} style={`${percent(labelAt, W, H)} --i: ${order}`}>
+            <h3>{card.role}</h3>
+            <p>{card.short}</p>
+          </div>
+        ))
+      }
+
+      <div class="split__centre" aria-hidden="true">
+        <Image src={mark} alt="" width={84} densities={[1, 2]} />
+      </div>
+    </div>
+    <TeamPhoneList />
+  </div>
+</div>
+
+<style>
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .split__copy {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-5);
+  }
+
+  .split__title {
+    font-size: var(--text-2xl);
+    line-height: 1.08;
+  }
+
+  .split__title span {
+    color: var(--color-violet-soft);
+  }
+
+  .split__lead {
+    color: var(--color-text-muted);
+    font-size: var(--text-md);
+  }
+
+  .split__story {
+    margin-top: calc(var(--space-2) * -1);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  :global(.js) .split__art[data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .split__stage {
+    position: relative;
+    width: 100%;
+  }
+
+  svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .split__glow {
+    fill: none;
+    stroke: rgb(139 92 246 / 0.35);
+    stroke-width: 10;
+    filter: blur(10px);
+  }
+
+  .piece__placeholder {
+    fill: url(#split-placeholder);
+  }
+
+  .piece__tint {
+    fill: rgb(115 71 230 / 0.28);
+    mix-blend-mode: color;
+  }
+
+  .piece__rim {
+    fill: none;
+    stroke: url(#split-rim);
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+
+  .split__core {
+    fill: var(--color-bg-deep);
+    stroke: url(#split-rim);
+    stroke-width: 2.5;
+  }
+
+  .piece__icon {
+    position: absolute;
+    width: 6%;
+    color: rgb(196 181 253 / 0.75);
+    transform: translate(-50%, -50%);
+  }
+
+  .piece__icon :global(svg) {
+    position: static;
+    width: 100%;
+    height: auto;
+  }
+
+  .split__centre {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+  }
+
+  .label {
+    position: absolute;
+    width: 21%;
+  }
+
+  .label--right {
+    transform: translateY(-50%);
+  }
+
+  .label--left {
+    text-align: right;
+    transform: translate(-100%, -50%);
+  }
+
+  .label--above {
+    text-align: center;
+    transform: translate(-50%, -100%);
+  }
+
+  .label--below {
+    text-align: center;
+    transform: translate(-50%, 0);
+  }
+
+  .label h3 {
+    font-size: 0.95rem;
+    margin-bottom: 2px;
+  }
+
+  .label p {
+    font-size: 0.85rem;
+    line-height: 1.35;
+    color: var(--color-text-muted);
+  }
+
+  /* Reveal: the pieces drop into place one by one, then the labels fade in. */
+  .piece {
+    transition:
+      opacity 600ms ease calc(var(--i) * 90ms),
+      scale 800ms var(--ease-out) calc(var(--i) * 90ms);
+    transform-origin: center;
+    transform-box: view-box;
+  }
+
+  .label {
+    transition: opacity 600ms ease calc(500ms + var(--i) * 70ms);
+  }
+
+  :global(.js) .split__art:not(.is-visible) .piece {
+    opacity: 0;
+    scale: 1.08;
+  }
+
+  :global(.js) .split__art:not(.is-visible) .label {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .piece,
+    .label {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .split {
+      grid-template-columns: 1fr;
+    }
+
+    .split__copy {
+      justify-items: center;
+      text-align: center;
+      max-width: 40rem;
+      margin-inline: auto;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .split__art {
+      overflow-x: clip;
+    }
+
+    .label {
+      display: none;
+    }
+
+    .split__stage {
+      width: 130%;
+      margin-inline: -15%;
+    }
+
+    .split__centre :global(img) {
+      width: 52px;
+      height: auto;
+    }
+  }
+</style>

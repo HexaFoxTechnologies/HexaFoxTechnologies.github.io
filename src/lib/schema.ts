@@ -4,13 +4,14 @@
  */
 import { site } from '@data/site';
 import { team } from '@data/team';
+import { teamMode } from '@data/teamSkills';
 import { priceInr } from '@data/foxdesk';
 
 type Schema = Record<string, unknown>;
 
 const orgId = (home: string) => `${home}#organization`;
 
-/** The company: name, logo, contact, place and founders. */
+/** The company: name, logo, contact and place (founders' names only in the 'founders' team mode). */
 export function organization(home: string): Schema {
   return {
     '@type': 'Organization',
@@ -29,7 +30,9 @@ export function organization(home: string): Schema {
       addressRegion: 'Tamil Nadu',
       addressCountry: 'IN',
     },
-    founder: team.map((member) => ({ '@type': 'Person', name: member.name, jobTitle: member.role })),
+    ...(teamMode === 'founders' && {
+      founder: team.map((member) => ({ '@type': 'Person', name: member.name, jobTitle: member.role })),
+    }),
     sameAs: [site.github],
   };
 }

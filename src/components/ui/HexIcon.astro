@@ -1,0 +1,49 @@
+---
+/** A skill icon inside a hexagon, matching HexPhoto's size and violet rim, for places that would show a portrait. */
+import SkillIcon from './SkillIcon.astro';
+import type { SkillIconName } from '@lib/skillIcons';
+
+interface Props {
+  name: SkillIconName;
+  /** Rendered width in px (height follows the hexagon ratio). */
+  width: number;
+  class?: string;
+}
+
+const { name, width, class: className } = Astro.props;
+---
+
+<span class:list={['hex-icon', className]} style={`--w: ${width}px`}>
+  <span class="hex-icon__face">
+    <SkillIcon name={name} class="hex-icon__glyph" />
+  </span>
+</span>
+
+<style>
+  .hex-icon {
+    display: inline-block;
+    flex: none;
+    width: var(--hex-photo-size, var(--w));
+    aspect-ratio: 0.866;
+    padding: max(2px, calc(var(--hex-photo-size, var(--w)) * 0.018));
+    clip-path: var(--hex);
+    background: linear-gradient(160deg, var(--color-lavender), var(--color-violet-strong));
+  }
+
+  .hex-icon__face {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    clip-path: var(--hex);
+    background:
+      radial-gradient(circle at 50% 40%, rgb(139 92 246 / 0.35), transparent 65%),
+      var(--color-bg-deep);
+    color: var(--color-lavender);
+  }
+
+  .hex-icon :global(.hex-icon__glyph) {
+    width: 42%;
+    height: auto;
+  }
+</style>

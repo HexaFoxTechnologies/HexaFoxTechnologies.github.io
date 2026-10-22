@@ -1,13 +1,19 @@
 ---
-/** Row of six small hexagon portraits linking down to the team section. */
+/** Row of six small hexagons linking down to the team section: skill icons, or portraits in 'founders' mode. */
+import HexIcon from '@components/ui/HexIcon.astro';
 import HexPhoto from '@components/ui/HexPhoto.astro';
 import { team } from '@data/team';
+import { skillCards, teamMode } from '@data/teamSkills';
 import { withBase } from '@lib/url';
 ---
 
 <a class="founder-strip" href={withBase('#team')}>
   <span class="founder-strip__faces">
-    {team.map((member) => <HexPhoto src={member.photo} alt="" width={40} />)}
+    {
+      teamMode === 'founders'
+        ? team.map((member) => <HexPhoto src={member.photo} alt="" width={40} />)
+        : skillCards.map((card) => <HexIcon name={card.icon} width={40} />)
+    }
   </span>
   <span class="founder-strip__text">Founded by six friends from Coimbatore</span>
 </a>

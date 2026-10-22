@@ -11,5 +11,11 @@ Prompts and sizes are in `docs/image-prompts.md`.
 | `service-tech`           | Services · Tech solutions    |
 | `service-ai`             | Services · AI solutions      |
 | `not-found-fox`          | 404 page (optional)          |
+| `team-piece-ai`          | Team hexagon · AI            |
+| `team-piece-frontend`    | Team hexagon · Frontend      |
+| `team-piece-cloud`       | Team hexagon · Cloud         |
+| `team-piece-data`        | Team hexagon · Data          |
+| `team-piece-design`      | Team hexagon · Design        |
+| `team-piece-consulting`  | Team hexagon · Consulting    |
 
 Until an image exists, the site shows a hexagon artwork in its place. Nothing breaks.
