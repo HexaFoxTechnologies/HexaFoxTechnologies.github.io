@@ -1,0 +1,50 @@
+---
+/** Under the graphic layouts on phones only: the six roles with their bios, where the graphic is too small to read. */
+import HexIcon from '@components/ui/HexIcon.astro';
+import { skillCards } from '@data/teamSkills';
+---
+
+<ul class="phone-list">
+  {
+    skillCards.map((card) => (
+      <li>
+        <HexIcon name={card.icon} width={44} />
+        <div>
+          <h3>{card.role}</h3>
+          <p>{card.bio}</p>
+        </div>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .phone-list {
+    display: none;
+  }
+
+  @media (max-width: 640px) {
+    .phone-list {
+      display: grid;
+      gap: var(--space-5);
+      margin-top: var(--space-7);
+    }
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    gap: var(--space-4);
+  }
+
+  h3 {
+    font-size: 1rem;
+    margin-bottom: var(--space-1);
+  }
+
+  p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+</style>

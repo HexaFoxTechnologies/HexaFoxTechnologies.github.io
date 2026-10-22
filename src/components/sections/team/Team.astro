@@ -1,20 +1,30 @@
 ---
 import SectionHeader from '@components/ui/SectionHeader.astro';
 import TeamCard from './TeamCard.astro';
+import TeamSplit from './TeamSplit.astro';
 import { team, teamIntro, teamStory } from '@data/team';
+import { teamMode } from '@data/teamSkills';
 import { withBase } from '@lib/url';
 ---
 
 <section id="team" class="section" aria-labelledby="team-title">
   <div class="container">
-    <SectionHeader id="team-title" eyebrow="The pack" title="Six co-founders. One team." intro={teamIntro} align="center">
-      <p class="team__story">
-        {teamStory.text} <a href={withBase(teamStory.href)}>{teamStory.label} →</a>
-      </p>
-    </SectionHeader>
-    <ul class="team">
-      {team.map((member, i) => <TeamCard member={member} index={i} />)}
-    </ul>
+    {
+      teamMode === 'skills' ? (
+        <TeamSplit />
+      ) : (
+        <>
+          <SectionHeader id="team-title" eyebrow="The pack" title="Six co-founders. One team." intro={teamIntro} align="center">
+            <p class="team__story">
+              {teamStory.text} <a href={withBase(teamStory.href)}>{teamStory.label} →</a>
+            </p>
+          </SectionHeader>
+          <ul class="team">
+            {team.map((member, i) => <TeamCard member={member} index={i} />)}
+          </ul>
+        </>
+      )
+    }
   </div>
 </section>
 

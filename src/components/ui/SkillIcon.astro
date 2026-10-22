@@ -1,0 +1,25 @@
+---
+/** Line icons for the six skill areas, drawn in currentColor. Decorative: the card text names the skill. */
+import { skillIconPaths, type SkillIconName } from '@lib/skillIcons';
+
+interface Props {
+  name: SkillIconName;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+---
+
+<svg class={className} viewBox="0 0 24 24" aria-hidden="true">
+  {skillIconPaths[name].map((d) => <path d={d} />)}
+</svg>
+
+<style>
+  svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>
