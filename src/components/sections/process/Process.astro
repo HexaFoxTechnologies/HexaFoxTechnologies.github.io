@@ -1,4 +1,5 @@
 ---
+/** How we work: five steps on one line; each says when, what happens, what you get and what you decide. */
 import SectionHeader from '@components/ui/SectionHeader.astro';
 import ProcessStep from './ProcessStep.astro';
 import { processIntro, processSteps } from '@data/process';
@@ -17,8 +18,8 @@ import { processIntro, processSteps } from '@data/process';
   .steps {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: var(--space-5);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--space-4);
   }
 
   .steps::before {
@@ -31,9 +32,10 @@ import { processIntro, processSteps } from '@data/process';
     background: linear-gradient(90deg, var(--color-violet), var(--color-line-strong));
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1000px) {
     .steps {
       grid-template-columns: 1fr;
+      gap: var(--space-5);
     }
 
     .steps::before {
