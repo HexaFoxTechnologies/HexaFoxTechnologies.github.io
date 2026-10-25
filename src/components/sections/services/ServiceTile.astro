@@ -1,7 +1,8 @@
 ---
 /**
  * One tile of the Services bento grid: area tag, a small drawing (or the service icon), title, promise and tools.
- * Big tiles also list what you get. A tile with a background picture (see serviceBackgrounds.ts) shows it faded.
+ * Big tiles also list what you get. With `photo`, the tile shows its background picture (see serviceBackgrounds.ts)
+ * in the bottom-right corner, faded behind the text.
  */
 import { getImage } from 'astro:assets';
 import HexMarker from '@components/ui/HexMarker.astro';
@@ -24,10 +25,13 @@ interface Props {
   group: string;
   size: TileSize;
   featured?: boolean;
+  /** Show the background picture; the grid passes true only when every tile has one. */
+  photo?: boolean;
 }
 
-const { service, group, size, featured = false } = Astro.props;
+const { service, group, size, featured = false, photo = false } = Astro.props;
 const showList = size === 'big' || size === 'tall';
+// Small tiles skip the tools list as well, so they read as one clear line each.
 // The drawing for each service that has one; the rest show their icon.
 const visuals: Record<string, typeof MiniBars> = {
   'ai-poc': WeekHexes,
@@ -38,8 +42,10 @@ const visuals: Record<string, typeof MiniBars> = {
   rag: MiniChat,
 };
 const Visual = visuals[service.id];
-const background = serviceBackground(service.id);
-const backgroundUrl = background && (await getImage({ src: background, width: 1200, format: 'webp' })).src;
+const background = photo ? serviceBackground(service.id) : undefined;
+// Small tiles get a smaller file, so all 13 pictures together stay light.
+const backgroundUrl =
+  background && (await getImage({ src: background, width: size === 'sm' ? 640 : 1200, format: 'webp', quality: 70 })).src;
 ---
 
 <li
@@ -73,7 +79,7 @@ const backgroundUrl = background && (await getImage({ src: background, width: 12
         </ul>
       )
     }
-    <TechChips tech={service.tech} />
+    {size !== 'sm' && <TechChips tech={service.tech} />}
     {service.link && <a class="tile__link" href={withBase(service.link.href)}>{service.link.label} →</a>}
   </div>
 </li>
@@ -137,11 +143,11 @@ const backgroundUrl = background && (await getImage({ src: background, width: 12
       linear-gradient(160deg, rgb(30 25 54 / 0.95), rgb(23 19 42 / 0.6));
   }
 
-  /* The picture sits on the visual's side, fading out behind the text. */
+  /* The picture sits in the bottom-right corner; a diagonal fade keeps the text (top-left) on near-solid dark. */
   .tile--photo {
     background:
-      linear-gradient(90deg, rgb(23 19 42 / 0.98) 30%, rgb(23 19 42 / 0.6) 70%, rgb(23 19 42 / 0.35)),
-      var(--photo) center / cover,
+      linear-gradient(125deg, rgb(23 19 42 / 0.97) 35%, rgb(23 19 42 / 0.78) 65%, rgb(23 19 42 / 0.45)),
+      var(--photo) right bottom / cover,
       var(--color-surface);
   }
 
@@ -228,6 +234,7 @@ const backgroundUrl = background && (await getImage({ src: background, width: 12
     .tile--big .tile__visual {
       order: 0;
     }
+
   }
 
   @media (max-width: 640px) {
@@ -241,12 +248,6 @@ const backgroundUrl = background && (await getImage({ src: background, width: 12
       order: 0;
     }
 
-    .tile--photo {
-      background:
-        linear-gradient(180deg, rgb(23 19 42 / 0.55), rgb(23 19 42 / 0.97) 45%),
-        var(--photo) center top / cover,
-        var(--color-surface);
-    }
 
     .tile--tall,
     .tile--big {

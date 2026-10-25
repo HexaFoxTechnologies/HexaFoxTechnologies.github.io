@@ -45,11 +45,12 @@ import { hexCorners, toPoints } from '@lib/hexGeometry';
     margin-bottom: 0;
   }
 
+  /* Below the heading, peeking out from the left edge, so it never crosses the text. */
   .why__hex {
     position: absolute;
-    top: -70px;
-    left: -60px;
-    width: 320px;
+    top: calc(100% + var(--space-6));
+    left: -90px;
+    width: 260px;
     fill: none;
     stroke: var(--color-line-strong);
     stroke-width: 1;
@@ -64,6 +65,10 @@ import { hexCorners, toPoints } from '@lib/hexGeometry';
 
     .why__side {
       position: static;
+    }
+
+    .why__hex {
+      display: none;
     }
   }
 </style>

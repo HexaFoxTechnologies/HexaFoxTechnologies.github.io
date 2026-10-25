@@ -1,16 +1,21 @@
 ---
 /** How we work: five steps on one line; each says when, what happens, what you get and what you decide. */
+import Button from '@components/ui/Button.astro';
 import SectionHeader from '@components/ui/SectionHeader.astro';
 import ProcessStep from './ProcessStep.astro';
-import { processIntro, processSteps } from '@data/process';
+import { processCta, processIntro, processSteps, processTitle } from '@data/process';
+import { withBase } from '@lib/url';
 ---
 
 <section id="process" class="section section--tinted" aria-labelledby="process-title">
   <div class="container">
-    <SectionHeader id="process-title" eyebrow="How we work" title="From first call to long after launch" intro={processIntro} />
+    <SectionHeader id="process-title" eyebrow="How we work" title={processTitle} intro={processIntro} />
     <ol class="steps">
       {processSteps.map((step, i) => <ProcessStep step={step} index={i} />)}
     </ol>
+    <div class="cta" data-reveal>
+      <Button href={withBase(processCta.href)}>{processCta.label}</Button>
+    </div>
   </div>
 </section>
 
@@ -27,9 +32,14 @@ import { processIntro, processSteps } from '@data/process';
     position: absolute;
     top: 25px;
     left: 22px;
-    right: 22px;
+    /* Ends at the last step's marker: one column width less its half-marker. */
+    right: calc((100% - 4 * var(--space-4)) / 5 - 22px);
     height: 1px;
     background: linear-gradient(90deg, var(--color-violet), var(--color-line-strong));
+  }
+
+  .cta {
+    margin-top: var(--space-6);
   }
 
   @media (max-width: 1000px) {

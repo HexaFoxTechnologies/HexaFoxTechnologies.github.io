@@ -3,6 +3,7 @@
 import SectionHeader from '@components/ui/SectionHeader.astro';
 import ServiceTile, { type TileSize } from './ServiceTile.astro';
 import { serviceGroups, servicesIntro, servicesTitle } from '@data/services';
+import { allHaveBackgrounds } from '@lib/serviceBackgrounds';
 
 // Tiles not listed here are small. `dense` packing fills the gaps, so the grid stays a clean rectangle.
 const sizes: Record<string, TileSize> = {
@@ -13,6 +14,7 @@ const sizes: Record<string, TileSize> = {
   rag: 'big',
 };
 const tiles = serviceGroups.flatMap((group) => group.services.map((service) => ({ service, group: group.title })));
+const photos = allHaveBackgrounds(tiles.map(({ service }) => service.id));
 ---
 
 <section id="services" class="section" aria-labelledby="services-title">
@@ -21,7 +23,7 @@ const tiles = serviceGroups.flatMap((group) => group.services.map((service) => (
     <ul class="bento">
       {
         tiles.map(({ service, group }, i) => (
-          <ServiceTile service={service} group={group} size={sizes[service.id] ?? 'sm'} featured={i === 0} />
+          <ServiceTile service={service} group={group} size={sizes[service.id] ?? 'sm'} featured={i === 0} photo={photos} />
         ))
       }
     </ul>

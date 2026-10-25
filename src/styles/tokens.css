@@ -16,7 +16,7 @@
   --color-amber: #f5b76b;
   --color-text: #eeeaf8;
   --color-text-muted: #a39dba;
-  --color-text-faint: #7d7796;
+  --color-text-faint: #8a84a3;
   --color-success: #6ee7b7;
   --color-danger: #fca5a5;
 
@@ -42,7 +42,7 @@
   --space-6: 2rem;
   --space-7: 3rem;
   --space-8: 4rem;
-  --section-space: clamp(4.5rem, 3rem + 6vw, 8rem);
+  --section-space: clamp(3.75rem, 2.5rem + 4.5vw, 6.5rem);
 
   /* shape */
   --radius-sm: 8px;

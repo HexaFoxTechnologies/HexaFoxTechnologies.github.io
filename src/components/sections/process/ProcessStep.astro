@@ -27,10 +27,11 @@ const key = index === 1;
 </li>
 
 <style>
+  /* The card takes the rest of the row, so all five cards end on one line. */
   .step {
     position: relative;
     display: grid;
-    align-content: start;
+    grid-template-rows: auto 1fr;
     gap: var(--space-4);
   }
 
@@ -54,7 +55,6 @@ const key = index === 1;
     display: grid;
     align-content: start;
     gap: var(--space-3);
-    height: 100%;
     padding: var(--space-4);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);

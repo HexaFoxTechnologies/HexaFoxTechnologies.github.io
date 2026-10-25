@@ -13,7 +13,7 @@ export interface ProcessStep {
   youDecide?: string;
 }
 
-export const processIntro = 'Small steps, a demo at the end of each, and a clear choice before the next. Here’s how it feels from your side.';
+export const processIntro = 'From the first conversation to long after launch: what happens, what you get and what you decide at each step.';
 
 export const processSteps: ProcessStep[] = [
   {
@@ -26,7 +26,7 @@ export const processSteps: ProcessStep[] = [
   {
     title: 'See it working in a week',
     when: 'Week 1',
-    text: 'Bring us the problem on Monday. On Friday you try something small that really runs, and tell us what you think.',
+    text: 'Bring us the problem on Monday. On Friday you try something small that really runs, and tell us what you think. This week is free.',
     youGet: 'Something you can try yourself, and our plain view on where it leads',
     youDecide: 'Carry on, change tack, or stop here',
   },
@@ -41,12 +41,20 @@ export const processSteps: ProcessStep[] = [
     title: 'Build in short rounds',
     when: 'Every week',
     text: 'Each week closes with a demo of what’s new. You try it, say what’s off, and we fix it before moving on, not at the end.',
-    youGet: 'Something new to try every week, and a say in what comes next',
+    youGet: 'Something new to try every week',
+    youDecide: 'What goes into the next round',
   },
   {
     title: 'Go live, then keep going',
     when: 'After launch',
     text: 'We put it in front of your users and watch how it behaves. Small fixes and the next ideas keep coming after that.',
     youGet: 'Your product in use, and one place to send the next request',
+    youDecide: 'What to build next, or whether to pause',
   },
 ];
+
+/** The section H2. */
+export const processTitle = 'How a project runs';
+
+/** The button under the steps: step 1 is a conversation, so that's what it invites. */
+export const processCta = { label: 'Start the conversation', href: '#contact' };

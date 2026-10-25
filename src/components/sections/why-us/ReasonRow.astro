@@ -1,6 +1,5 @@
 ---
-/** One principle in Why HexaFox: a hollow hexagon, the principle, and a link to where the page shows it. */
-import HexMarker from '@components/ui/HexMarker.astro';
+/** One principle in Why HexaFox: a numbered hollow hexagon, the principle, and a link to where the page shows it. */
 import type { Reason } from '@data/reasons';
 import { withBase } from '@lib/url';
 
@@ -13,14 +12,11 @@ const { reason, index } = Astro.props;
 ---
 
 <li class="reason" data-reveal style={`--reveal-delay: ${index * 80}ms`}>
-  <span class="reason__hex" aria-hidden="true"></span>
+  <span class="reason__hex" aria-hidden="true">{index + 1}</span>
   <div class="reason__body">
     <h3>{reason.title}</h3>
     <p>{reason.text}</p>
-    <a class="reason__proof" href={withBase(reason.href)}>
-      <HexMarker size="sm" />
-      {reason.proof} →
-    </a>
+    <a class="reason__proof" href={withBase(reason.href)}>{reason.proof} →</a>
   </div>
 </li>
 
@@ -40,16 +36,24 @@ const { reason, index } = Astro.props;
   /* Hollow hexagon: the lavender rim is the element, the dark face an inset copy; it fills on hover. */
   .reason__hex {
     position: relative;
+    isolation: isolate;
+    display: grid;
+    place-items: center;
     width: 44px;
     height: 50px;
     clip-path: var(--hex);
     background: var(--color-lavender);
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-lavender);
+    transition: color var(--dur-fast) ease;
   }
 
   .reason__hex::before {
     content: '';
     position: absolute;
     inset: 1.5px;
+    z-index: -1;
     clip-path: var(--hex);
     background: var(--color-bg);
     transition: opacity var(--dur-fast) ease;
@@ -58,6 +62,11 @@ const { reason, index } = Astro.props;
   .reason:hover .reason__hex,
   .reason:focus-within .reason__hex {
     background: linear-gradient(150deg, var(--color-violet), var(--color-violet-strong));
+  }
+
+  .reason:hover .reason__hex,
+  .reason:focus-within .reason__hex {
+    color: #fff;
   }
 
   .reason:hover .reason__hex::before,
@@ -79,9 +88,6 @@ const { reason, index } = Astro.props;
   }
 
   .reason__proof {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
     justify-self: start;
     margin-top: var(--space-1);
     font-size: var(--text-sm);

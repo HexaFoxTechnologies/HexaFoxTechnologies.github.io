@@ -25,7 +25,7 @@ export interface ServiceGroup {
 export const servicesTitle = 'From first idea to a working product';
 
 export const servicesIntro =
-  'One team for consulting, design, web and mobile apps, data and practical AI. Start with a proof of concept in a week, then build on what works.';
+  'One team for consulting, design, web and mobile apps, data and practical AI. Pick the piece you need, or the whole thing.';
 
 export const serviceGroups: ServiceGroup[] = [
   {
@@ -36,14 +36,14 @@ export const serviceGroups: ServiceGroup[] = [
         id: 'ai-poc',
         title: 'Proof of concept in a week',
         short: 'PoC in a week',
-        promise: 'Bring us your problem. We build a working proof of concept and show it to you in a week.',
+        promise: 'We take your problem and build a working proof of concept, then show it to you in a week, free of charge.',
         deliverables: [
           'A working demo on your real data or use case',
           'An honest read on what works and what doesn’t',
           'Measured running costs, not guesses',
           'A clear go or no-go, with next steps',
         ],
-        tech: ['React', 'Python', 'LLM APIs (Groq, Gemini)'],
+        tech: ['React', 'Python', 'LLM APIs'],
       },
       {
         id: 'consulting',
@@ -102,12 +102,12 @@ export const serviceGroups: ServiceGroup[] = [
         short: 'Mobile apps',
         promise: 'iOS and Android apps your customers install from the App Store and Google Play.',
         deliverables: [
-          'iOS and Android apps',
+          'One design, built for both platforms',
           'Connected to your existing systems and data',
           'Sign-in, notifications and payments where you need them',
           'Help publishing to the App Store and Google Play',
         ],
-        tech: ['iOS', 'Android'],
+        tech: [],
       },
       {
         id: 'integrations',
@@ -177,7 +177,7 @@ export const serviceGroups: ServiceGroup[] = [
           'Unclear fields flagged for a person to check',
           'Results saved to your database or spreadsheet',
         ],
-        tech: ['LLM APIs (Groq, Gemini)', 'Python', 'PostgreSQL'],
+        tech: ['LLM APIs', 'Python', 'PostgreSQL'],
       },
     ],
   },
@@ -191,12 +191,12 @@ export const serviceGroups: ServiceGroup[] = [
         short: 'RAG assistants',
         promise: 'Assistants that answer from your own pages and PDFs, and show where each answer came from.',
         deliverables: [
-          'Answers only from your website, PDFs and documents',
-          'A link to the source behind every answer',
+          'For your website’s visitors, or for your own team',
+          'Stays current as your content changes',
           'Says so when your content doesn’t cover a question',
           'Ask in English, Tamil, Hindi or Tanglish',
         ],
-        tech: ['Embeddings / RAG', 'LLM APIs (Groq, Gemini)', 'Cloudflare'],
+        tech: ['Embeddings / RAG', 'LLM APIs', 'Cloudflare'],
         link: { label: 'Meet FoxDesk, our own RAG assistant', href: 'foxdesk/' },
       },
       {
@@ -210,7 +210,7 @@ export const serviceGroups: ServiceGroup[] = [
           'A person approves the steps that matter',
           'A log of every step, so you can see what happened',
         ],
-        tech: ['LLM APIs (Groq, Gemini)', 'Python'],
+        tech: ['LLM APIs', 'Python'],
       },
       {
         id: 'automation',
@@ -223,7 +223,7 @@ export const serviceGroups: ServiceGroup[] = [
           'AI only where a simple rule can’t do the job',
           'An alert when something needs a person',
         ],
-        tech: ['Python', 'LLM APIs (Groq, Gemini)', 'GitHub Actions'],
+        tech: ['Python', 'LLM APIs', 'GitHub Actions'],
       },
     ],
   },

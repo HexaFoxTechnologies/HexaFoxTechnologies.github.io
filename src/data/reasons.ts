@@ -14,7 +14,7 @@ export interface Reason {
 
 export const reasonsTitle = 'Four things that don’t change';
 
-export const reasonsIntro = 'Every project is different. These stay the same.';
+export const reasonsIntro = 'Each one points to the part of this page where you can see it in practice.';
 
 export const reasons: Reason[] = [
   {
@@ -24,10 +24,10 @@ export const reasons: Reason[] = [
     href: '#team',
   },
   {
-    title: 'Small steps, your call each time',
-    text: 'We show you something real at the end of every round. Carry on, change course or stop; the choice is yours, not ours.',
-    proof: 'How a project runs',
-    href: '#process',
+    title: 'Running costs before you commit',
+    text: 'During the proof of concept we measure what it will cost to run, so the number you plan with is real.',
+    proof: 'What the proof of concept includes',
+    href: '#services',
   },
   {
     title: 'AI only where it earns its place',
@@ -38,7 +38,7 @@ export const reasons: Reason[] = [
   {
     title: 'You’re never stuck with us',
     text: 'You get a plan anyone could follow, so you stay with us because it works, not because you have to.',
-    proof: 'What each service includes',
+    proof: 'What we build',
     href: '#services',
   },
 ];
