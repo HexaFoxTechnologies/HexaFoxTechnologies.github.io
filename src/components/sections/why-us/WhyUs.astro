@@ -1,22 +1,69 @@
 ---
+/**
+ * Why HexaFox: the principles that stay the same on every project, each linking to the section that shows it.
+ * Two columns with no cards, so it reads as a calm beat after the boxed sections above.
+ */
 import SectionHeader from '@components/ui/SectionHeader.astro';
-import ReasonCard from './ReasonCard.astro';
-import { reasons } from '@data/reasons';
+import ReasonRow from './ReasonRow.astro';
+import { reasons, reasonsIntro, reasonsTitle } from '@data/reasons';
+import { hexCorners, toPoints } from '@lib/hexGeometry';
 ---
 
-<section id="why-us" class="section" aria-labelledby="why-title">
-  <div class="container">
-    <SectionHeader id="why-title" eyebrow="Why HexaFox" title="A small team that covers the whole job" />
-    <ul class="reasons">
-      {reasons.map((reason, i) => <ReasonCard reason={reason} index={i} />)}
+<section id="why-us" class="section why" aria-labelledby="why-title">
+  <div class="container why__grid">
+    <div class="why__side">
+      <svg class="why__hex" viewBox="0 0 320 320" aria-hidden="true">
+        <polygon points={toPoints(hexCorners({ x: 160, y: 160 }, 150))}></polygon>
+      </svg>
+      <SectionHeader id="why-title" eyebrow="Why HexaFox" title={reasonsTitle} intro={reasonsIntro} />
+    </div>
+    <ul class="why__list">
+      {reasons.map((reason, i) => <ReasonRow reason={reason} index={i} />)}
     </ul>
   </div>
 </section>
 
 <style>
-  .reasons {
+  .why {
+    overflow-x: clip;
+  }
+
+  .why__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
-    gap: var(--space-4);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+
+  .why__side {
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-6));
+  }
+
+  .why__side :global(.section-header) {
+    position: relative;
+    margin-bottom: 0;
+  }
+
+  .why__hex {
+    position: absolute;
+    top: -70px;
+    left: -60px;
+    width: 320px;
+    fill: none;
+    stroke: var(--color-line-strong);
+    stroke-width: 1;
+    opacity: 0.6;
+  }
+
+  @media (max-width: 860px) {
+    .why__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    .why__side {
+      position: static;
+    }
   }
 </style>
