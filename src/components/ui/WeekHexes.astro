@@ -1,0 +1,49 @@
+---
+/** Monday to Friday as five small hexagons, Friday filled and ticked: the proof-of-concept week. Decorative. */
+interface Props {
+  size?: 'sm' | 'md';
+}
+
+const { size = 'md' } = Astro.props;
+const days = ['M', 'T', 'W', 'T', 'F'];
+---
+
+<ol class:list={['week', `week--${size}`]} aria-hidden="true">
+  {days.map((d, i) => <li class:list={[{ done: i === days.length - 1 }]}>{i === days.length - 1 ? '✓' : d}</li>)}
+</ol>
+
+<style>
+  .week {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  li {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 34px;
+    clip-path: var(--hex);
+    background: var(--color-surface-raised);
+    color: var(--color-text-muted);
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+
+  .week--sm {
+    gap: 3px;
+  }
+
+  .week--sm li {
+    width: 22px;
+    height: 25px;
+    font-size: 0.6rem;
+  }
+
+  .done {
+    background: linear-gradient(150deg, var(--color-lavender), var(--color-violet));
+    color: var(--color-bg-deep);
+  }
+</style>

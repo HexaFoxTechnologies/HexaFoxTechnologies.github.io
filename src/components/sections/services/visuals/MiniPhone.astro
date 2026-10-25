@@ -1,0 +1,60 @@
+---
+/** Tiny phone with an app screen. Decorative. */
+---
+
+<div class="phone" aria-hidden="true">
+  <span class="notch"></span>
+  <span class="hero"></span>
+  <span class="row"></span>
+  <span class="row short"></span>
+  <span class="row"></span>
+  <span class="btn"></span>
+</div>
+
+<style>
+  .phone {
+    display: grid;
+    align-content: start;
+    gap: 7px;
+    width: 96px;
+    aspect-ratio: 9 / 18;
+    padding: 10px 9px;
+    border: 2px solid var(--color-line-strong);
+    border-radius: 18px;
+    background: var(--color-bg-deep);
+  }
+
+  span {
+    display: block;
+    border-radius: 4px;
+    background: var(--color-surface-raised);
+  }
+
+  .notch {
+    justify-self: center;
+    width: 30%;
+    height: 5px;
+    border-radius: 3px;
+  }
+
+  .hero {
+    height: 44px;
+    background: linear-gradient(150deg, var(--color-violet), var(--color-violet-strong));
+  }
+
+  .row {
+    height: 9px;
+  }
+
+  .short {
+    width: 60%;
+  }
+
+  .btn {
+    margin-top: 6px;
+    height: 14px;
+    border-radius: var(--radius-pill);
+    background: var(--color-lavender);
+    opacity: 0.8;
+  }
+</style>

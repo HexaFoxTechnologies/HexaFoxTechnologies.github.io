@@ -1,7 +1,7 @@
 /**
  * FoxDesk, HexaFox's own product: the /foxdesk/ page and the "Our product" band on the home page.
- * Claim only what FoxDesk does today (private repo HexaFoxTechnologies/foxdesk). Prices only in
- * `pricing` (agreed with the founders, 2026-10-21). No client names, no usage numbers.
+ * Claim only what FoxDesk does today (private repo HexaFoxTechnologies/foxdesk). Prices come only from
+ * `priceInr` (agreed with the founders, 2026-10-21). No client names, no usage numbers.
  */
 export interface Link {
   label: string;
@@ -36,13 +36,17 @@ export interface Price {
   label: string;
 }
 
+/** Prices in rupees, before GST; every price on the site is built from these. */
+export const priceInr = { setup: 14999, monthly: 2499, yearly: 24990, extraQuestions: 1499 };
+const inr = (amount: number) => `₹${amount.toLocaleString('en-IN')}`;
+
 /** The chat-window illustration: one real question and answer about this site. */
 export const chatMock = {
   title: 'Ask HexaFox',
   subtitle: 'Runs on FoxDesk · answers from our site',
   question: 'Do you build AI chatbots?',
   answer: 'Yes. We build assistants that answer from your own documents and data, not from guesswork.',
-  source: 'Services · AI solutions',
+  source: 'Services · RAG assistants',
   placeholder: 'Ask about HexaFox…',
   alt: 'A FoxDesk chat window. A visitor asks “Do you build AI chatbots?” and the answer cites its source, the Services section of the website.',
 };
@@ -53,6 +57,8 @@ export const hero = {
   emphasis: 'your website.',
   lead: 'Visitors ask in plain words and get a short answer from your own pages, with a link to where it came from. Add it to your site with one line of code.',
   primary: { label: 'Get FoxDesk', href: '#contact' } satisfies Link,
+  /** One line under the button. */
+  price: `${inr(priceInr.setup)} setup + ${inr(priceInr.monthly)} a month, GST extra. One plan, fully managed.`,
   /** Opens the chat on this page (shown once the widget has loaded). */
   tryButton: 'Try it now',
   tryHint: 'The chat in the corner of this page is FoxDesk, set up for HexaFox. It answers from this website and nothing else.',
@@ -107,7 +113,7 @@ export const features = {
 export const customise = {
   eyebrow: 'Make it yours',
   title: 'Your look, your words, your rules',
-  intro: 'Every FoxDesk is set up for one site. Three looks from the same assistant:',
+  intro: 'Every FoxDesk is set up for one site. Three looks from the same assistant: ours, plus a café and a college we made up to show the range.',
   looks: [
     {
       title: 'Ask HexaFox',
@@ -155,7 +161,7 @@ export const sites = {
   items: [
     {
       title: 'Your existing site',
-      text: 'Add one line of code to any site where you can add HTML. Nothing else on your site changes.',
+      text: 'Keep what you have. FoxDesk sits in a corner of the page, and nothing else on your site changes.',
     },
     {
       title: 'A new site from us',
@@ -184,8 +190,6 @@ export const audiences = {
 };
 
 /** FoxDesk Managed prices in rupees, before GST. Also used by the page's structured data. */
-export const priceInr = { setup: 14999, monthly: 2499, yearly: 24990, extraQuestions: 1499 };
-const inr = (amount: number) => `₹${amount.toLocaleString('en-IN')}`;
 
 /** The one offer: fully managed. Prices exclude GST. "500 questions a day" is the client's limits.dailyTotal. */
 export const pricing = {
@@ -208,15 +212,13 @@ export const pricing = {
         'We read your site, your PDFs and any facts you send us',
         'Your colours, logo, name, greeting and starter questions',
         'Tested with the questions your visitors really ask, before launch',
-        'Live on your site with one line of code',
+        'Installed and live on your site',
       ],
     },
     {
       title: 'Every month',
       items: [
-        'Up to 500 questions a day included',
-        'Knowledge refreshed every day, and right after you publish a change',
-        'Answers in your visitors’ language',
+        'Your site re-read daily, and again right after you publish a change',
         'Your brand only, no FoxDesk badge',
         'Up to two small changes a month, like new starter questions or rules',
         'Hosting, AI models, bot checks and limits included',
@@ -266,6 +268,6 @@ export const closing = {
 export const productBand = {
   eyebrow: 'Our product',
   title: 'FoxDesk',
-  text: 'An AI assistant that answers visitors’ questions from your own website, with sources. One line of code to add, and it’s the chat on this site.',
+  text: 'An AI assistant that answers visitors’ questions from your own website, with sources. We run it ourselves: it’s the chat on this site.',
   link: { label: 'See FoxDesk', href: 'foxdesk/' } satisfies Link,
 };

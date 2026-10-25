@@ -1,0 +1,108 @@
+---
+/** One principle in Why HexaFox: a numbered hollow hexagon, the principle, and a link to where the page shows it. */
+import type { Reason } from '@data/reasons';
+import { withBase } from '@lib/url';
+
+interface Props {
+  reason: Reason;
+  index: number;
+}
+
+const { reason, index } = Astro.props;
+---
+
+<li class="reason" data-reveal style={`--reveal-delay: ${index * 80}ms`}>
+  <span class="reason__hex" aria-hidden="true">{index + 1}</span>
+  <div class="reason__body">
+    <h3>{reason.title}</h3>
+    <p>{reason.text}</p>
+    <a class="reason__proof" href={withBase(reason.href)}>{reason.proof} →</a>
+  </div>
+</li>
+
+<style>
+  .reason {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-4);
+    padding-block: var(--space-5);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .reason:last-child {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  /* Hollow hexagon: the lavender rim is the element, the dark face an inset copy; it fills on hover. */
+  .reason__hex {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 50px;
+    clip-path: var(--hex);
+    background: var(--color-lavender);
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-lavender);
+    transition: color var(--dur-fast) ease;
+  }
+
+  .reason__hex::before {
+    content: '';
+    position: absolute;
+    inset: 1.5px;
+    z-index: -1;
+    clip-path: var(--hex);
+    background: var(--color-bg);
+    transition: opacity var(--dur-fast) ease;
+  }
+
+  .reason:hover .reason__hex,
+  .reason:focus-within .reason__hex {
+    background: linear-gradient(150deg, var(--color-violet), var(--color-violet-strong));
+  }
+
+  .reason:hover .reason__hex,
+  .reason:focus-within .reason__hex {
+    color: #fff;
+  }
+
+  .reason:hover .reason__hex::before,
+  .reason:focus-within .reason__hex::before {
+    opacity: 0;
+  }
+
+  .reason__body {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  p {
+    color: var(--color-text-muted);
+  }
+
+  .reason__proof {
+    justify-self: start;
+    margin-top: var(--space-1);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-lavender);
+    text-decoration: none;
+  }
+
+  .reason__proof:hover {
+    text-decoration: underline;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reason__hex::before {
+      transition: none;
+    }
+  }
+</style>

@@ -26,6 +26,7 @@ import { withBase } from '@lib/url';
           <Button variant="ghost">{hero.tryButton}</Button>
         </div>
       </div>
+      <p class="fd-hero__price" data-reveal style="--reveal-delay: 280ms">{hero.price}</p>
       <p class="fd-hero__hint" data-reveal style="--reveal-delay: 300ms">{hero.tryHint}</p>
     </div>
     <div class="fd-hero__art" data-reveal style="--reveal-delay: 200ms">
@@ -74,6 +75,13 @@ import { withBase } from '@lib/url';
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
+  }
+
+  .fd-hero__price {
+    margin-top: calc(var(--space-2) * -1);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-lavender);
   }
 
   .fd-hero__hint {

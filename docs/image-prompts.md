@@ -104,6 +104,51 @@ middle third, since the edges get cut off by the piece shape.
 - **Consulting (`team-piece-consulting.png`):** > …two people at a meeting table seen from behind and out of focus, hands over a notebook and a laptop, a whiteboard of sticky notes in the background. No faces visible.
 - **End every prompt with:** the Style block's "Avoid" list (no text, no logos, no realistic faces).
 
+## 7. Services: background pictures for all 13 tiles
+Thirteen pictures, one per tile in the Services grid, all in one matching style. The site pins each picture to the
+tile's bottom-right corner and covers the rest with a dark fade, because the tile's text sits top-left. Tiles come in
+different shapes (small near-square, wide, tall, one big square), so every picture must work however it is cropped:
+**one small subject in the lower-right quadrant, inset from the edges; everything else smooth, empty and very dark.**
+Keep brightness and contrast low. These are textures behind text, not hero art. The recurring motif that ties all
+13 together is frosted-glass hexagonal objects lit from within.
+
+Five tiles also carry a small line drawing in the centre-right (`ai-poc`: a row of five little hexagons; `web-apps`:
+a browser window; `mobile-apps`: a phone; `power-bi`: a bar chart; `rag`: a chat card). For those five, make the
+subject even smaller and keep it strictly in the bottom-right corner, and don't repeat the drawing's object; the
+subjects below already pick a related metaphor instead.
+
+The pictures switch on only once **all 13 files exist**, so generate them in one session with the same settings. Until
+then every tile keeps its plain violet look.
+
+- **Files:** `service-bg-ai-poc.png`, `service-bg-consulting.png`, `service-bg-ux-ui.png`, `service-bg-web-apps.png`,
+  `service-bg-mobile-apps.png`, `service-bg-integrations.png`, `service-bg-cloud-support.png`, `service-bg-databases.png`,
+  `service-bg-power-bi.png`, `service-bg-document-ai.png`, `service-bg-rag.png`, `service-bg-multi-agent.png`,
+  `service-bg-automation.png`
+- **Size / ratio:** 1600 × 1200 (4:3), all 13 in one session so the lighting matches
+- **Used in:** Home → Services. Save into `src/assets/images/` with the exact names and the site picks them up.
+- **Shared start for all 13:**
+  > Minimal, cinematic editorial illustration with soft 3D depth, used as a dark background texture. Deep midnight
+  > indigo #0E0B1A fills the whole frame: smooth, empty, very dark, with at most a faint violet haze. The only subject
+  > is small, sits in the lower-right quadrant inset from the edges, and the upper half and the whole left half stay
+  > empty. Subject:
+- **Proof of concept in a week (`service-bg-ai-poc.png`):** > …a single frosted-glass hexagonal block held in a slim clamp on a small workbench, lit lavender from within as if just switched on, one thin violet probe wire touching it, a tiny amber indicator lamp on the bench edge. Extra small, tucked into the bottom-right corner.
+- **Problem to solution consulting (`service-bg-consulting.png`):** > …a frosted-glass hexagonal tile lying flat like a map, one thin violet route line crossing it from an edge to a small lit node, two fainter unlit hexagon outlines beside it like options set aside, a tiny amber pin at the route's end.
+- **UX/UI design (`service-bg-ux-ui.png`):** > …three thin frosted-glass hexagonal tiles fanned out like screens of a prototype, the front one holding a faint lavender wireframe of two rectangles and a line, a slim stylus resting across them with an amber tip.
+- **Web applications (`service-bg-web-apps.png`):** > …a short stack of three frosted-glass hexagonal tiles, each slightly offset like layers of a page, lavender light rising up through them from the bottom layer, one small amber dot on the top layer. Extra small, tucked into the bottom-right corner.
+- **Mobile apps (`service-bg-mobile-apps.png`):** > …a single small frosted-glass hexagonal tile lying on a dark surface, a soft lavender ripple spreading out from it like a quiet notification, one tiny amber point at the ripple's centre. Extra small, tucked into the bottom-right corner.
+- **APIs and integrations (`service-bg-integrations.png`):** > …two frosted-glass hexagonal tiles a short distance apart, joined by one thin violet thread of light carrying a few small lavender pulses along it, a tiny amber knot where the thread meets the right tile.
+- **Cloud, deployment and support (`service-bg-cloud-support.png`):** > …a low row of three frosted-glass hexagonal tiles standing on edge like small server blades, each with one tiny status light, two lavender and one amber, a soft violet haze lifting above them like a cloud.
+- **Database architecture (`service-bg-databases.png`):** > …a short, precisely stacked column of frosted-glass hexagonal tiles like a hexagonal database cylinder, thin lavender bands of light between the layers, one tiny amber indicator at the base.
+- **Power BI dashboards (`service-bg-power-bi.png`):** > …a frosted-glass hexagonal lens tilted on a small stand, focusing a thin violet beam into one bright amber point on the dark surface below, like an answer brought into focus. Extra small, tucked into the bottom-right corner; no charts or bars.
+- **Document AI (`service-bg-document-ai.png`):** > …a thin stack of translucent sheets, their corners lifting off into a few small frosted-glass hexagonal tiles that float just above, lit lavender from within, one tiny amber flag on one sheet's corner like a field waiting for a check.
+- **RAG assistants (`service-bg-rag.png`):** > …a short stack of translucent pages, one thin violet thread rising from a page to a small lit frosted-glass hexagonal tile hovering above it, a tiny amber citation dot where the thread leaves the page. Extra small, tucked into the bottom-right corner; no speech bubbles or cards.
+- **Multi-agent systems (`service-bg-multi-agent.png`):** > …four small frosted-glass hexagonal tiles in a loose ring, three lit violet and one lavender, thin threads of light passing between them, one tiny amber dot at the centre where a hand-off meets.
+- **Workflow automation (`service-bg-automation.png`):** > …three small frosted-glass cogs with hexagonal hubs meshed in a line on a dark surface, lit from within, one thin violet trace entering the first cog and leaving the last, a tiny amber dot at its end like an alert.
+- **End every prompt with:**
+  > Frosted-glass hexagonal objects lit from within, violet #8B5CF6 and lavender #C4B5FD light, one small warm amber
+  > accent only. Low brightness, low contrast, generous negative space, subtle film grain. No text, no letters, no
+  > numbers, no logos, no faces, no people.
+
 ## Optional (nice to have)
 - **`og-cover.png`**: already generated from the logo by `tools/make_brand_assets.py`.
   No prompt needed.

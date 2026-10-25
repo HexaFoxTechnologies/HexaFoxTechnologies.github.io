@@ -1,0 +1,55 @@
+---
+/** Tiny wireframe on a canvas, with a cursor. Decorative. */
+---
+
+<div class="wire" aria-hidden="true">
+  <span class="w-nav"></span>
+  <span class="w-hero"></span>
+  <span class="w-col"></span>
+  <span class="w-col"></span>
+  <span class="w-col"></span>
+  <svg class="cursor" viewBox="0 0 24 24"><path d="M5 3l14 8-6 1.5L10 19z"></path></svg>
+</div>
+
+<style>
+  .wire {
+    position: relative;
+    display: grid;
+    width: 100%;
+    max-width: 260px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding: 10px;
+    border: 1px dashed var(--color-violet-soft);
+    border-radius: var(--radius-md);
+    background:
+      radial-gradient(circle, rgb(196 181 253 / 0.16) 1px, transparent 1px) 0 0 / 10px 10px,
+      var(--color-bg-deep);
+  }
+
+  span {
+    display: block;
+    height: 16px;
+    border: 1px solid rgb(196 181 253 / 0.5);
+    border-radius: 3px;
+  }
+
+  .w-nav {
+    grid-column: 1 / -1;
+    height: 8px;
+  }
+
+  .w-hero {
+    grid-column: 1 / -1;
+    height: 30px;
+    background: rgb(139 92 246 / 0.2);
+  }
+
+  .cursor {
+    position: absolute;
+    right: 18%;
+    bottom: 14%;
+    width: 16px;
+    fill: var(--color-lavender);
+  }
+</style>

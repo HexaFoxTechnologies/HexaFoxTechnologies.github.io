@@ -1,22 +1,52 @@
 ---
+/** What we build: every service as a tile in a mixed-size bento grid, led by the proof-of-concept offer. */
 import SectionHeader from '@components/ui/SectionHeader.astro';
-import ServiceGroup from './ServiceGroup.astro';
-import { serviceGroups, servicesIntro } from '@data/services';
+import ServiceTile, { type TileSize } from './ServiceTile.astro';
+import { serviceGroups, servicesIntro, servicesTitle } from '@data/services';
+import { allHaveBackgrounds } from '@lib/serviceBackgrounds';
+
+// Tiles not listed here are small. `dense` packing fills the gaps, so the grid stays a clean rectangle.
+const sizes: Record<string, TileSize> = {
+  'ai-poc': 'wide',
+  'web-apps': 'wide',
+  'mobile-apps': 'tall',
+  'power-bi': 'wide',
+  rag: 'big',
+};
+const tiles = serviceGroups.flatMap((group) => group.services.map((service) => ({ service, group: group.title })));
+const photos = allHaveBackgrounds(tiles.map(({ service }) => service.id));
 ---
 
 <section id="services" class="section" aria-labelledby="services-title">
   <div class="container">
-    <SectionHeader id="services-title" eyebrow="What we do" title="Two ways we help" intro={servicesIntro} />
-    <div class="services">
-      {serviceGroups.map((group, i) => <ServiceGroup group={group} index={i} />)}
-    </div>
+    <SectionHeader id="services-title" eyebrow="What we do" title={servicesTitle} intro={servicesIntro} />
+    <ul class="bento">
+      {
+        tiles.map(({ service, group }, i) => (
+          <ServiceTile service={service} group={group} size={sizes[service.id] ?? 'sm'} featured={i === 0} photo={photos} />
+        ))
+      }
+    </ul>
   </div>
 </section>
 
 <style>
-  .services {
+  .bento {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
-    gap: var(--space-5);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-flow: row dense;
+    gap: var(--space-4);
+  }
+
+  @media (max-width: 1000px) {
+    .bento {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .bento {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

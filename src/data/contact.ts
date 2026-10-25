@@ -1,10 +1,12 @@
-/** Options for the "What do you need?" field on the contact form. */
+/** Options for the "What do you need?" field on the contact form; follows the Services groups. */
 export const serviceOptions: string[] = [
+  'Consulting: help me plan',
+  'UX/UI design',
   'Website or web app',
+  'Mobile app',
+  'Database or Power BI dashboard',
   'AI solution',
   'FoxDesk chatbot',
-  'Data and databases',
   'Cloud and support',
-  'UX/UI design',
   'Not sure yet',
 ];

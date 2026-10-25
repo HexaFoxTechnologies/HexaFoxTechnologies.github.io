@@ -15,7 +15,7 @@ export interface TeamMember {
 
 /** Short pointer from the Team section to the full story page. */
 export const teamStory = {
-  text: 'Six friends since our college days in Coimbatore.',
+  text: 'It started in a college hostel room in Coimbatore.',
   label: 'Read our story',
   href: 'story/',
 };

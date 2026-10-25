@@ -45,7 +45,7 @@ const thanksUrl = new URL(withBase('thanks/'), Astro.site).href;
     ) : (
       <div class="contact-fallback">
         <h3>Write to us directly</h3>
-        <p>Send a few lines about your project and we’ll reply within {site.responseTime}.</p>
+        <p>Send a few lines: what you’re building, who it’s for and when you need it.</p>
         <Button href={`mailto:${site.email}?subject=Project enquiry`}>Email us</Button>
       </div>
     )

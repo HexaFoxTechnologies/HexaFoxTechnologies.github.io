@@ -1,0 +1,34 @@
+---
+/** Under the hero buttons: the proof-of-concept week, linking down to How we work. */
+import WeekHexes from '@components/ui/WeekHexes.astro';
+import { withBase } from '@lib/url';
+---
+
+<a class="hero-proof" href={withBase('#process')}>
+  <WeekHexes size="sm" />
+  <span class="hero-proof__text">Proof of concept in a week, then you decide.</span>
+  <span class="hero-proof__link">See how we work →</span>
+</a>
+
+<style>
+  .hero-proof {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+    margin-top: var(--space-3);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .hero-proof:hover .hero-proof__text {
+    color: var(--color-text);
+  }
+
+  .hero-proof__link {
+    font-weight: 500;
+    color: var(--color-lavender);
+    white-space: nowrap;
+  }
+</style>
