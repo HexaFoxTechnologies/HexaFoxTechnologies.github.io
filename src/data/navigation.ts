@@ -6,8 +6,8 @@ export interface NavLink {
 
 export const navLinks: NavLink[] = [
   { label: 'Services', href: '#services' },
-  { label: 'FoxDesk', href: 'foxdesk/' },
   { label: 'How we work', href: '#process' },
+  { label: 'FoxDesk', href: 'foxdesk/' },
   { label: 'Team', href: '#team' },
   { label: 'Our story', href: 'story/' },
 ];
