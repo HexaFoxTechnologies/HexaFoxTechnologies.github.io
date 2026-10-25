@@ -1,0 +1,256 @@
+---
+/**
+ * One tile of the Services bento grid: area tag, a small drawing (or the service icon), title, promise and tools.
+ * Big tiles also list what you get. A tile with a background picture (see serviceBackgrounds.ts) shows it faded.
+ */
+import { getImage } from 'astro:assets';
+import HexMarker from '@components/ui/HexMarker.astro';
+import ServiceIcon from './ServiceIcon.astro';
+import TechChips from './TechChips.astro';
+import MiniBars from './visuals/MiniBars.astro';
+import MiniBrowser from './visuals/MiniBrowser.astro';
+import MiniChat from './visuals/MiniChat.astro';
+import MiniPhone from './visuals/MiniPhone.astro';
+import MiniWeek from './visuals/MiniWeek.astro';
+import MiniWireframe from './visuals/MiniWireframe.astro';
+import type { Service } from '@data/services';
+import { serviceBackground } from '@lib/serviceBackgrounds';
+import { withBase } from '@lib/url';
+
+export type TileSize = 'sm' | 'wide' | 'tall' | 'big';
+
+interface Props {
+  service: Service;
+  group: string;
+  size: TileSize;
+  featured?: boolean;
+}
+
+const { service, group, size, featured = false } = Astro.props;
+const showList = size === 'big' || size === 'tall';
+// The drawing for each service that has one; the rest show their icon.
+const visuals: Record<string, typeof MiniBars> = {
+  'ai-poc': MiniWeek,
+  'ux-ui': MiniWireframe,
+  'web-apps': MiniBrowser,
+  'mobile-apps': MiniPhone,
+  'power-bi': MiniBars,
+  rag: MiniChat,
+};
+const Visual = visuals[service.id];
+const background = serviceBackground(service.id);
+const backgroundUrl = background && (await getImage({ src: background, width: 1200, format: 'webp' })).src;
+---
+
+<li
+  class:list={['tile', `tile--${size}`, { 'tile--featured': featured, 'tile--photo': backgroundUrl }]}
+  style={backgroundUrl ? `--photo: url('${backgroundUrl}')` : undefined}
+>
+  <div class="tile__visual">
+    {
+      Visual ? (
+        <Visual />
+      ) : (
+        <span class="tile__icon" aria-hidden="true">
+          <ServiceIcon id={service.id} />
+        </span>
+      )
+    }
+  </div>
+  <div class="tile__text">
+    <p class="tile__group">{group}</p>
+    <h3>{service.title}</h3>
+    <p class="tile__promise">{service.promise}</p>
+    {
+      showList && (
+        <ul class="tile__list">
+          {service.deliverables.map((d) => (
+            <li>
+              <HexMarker size="sm" />
+              <span>{d}</span>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    <TechChips tech={service.tech} />
+    {service.link && <a class="tile__link" href={withBase(service.link.href)}>{service.link.label} →</a>}
+  </div>
+</li>
+
+<style>
+  .tile {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: var(--space-4);
+    padding: var(--space-5);
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(160deg, rgb(30 25 54 / 0.95), rgb(23 19 42 / 0.6));
+    transition:
+      border-color var(--dur-fast) ease,
+      transform var(--dur-fast) ease;
+  }
+
+  .tile:hover,
+  .tile:focus-within {
+    border-color: var(--color-violet-soft);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .tile:hover {
+      transform: translateY(-3px);
+    }
+  }
+
+  .tile--wide {
+    grid-column: span 2;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .tile--wide .tile__visual {
+    order: 2;
+  }
+
+  .tile--tall {
+    grid-row: span 2;
+  }
+
+  .tile--big {
+    grid-column: span 2;
+    grid-row: span 2;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .tile--big .tile__visual {
+    order: 2;
+  }
+
+  .tile--featured {
+    border-color: rgb(167 139 250 / 0.6);
+    background:
+      radial-gradient(circle at 85% 20%, rgb(139 92 246 / 0.35), transparent 55%),
+      linear-gradient(160deg, rgb(30 25 54 / 0.95), rgb(23 19 42 / 0.6));
+  }
+
+  /* The picture sits on the visual's side, fading out behind the text. */
+  .tile--photo {
+    background:
+      linear-gradient(90deg, rgb(23 19 42 / 0.98) 30%, rgb(23 19 42 / 0.6) 70%, rgb(23 19 42 / 0.35)),
+      var(--photo) center / cover,
+      var(--color-surface);
+  }
+
+  .tile--tall .tile__visual {
+    display: grid;
+    justify-items: center;
+  }
+
+  .tile__icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 50px;
+    clip-path: var(--hex);
+    background:
+      radial-gradient(circle at 50% 40%, rgb(139 92 246 / 0.45), transparent 70%),
+      var(--color-bg-deep);
+    color: var(--color-lavender);
+  }
+
+  .tile__icon :global(svg) {
+    width: 22px;
+  }
+
+  .tile__text {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-2);
+  }
+
+  .tile__group {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-violet-soft);
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  .tile--big h3,
+  .tile--featured h3 {
+    font-size: var(--text-xl);
+  }
+
+  .tile__promise {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
+  }
+
+  .tile__list {
+    display: grid;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+    font-size: var(--text-sm);
+  }
+
+  .tile__list li {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: var(--space-3);
+  }
+
+  .tile__list :global(.hex-marker) {
+    margin-top: 3px;
+    scale: 0.7;
+  }
+
+  .tile__link {
+    margin-top: var(--space-1);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-violet-soft);
+  }
+
+  @media (max-width: 1000px) {
+    .tile--big {
+      grid-template-columns: 1fr;
+    }
+
+    .tile--big .tile__visual {
+      order: 0;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .tile--wide,
+    .tile--big {
+      grid-column: auto;
+      grid-template-columns: 1fr;
+    }
+
+    .tile--wide .tile__visual {
+      order: 0;
+    }
+
+    .tile--photo {
+      background:
+        linear-gradient(180deg, rgb(23 19 42 / 0.55), rgb(23 19 42 / 0.97) 45%),
+        var(--photo) center top / cover,
+        var(--color-surface);
+    }
+
+    .tile--tall,
+    .tile--big {
+      grid-row: auto;
+    }
+  }
+</style>

@@ -1,0 +1,36 @@
+---
+/** Tiny dashboard: bars with a trend line. Decorative. */
+const bars = [38, 52, 46, 64, 58, 76, 88];
+---
+
+<svg class="bars" viewBox="0 0 160 80" aria-hidden="true">
+  <line x1="0" y1="78" x2="160" y2="78" class="axis"></line>
+  {bars.map((h, i) => <rect x={6 + i * 22} y={78 - h * 0.8} width="14" height={h * 0.8} rx="2" class:list={[{ hot: i === bars.length - 1 }]} />)}
+  <polyline points={bars.map((h, i) => `${13 + i * 22},${70 - h * 0.8}`).join(' ')} class="trend"></polyline>
+</svg>
+
+<style>
+  .bars {
+    width: 100%;
+    height: auto;
+  }
+
+  rect {
+    fill: rgb(139 92 246 / 0.35);
+  }
+
+  rect.hot {
+    fill: var(--color-violet);
+  }
+
+  .axis {
+    stroke: var(--color-line-strong);
+  }
+
+  .trend {
+    fill: none;
+    stroke: var(--color-lavender);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+  }
+</style>

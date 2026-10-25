@@ -42,7 +42,7 @@ export const chatMock = {
   subtitle: 'Runs on FoxDesk · answers from our site',
   question: 'Do you build AI chatbots?',
   answer: 'Yes. We build assistants that answer from your own documents and data, not from guesswork.',
-  source: 'Services · AI solutions',
+  source: 'Services · RAG assistants',
   placeholder: 'Ask about HexaFox…',
   alt: 'A FoxDesk chat window. A visitor asks “Do you build AI chatbots?” and the answer cites its source, the Services section of the website.',
 };

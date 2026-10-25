@@ -1,0 +1,34 @@
+---
+/** Tiny week strip, Monday to Friday, ending in a demo. Decorative. */
+const days = ['M', 'T', 'W', 'T', 'F'];
+---
+
+<ol class="week" aria-hidden="true">
+  {days.map((d, i) => <li class:list={[{ done: i === days.length - 1 }]}>{i === days.length - 1 ? '✓' : d}</li>)}
+</ol>
+
+<style>
+  .week {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  li {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 34px;
+    clip-path: var(--hex);
+    background: var(--color-surface-raised);
+    color: var(--color-text-muted);
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+
+  .done {
+    background: linear-gradient(150deg, var(--color-lavender), var(--color-violet));
+    color: var(--color-bg-deep);
+  }
+</style>

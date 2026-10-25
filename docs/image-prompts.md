@@ -104,6 +104,25 @@ middle third, since the edges get cut off by the piece shape.
 - **Consulting (`team-piece-consulting.png`):** > …two people at a meeting table seen from behind and out of focus, hands over a notebook and a laptop, a whiteboard of sticky notes in the background. No faces visible.
 - **End every prompt with:** the Style block's "Avoid" list (no text, no logos, no realistic faces).
 
+## 7. Services: background pictures for the two big tiles
+Optional. Two tiles in the Services grid can show a picture behind them, faded into the dark on the text side: the
+"Proof of concept in a week" tile and the "RAG assistants" tile. Until a file exists the tile keeps its plain violet
+look, so nothing breaks without them. Put the subject on the **right half** of the frame (on phones the top half shows
+instead), and keep it dark and quiet so the text stays readable.
+
+- **Files:** `service-bg-ai-poc.png`, `service-bg-rag.png`
+- **Size / ratio:** 1600 × 1000 (16:10)
+- **Used in:** Home → Services. Save into `src/assets/images/` with the exact name and the site picks it up.
+- **Proof of concept in a week (`service-bg-ai-poc.png`):**
+  > On the right half, a small glowing prototype taking shape on a dark workbench: a few hexagonal glass tiles
+  > snapping together into a working device, thin lines of violet light running through it, one tile lit lavender
+  > as if it just switched on. The left half is smooth, empty dark space.
+  > + Style block
+- **RAG assistants (`service-bg-rag.png`):**
+  > On the right half, a stack of softly glowing documents and pages with thin threads of violet light flowing
+  > from them into a single calm chat bubble shape. The left half is smooth, empty dark space.
+  > + Style block
+
 ## Optional (nice to have)
 - **`og-cover.png`**: already generated from the logo by `tools/make_brand_assets.py`.
   No prompt needed.

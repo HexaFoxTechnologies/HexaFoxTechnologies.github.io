@@ -7,7 +7,7 @@ export const site = {
   homeTitle: 'Web and AI studio in Coimbatore',
   /** Kept under ~155 characters so search results don't cut it off. */
   description:
-    'HexaFox Technologies is a Coimbatore tech studio founded by six friends. We design, build and run websites, web apps, data systems and practical AI.',
+    'HexaFox Technologies is a Coimbatore tech studio founded by six friends. We design, build and run websites, web and mobile apps, data and practical AI.',
   email: 'hexafoxtech@gmail.com',
   location: 'Coimbatore, Tamil Nadu, India',
   responseTime: '2 working days',
