@@ -11,7 +11,7 @@ import MiniBars from './visuals/MiniBars.astro';
 import MiniBrowser from './visuals/MiniBrowser.astro';
 import MiniChat from './visuals/MiniChat.astro';
 import MiniPhone from './visuals/MiniPhone.astro';
-import MiniWeek from './visuals/MiniWeek.astro';
+import WeekHexes from '@components/ui/WeekHexes.astro';
 import MiniWireframe from './visuals/MiniWireframe.astro';
 import type { Service } from '@data/services';
 import { serviceBackground } from '@lib/serviceBackgrounds';
@@ -30,7 +30,7 @@ const { service, group, size, featured = false } = Astro.props;
 const showList = size === 'big' || size === 'tall';
 // The drawing for each service that has one; the rest show their icon.
 const visuals: Record<string, typeof MiniBars> = {
-  'ai-poc': MiniWeek,
+  'ai-poc': WeekHexes,
   'ux-ui': MiniWireframe,
   'web-apps': MiniBrowser,
   'mobile-apps': MiniPhone,

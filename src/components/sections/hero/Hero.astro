@@ -2,7 +2,7 @@
 import Button from '@components/ui/Button.astro';
 import HexGridBackground from '@components/ui/HexGridBackground.astro';
 import HeroArt from './HeroArt.astro';
-import FounderStrip from './FounderStrip.astro';
+import HeroProof from './HeroProof.astro';
 import { withBase } from '@lib/url';
 import { getGeneratedImage } from '@lib/images';
 
@@ -20,15 +20,15 @@ const heroImage = getGeneratedImage('hero-fox');
         Six minds.<br /><span class="text-gradient">One vision.</span>
       </h1>
       <p class="hero__lead" data-reveal style="--reveal-delay: 160ms">
-        We’re six friends who design, build and run software, from everyday tech solutions to AI
-        that actually works in the real world.
+        We’re six friends who design, build and run software: websites, web and mobile apps, data, and AI that
+        works outside the demo.
       </p>
       <div class="hero__actions" data-reveal style="--reveal-delay: 240ms">
         <Button href={withBase('#contact')}>Start a project</Button>
         <Button href={withBase('#team')} variant="ghost">Meet the pack</Button>
       </div>
       <div data-reveal style="--reveal-delay: 320ms">
-        <FounderStrip />
+        <HeroProof />
       </div>
     </div>
   </div>
