@@ -2,6 +2,7 @@
 import SectionHeader from '@components/ui/SectionHeader.astro';
 import ContactDetails from './ContactDetails.astro';
 import ContactForm from './ContactForm.astro';
+import BookCall from './BookCall.astro';
 import { site } from '@data/site';
 ---
 
@@ -15,6 +16,7 @@ import { site } from '@data/site';
         intro={`Tell us what you’re building, or what’s slowing you down. We’ll get back to you within ${site.responseTime}.`}
       />
       <ContactDetails />
+      <BookCall />
     </div>
     <div data-reveal style="--reveal-delay: 120ms">
       <ContactForm />

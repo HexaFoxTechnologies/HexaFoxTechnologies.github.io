@@ -1,0 +1,36 @@
+---
+/** "Prefer to talk?": a short video call booked through Cal.com, as an alternative to the form. */
+import BookCallButton from '@components/ui/BookCallButton.astro';
+import { booking } from '@data/booking';
+---
+
+<div class="book-call" data-reveal>
+  <h3>Prefer to talk?</h3>
+  <p>Pick a time for a {booking.minutes}-minute video call with us.</p>
+  <BookCallButton>Book a {booking.minutes}-minute call</BookCallButton>
+  <p class="book-call__note">Booking is handled by Cal.com, which keeps the details you enter.</p>
+</div>
+
+<style>
+  .book-call {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-line);
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+  }
+
+  p {
+    color: var(--color-text-muted);
+  }
+
+  .book-call__note {
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+  }
+</style>
