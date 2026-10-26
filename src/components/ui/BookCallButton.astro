@@ -1,0 +1,19 @@
+---
+/** Link to the Cal.com booking page that opens it in a popup instead (src/scripts/book-call.ts). */
+import Button from './Button.astro';
+import { bookingUrl } from '@data/booking';
+
+interface Props {
+  variant?: 'primary' | 'ghost';
+}
+
+const { variant = 'ghost' } = Astro.props;
+---
+
+<span data-book-call>
+  <Button href={bookingUrl} {variant}><slot /></Button>
+</span>
+
+<script>
+  import '../../scripts/book-call';
+</script>

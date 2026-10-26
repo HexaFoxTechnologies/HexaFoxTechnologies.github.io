@@ -1,5 +1,5 @@
 ---
-/** Centred closing call to action: a heading, one line and up to two buttons. */
+/** Centred closing call to action: a heading, one line and up to two buttons, plus any slotted between them. */
 import Button from './Button.astro';
 import { withBase } from '@lib/url';
 
@@ -26,6 +26,7 @@ const { id, title, text, primary, secondary } = Astro.props;
     <p>{text}</p>
     <div class="cta-band__actions">
       <Button href={withBase(primary.href)}>{primary.label}</Button>
+      <slot />
       {secondary && <Button href={withBase(secondary.href)} variant="ghost">{secondary.label}</Button>}
     </div>
   </div>

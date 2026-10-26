@@ -1,7 +1,12 @@
 ---
 /** Closing call to action on the FoxDesk page. */
 import CtaBand from '@components/ui/CtaBand.astro';
+import BookCallButton from '@components/ui/BookCallButton.astro';
 import { closing } from '@data/foxdesk';
+
+const { demoLabel, ...cta } = closing;
 ---
 
-<CtaBand id="foxdesk-cta-title" {...closing} />
+<CtaBand id="foxdesk-cta-title" {...cta}>
+  <BookCallButton>{demoLabel}</BookCallButton>
+</CtaBand>

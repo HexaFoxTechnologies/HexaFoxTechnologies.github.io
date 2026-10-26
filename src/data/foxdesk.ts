@@ -261,6 +261,8 @@ export const closing = {
   title: 'Get FoxDesk for your website',
   text: 'Tell us about your site and the questions you get asked most. We’ll show you what FoxDesk can do with them.',
   primary: { label: 'Get FoxDesk', href: '#contact' } satisfies Link,
+  /** Opens the Cal.com booking popup (src/data/booking.ts). */
+  demoLabel: 'Book a demo',
   secondary: { label: 'See all our services', href: '#services' } satisfies Link,
 };
 
