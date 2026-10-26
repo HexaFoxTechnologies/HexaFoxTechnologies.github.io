@@ -2,7 +2,7 @@
 /** Link-styled button (pass `href`) or a real <button> (omit `href`). */
 interface Props {
   href?: string;
-  variant?: 'primary' | 'ghost';
+  variant?: 'primary' | 'ghost' | 'soft';
   size?: 'sm' | 'md';
   type?: 'button' | 'submit';
   class?: string;
@@ -74,6 +74,19 @@ const classes = ['btn', `btn--${variant}`, `btn--${size}`, className];
   .btn--ghost:hover {
     border-color: var(--color-violet-soft);
     background: rgb(139 92 246 / 0.08);
+  }
+
+  /* Secondary actions that should still stand out on a dark card, e.g. "Book a call". */
+  .btn--soft {
+    border-color: rgb(139 92 246 / 0.55);
+    background: rgb(139 92 246 / 0.16);
+    color: var(--color-lavender);
+  }
+
+  .btn--soft:hover {
+    border-color: var(--color-violet);
+    background: rgb(139 92 246 / 0.28);
+    color: #fff;
   }
 
   .btn:disabled {

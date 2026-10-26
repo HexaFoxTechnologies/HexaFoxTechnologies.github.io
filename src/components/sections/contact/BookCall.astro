@@ -2,23 +2,77 @@
 /** "Prefer to talk?": a short video call booked through Cal.com, as an alternative to the form. */
 import BookCallButton from '@components/ui/BookCallButton.astro';
 import { booking } from '@data/booking';
+
+const details = [`${booking.minutes} min`, 'Video call', 'You pick the time'];
 ---
 
 <div class="book-call" data-reveal>
-  <h3>Prefer to talk?</h3>
-  <p>Pick a time for a {booking.minutes}-minute video call with us.</p>
-  <BookCallButton>Book a {booking.minutes}-minute call</BookCallButton>
-  <p class="book-call__note">Booking is handled by Cal.com, which keeps the details you enter.</p>
+  <span class="book-call__badge" aria-hidden="true">
+    <svg viewBox="0 0 24 24">
+      <rect x="3.5" y="5" width="17" height="15" rx="2.5"></rect>
+      <path d="M3.5 9.5h17M8 3v4M16 3v4M8 13.5h2M14 13.5h2M8 16.5h2"></path>
+    </svg>
+  </span>
+
+  <div class="book-call__body">
+    <h3>Prefer to talk?</h3>
+    <p>Pick a time for a {booking.minutes}-minute video call with us.</p>
+    <ul class="book-call__details" role="list">
+      {details.map((detail) => <li>{detail}</li>)}
+    </ul>
+    <BookCallButton variant="soft">
+      <svg class="book-call__icon" viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="3.5" y="5" width="17" height="15" rx="2.5"></rect>
+        <path d="M3.5 9.5h17M8 3v4M16 3v4"></path>
+      </svg>
+      Book a {booking.minutes}-minute call
+    </BookCallButton>
+    <p class="book-call__note">Booking is handled by Cal.com, which keeps the details you enter.</p>
+  </div>
 </div>
 
 <style>
   .book-call {
     display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    gap: var(--space-5);
+    margin-top: var(--space-6);
+    padding: var(--space-6);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(circle at 0% 0%, rgb(139 92 246 / 0.12), transparent 55%),
+      var(--color-surface);
+  }
+
+  .book-call__badge {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    aspect-ratio: 0.866;
+    clip-path: var(--hex);
+    background: linear-gradient(160deg, var(--color-lavender), var(--color-violet-strong));
+    color: #fff;
+  }
+
+  .book-call__badge svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .book-call__body {
+    display: grid;
     justify-items: start;
     gap: var(--space-3);
-    margin-top: var(--space-6);
-    padding-top: var(--space-6);
-    border-top: 1px solid var(--color-line);
   }
 
   h3 {
@@ -29,8 +83,38 @@ import { booking } from '@data/booking';
     color: var(--color-text-muted);
   }
 
+  .book-call__details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .book-call__details li {
+    padding: 0.2rem 0.7rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-xs);
+    color: var(--color-lavender);
+  }
+
+  .book-call__body :global([data-book-call]) {
+    margin-top: var(--space-2);
+  }
+
+  .book-call__icon {
+    width: 18px;
+    height: 18px;
+  }
+
   .book-call__note {
     font-size: var(--text-xs);
     color: var(--color-text-faint);
+  }
+
+  @media (max-width: 520px) {
+    .book-call {
+      grid-template-columns: 1fr;
+      padding: var(--space-5);
+    }
   }
 </style>
