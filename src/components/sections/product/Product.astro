@@ -1,16 +1,18 @@
 ---
-/** "Our product" band on the home page: one card that leads to the FoxDesk page. */
+/** "Our products" band on the home page: a card for each product, leading to its page. */
 import ChatMock from '@components/sections/foxdesk/ChatMock.astro';
+import EvensoCard from './EvensoCard.astro';
 import { productBand } from '@data/foxdesk';
 import { withBase } from '@lib/url';
 ---
 
 <section id="product" class="product" aria-labelledby="product-title">
-  <div class="container">
+  <div class="container product__list">
+    <h2 id="product-title" class="sr-only">{productBand.sectionTitle}</h2>
     <article class="product__card" data-reveal>
       <div class="product__copy">
         <p class="eyebrow">{productBand.eyebrow}</p>
-        <h2 id="product-title">{productBand.title}</h2>
+        <h3>{productBand.title}</h3>
         <p class="product__text">{productBand.text}</p>
         <a class="product__link" href={withBase(productBand.link.href)}>
           {productBand.link.label} <span aria-hidden="true">→</span>
@@ -20,12 +22,18 @@ import { withBase } from '@lib/url';
         <ChatMock size="compact" />
       </div>
     </article>
+    <EvensoCard />
   </div>
 </section>
 
 <style>
   .product {
     padding-bottom: var(--section-space);
+  }
+
+  .product__list {
+    display: grid;
+    gap: var(--space-5);
   }
 
   .product__card {
@@ -47,7 +55,7 @@ import { withBase } from '@lib/url';
     justify-items: start;
   }
 
-  h2 {
+  h3 {
     font-size: var(--text-2xl);
   }
 

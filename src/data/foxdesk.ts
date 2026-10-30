@@ -266,9 +266,10 @@ export const closing = {
   secondary: { label: 'See all our services', href: '#services' } satisfies Link,
 };
 
-/** The "Our product" band on the home page. */
+/** FoxDesk's card in the home page's "Our products" band (Evenso's is in src/data/evenso.ts). */
 export const productBand = {
-  eyebrow: 'Our product',
+  sectionTitle: 'Our products',
+  eyebrow: 'For your website',
   title: 'FoxDesk',
   text: 'An AI assistant that answers visitors’ questions from your own website, with sources. We run it ourselves: it’s the chat on this site.',
   link: { label: 'See FoxDesk', href: 'foxdesk/' } satisfies Link,
