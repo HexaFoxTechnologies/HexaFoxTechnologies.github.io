@@ -1,0 +1,77 @@
+---
+/** Top of the Evenso page, beside the phone on Your trips: the promise, the buttons and where it stands. */
+import { Image } from 'astro:assets';
+import Button from '@components/ui/Button.astro';
+import icon from '@assets/evenso/icon.png';
+import { hero } from '@data/evenso';
+import { withBase } from '@lib/url';
+---
+
+<div class="intro" data-screen={hero.screen}>
+  <p class="intro__brand" data-reveal>
+    <Image src={icon} alt="" width={44} height={44} loading="eager" />
+    <span class="eyebrow">{hero.eyebrow}</span>
+  </p>
+  <h1 id="evenso-title" data-reveal style="--reveal-delay: 80ms">
+    {hero.title} <span class="text-gradient">{hero.emphasis}</span>
+  </h1>
+  <p class="intro__lead" data-reveal style="--reveal-delay: 160ms">{hero.lead}</p>
+  <div class="intro__actions" data-reveal style="--reveal-delay: 240ms">
+    <span data-phone-try><Button href={withBase('evenso/demo/')}>{hero.tryButton}</Button></span>
+    <Button href="#how-it-works" variant="ghost">{hero.tourButton} <span aria-hidden="true">↓</span></Button>
+  </div>
+  <p class="intro__status" data-reveal style="--reveal-delay: 280ms">{hero.status}</p>
+</div>
+
+<style>
+  .intro {
+    display: grid;
+    align-content: center;
+    gap: var(--space-5);
+    min-height: calc(100svh - var(--header-h));
+    padding-block: var(--space-7);
+  }
+
+  .intro__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .intro__brand img {
+    width: 44px;
+    height: 44px;
+    border-radius: 11px;
+  }
+
+  h1 {
+    font-size: clamp(2.4rem, 1.5rem + 3.4vw, 4rem);
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  .intro__lead {
+    max-width: 32rem;
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+  }
+
+  .intro__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .intro__status {
+    max-width: 32rem;
+    font-size: var(--text-sm);
+    color: var(--color-text-faint);
+  }
+
+  @media (max-width: 899px) {
+    .intro {
+      min-height: auto;
+      padding-block: var(--space-7) var(--space-6);
+    }
+  }
+</style>

@@ -1,0 +1,75 @@
+---
+/** One step of the scroll tour: a number, a title and what the phone shows while it's being read. */
+import HexMarker from '@components/ui/HexMarker.astro';
+import type { TourStep } from '@data/evenso';
+
+interface Props {
+  step: TourStep;
+  index: number;
+}
+
+const { step, index } = Astro.props;
+---
+
+<li class="step" data-screen={step.screen}>
+  <div class="step__card">
+    <HexMarker label={String(index + 1).padStart(2, '0')} />
+    <h3>{step.title}</h3>
+    <p>{step.text}</p>
+  </div>
+</li>
+
+<style>
+  .step {
+    display: grid;
+    align-items: center;
+    min-height: 78svh;
+  }
+
+  .step__card {
+    display: grid;
+    gap: var(--space-3);
+    max-width: 30rem;
+    padding-left: var(--space-5);
+    border-left: 2px solid var(--color-line);
+    transition: border-color var(--dur-fast) ease;
+  }
+
+  /* The number on Evenso's coral hexagon: dark, since white on coral is too faint to read. */
+  .step__card :global(.hex-marker) {
+    color: var(--evenso-ink);
+  }
+
+  h3 {
+    font-size: var(--text-xl);
+    color: var(--color-text-muted);
+    transition: color var(--dur-fast) ease;
+  }
+
+  p {
+    font-size: var(--text-md);
+    color: var(--color-text-muted);
+  }
+
+  /* The step the phone is showing. */
+  [data-active] .step__card {
+    border-left-color: var(--color-violet);
+  }
+
+  [data-active] h3 {
+    color: var(--color-text);
+  }
+
+  /* Stacked under the phone: one step fills the space below it at a time. */
+  @media (max-width: 899px) {
+    .step {
+      min-height: 46svh;
+      align-items: start;
+      padding-block: var(--space-5);
+    }
+
+    h3 {
+      font-size: var(--text-lg);
+    }
+  }
+</style>
