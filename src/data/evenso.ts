@@ -46,7 +46,7 @@ export const tour = {
     },
     {
       title: 'Add an expense in seconds',
-      text: 'Type the amount and what it was for, pick who paid, and split it between everyone, some people or exact amounts. No signal? It saves and syncs later.',
+      text: 'Type the amount, pick who paid, and split it between everyone, some people or exact amounts. Saying what it was for is optional. No signal? It saves and syncs later.',
       screen: '/trip/goa/add-expense',
     },
     {
