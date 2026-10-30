@@ -2,9 +2,19 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import MessagePage from '@components/ui/MessagePage.astro';
 import { getGeneratedImage } from '@lib/images';
+import { withBase } from '@lib/url';
+
+const evensoDemo = withBase('evenso/demo/');
 ---
 
 <BaseLayout title="Page not found" noindex>
+  <script is:inline define:vars={{ evensoDemo }}>
+    // The Evenso demo (public/evenso/demo/) is one page that routes in the browser, so reloading one
+    // of its screens lands here. Send it back to the start of the demo (never the start itself: if
+    // that's missing, it would reload forever).
+    const path = location.pathname;
+    if (path.startsWith(evensoDemo) && path !== evensoDemo) location.replace(evensoDemo);
+  </script>
   <MessagePage
     eyebrow="404"
     title="This page wandered off"

@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+# The Evenso demo app shown inside /evenso/, not a page of its own.
+Disallow: /evenso/demo/
 
 Sitemap: https://hexafoxtechnologies.github.io/sitemap-index.xml

@@ -4,6 +4,8 @@ dist/
 
 # dependencies
 node_modules/
+# ...except the fonts and icons the Evenso demo build serves from a folder of that name
+!/public/evenso/demo/assets/node_modules/
 
 # logs
 npm-debug.log*
