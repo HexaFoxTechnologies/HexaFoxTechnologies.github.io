@@ -1,0 +1,21 @@
+---
+/** Evenso, HexaFox's trip-expense app. The phone at the top runs the real app with made-up trips. */
+import '@styles/evenso.css';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EvensoTour from '@components/sections/evenso/EvensoTour.astro';
+import EvensoFeatures from '@components/sections/evenso/EvensoFeatures.astro';
+import EvensoFaq from '@components/sections/evenso/EvensoFaq.astro';
+import EvensoCta from '@components/sections/evenso/EvensoCta.astro';
+
+const description =
+  'Evenso is an app for splitting trip costs with friends: everyone adds what they paid, and at the end it shows who pays whom in the fewest payments. Try the real app on this page.';
+---
+
+<BaseLayout title="Evenso: split trip costs with friends" {description}>
+  <div class="evenso">
+    <EvensoTour />
+    <EvensoFeatures />
+    <EvensoFaq />
+    <EvensoCta />
+  </div>
+</BaseLayout>
