@@ -36,7 +36,7 @@ export const serviceGroups: ServiceGroup[] = [
         id: 'ai-poc',
         title: 'Proof of concept in a week',
         short: 'PoC in a week',
-        promise: 'We take your problem and build a working proof of concept, then show it to you in a week, free of charge.',
+        promise: 'Tell us the problem. In a week, we show you a working proof of concept, free of charge.',
         deliverables: [
           'A working demo on your real data or use case',
           'An honest read on what works and what doesn’t',
@@ -49,7 +49,7 @@ export const serviceGroups: ServiceGroup[] = [
         id: 'consulting',
         title: 'Problem to solution consulting',
         short: 'Consulting',
-        promise: 'We get the problem clear first, then design a solution that fits your budget, team and timeline.',
+        promise: 'We get the problem clear, then plan a solution that fits your budget, team and timeline.',
         deliverables: [
           'Sessions to map the problem, your users and your tools',
           'A written scope: what to build, and what not to',
@@ -68,7 +68,7 @@ export const serviceGroups: ServiceGroup[] = [
         id: 'ux-ui',
         title: 'UX/UI design',
         short: 'UX/UI design',
-        promise: 'Screens built around how your users think, tested as a clickable prototype before any code.',
+        promise: 'Screens built around your users, tested as a clickable prototype before any code.',
         deliverables: [
           'User flows and wireframes',
           'A clickable prototype to test with real users',
@@ -87,7 +87,7 @@ export const serviceGroups: ServiceGroup[] = [
         id: 'web-apps',
         title: 'Web applications',
         short: 'Web apps',
-        promise: 'Fast, modern web apps: from a company website to a full product with sign-in, dashboards and admin.',
+        promise: 'From a company website to a full product with sign-in, dashboards and admin.',
         deliverables: [
           'Company websites and landing pages',
           'Web apps with sign-in, user roles and admin panels',
@@ -100,14 +100,15 @@ export const serviceGroups: ServiceGroup[] = [
         id: 'mobile-apps',
         title: 'Mobile apps',
         short: 'Mobile apps',
-        promise: 'iOS and Android apps your customers install from the App Store and Google Play.',
+        promise: 'iOS and Android apps, live on the App Store and Google Play.',
         deliverables: [
           'One design, built for both platforms',
           'Connected to your existing systems and data',
-          'Sign-in, notifications and payments where you need them',
-          'Help publishing to the App Store and Google Play',
+          'Sign-in, notifications and payments',
+          'Help publishing to both stores',
         ],
         tech: [],
+        link: { label: 'Meet Evenso, our own app', href: 'evenso/' },
       },
       {
         id: 'integrations',
@@ -126,7 +127,7 @@ export const serviceGroups: ServiceGroup[] = [
         id: 'cloud-support',
         title: 'Cloud, deployment and support',
         short: 'Cloud & support',
-        promise: 'We put your software live, keep watch on it and fix issues as they come up.',
+        promise: 'We put your software live, keep watch on it and fix what comes up.',
         deliverables: [
           'Hosting, domains and deployment set up',
           'Automatic builds and releases on every change',
@@ -158,7 +159,7 @@ export const serviceGroups: ServiceGroup[] = [
         id: 'power-bi',
         title: 'Power BI dashboards',
         short: 'Power BI',
-        promise: 'Dashboards that turn sales, stock or finance data into answers you can check every morning.',
+        promise: 'Your sales, stock or finance numbers in one dashboard, ready every morning.',
         deliverables: [
           'The numbers that matter, agreed before we build',
           'Data from Excel, databases or your apps',
@@ -171,7 +172,7 @@ export const serviceGroups: ServiceGroup[] = [
         id: 'document-ai',
         title: 'Document AI',
         short: 'Document AI',
-        promise: 'Turn invoices, forms and PDFs into clean, structured data, with no retyping.',
+        promise: 'Invoices, forms and PDFs turned into clean data, with no retyping.',
         deliverables: [
           'Fields read from invoices, forms and scanned PDFs',
           'Unclear fields flagged for a person to check',
@@ -189,11 +190,11 @@ export const serviceGroups: ServiceGroup[] = [
         id: 'rag',
         title: 'RAG assistants',
         short: 'RAG assistants',
-        promise: 'Assistants that answer from your own pages and PDFs, and show where each answer came from.',
+        promise: 'Answers from your own pages and PDFs, with the source of each answer.',
         deliverables: [
           'For your website’s visitors, or for your own team',
           'Stays current as your content changes',
-          'Says so when your content doesn’t cover a question',
+          'Says so when it doesn’t know',
           'Ask in English, Tamil, Hindi or Tanglish',
         ],
         tech: ['Embeddings / RAG', 'LLM APIs', 'Cloudflare'],
@@ -203,7 +204,7 @@ export const serviceGroups: ServiceGroup[] = [
         id: 'multi-agent',
         title: 'Multi-agent systems',
         short: 'Multi-agent systems',
-        promise: 'A team of AI agents that splits a complex job, checks each other’s work and uses your tools.',
+        promise: 'AI agents that split a complex job, check each other’s work and use your tools.',
         deliverables: [
           'Agents that research, draft, review and hand over',
           'Connected to your email, sheets, CRM or database',
