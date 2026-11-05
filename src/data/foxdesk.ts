@@ -236,11 +236,11 @@ export const faq = {
   items: [
     {
       title: 'Where is my data?',
-      text: 'The knowledge built from your site lives with your assistant in our Cloudflare account. Conversations aren’t stored. To write an answer, the question and the matching parts of your site are sent to the AI provider, so we agree the providers with you up front.',
+      text: 'To write each answer, the question and the matching parts of your site are sent to our AI provider. Conversations aren’t stored. The knowledge built from your site is kept with your assistant on secure cloud hosting, and we tell you which providers we use before you sign up.',
     },
     {
       title: 'Which AI does it use?',
-      text: 'Fast hosted models from Groq, with Google Gemini or OpenAI as a backup when one is busy. Cloudflare Workers AI matches each question to the right parts of your content.',
+      text: 'Fast, hosted language models from leading AI providers, with a backup ready if one is busy. A separate step matches each question to the right parts of your content first.',
     },
     {
       title: 'Can it be wrong?',
