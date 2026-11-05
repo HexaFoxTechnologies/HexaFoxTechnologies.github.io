@@ -1,7 +1,7 @@
 ---
 import Logo from '@components/ui/Logo.astro';
 import { site } from '@data/site';
-import { navLinks, productLinks, contactLink } from '@data/navigation';
+import { navLinks, storyLink, productLinks, contactLink } from '@data/navigation';
 import { withBase } from '@lib/url';
 
 const year = new Date().getFullYear();
@@ -18,7 +18,7 @@ const year = new Date().getFullYear();
     <nav aria-label="Footer">
       <ul>
         {
-          [...navLinks, ...productLinks, contactLink].map((link) => (
+          [...navLinks, storyLink, ...productLinks, contactLink].map((link) => (
             <li>
               <a href={withBase(link.href)}>{link.label}</a>
             </li>
