@@ -4,14 +4,16 @@ export interface NavLink {
   href: string;
 }
 
-/** Header and mobile menu: the home page's sections (in page order), plus the story. */
+/** Header and mobile menu: the home page's sections, in page order. */
 export const navLinks: NavLink[] = [
   { label: 'Services', href: '#services' },
   { label: 'How we work', href: '#process' },
   { label: 'Products', href: '#product' },
   { label: 'Team', href: '#team' },
-  { label: 'Our story', href: 'story/' },
 ];
+
+/** The story page: linked from the Team section ("Read our story") and the footer, not the header. */
+export const storyLink: NavLink = { label: 'Our story', href: 'story/' };
 
 /** Our product pages: linked from the home page's product cards (the header's "Products") and the footer. */
 export const productLinks: NavLink[] = [
