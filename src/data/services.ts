@@ -100,7 +100,7 @@ export const serviceGroups: ServiceGroup[] = [
         id: 'mobile-apps',
         title: 'Mobile apps',
         short: 'Mobile apps',
-        promise: 'iOS and Android apps, live on the App Store and Google Play.',
+        promise: 'iOS and Android apps your customers download from the App Store and Google Play.',
         deliverables: [
           'One design, built for both platforms',
           'Connected to your existing systems and data',
@@ -108,7 +108,7 @@ export const serviceGroups: ServiceGroup[] = [
           'Help publishing to both stores',
         ],
         tech: [],
-        link: { label: 'Meet Evenso, our own app', href: 'evenso/' },
+        link: { label: 'Try Evenso, our own app, in your browser', href: 'evenso/' },
       },
       {
         id: 'integrations',
